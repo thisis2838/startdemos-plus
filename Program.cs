@@ -26,7 +26,6 @@ namespace startdemos_plus
             PrintSeperator("ABOUT");
             WriteLine("startdemos+ by 2838");
             WriteLine("July 2021");
-            WriteLine("Please report any bugs to github.com/");
 
             if (File.Exists("config.xml"))
                 settings.ReadSettings();
