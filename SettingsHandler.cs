@@ -19,6 +19,12 @@ namespace startdemos_plus
             xml.Load("config.xml");
 
             Program.GameExe = xml.DocumentElement.SelectSingleNode("/config/gameexe").InnerText ?? "";
+            WriteLine($"Game EXE is {Program.GameExe}");
+            Program.TickRate = float.Parse(xml.DocumentElement.SelectSingleNode("/config/tickrate")?.InnerText ?? "0.015");
+            WriteLine($"Tickrate is {Program.TickRate}");
+            Program.WaitTime = int.Parse(xml.DocumentElement.SelectSingleNode("/config/waittime")?.InnerText ?? "50");
+            Program.WaitTime = Program.WaitTime < 50 ? 50 : Program.WaitTime;
+            WriteLine($"Wait time between demos is {Program.WaitTime}");
             WriteLine("Successfully loaded settings.");
         }
 
@@ -31,6 +37,13 @@ namespace startdemos_plus
             WriteLine("Game EXE name: ");
             Program.GameExe = ReadLine();
 
+            WriteLine("Tickrate: ");
+            Program.TickRate = float.Parse(ReadLine());
+
+            WriteLine("Wait time between demos (in milliseconds, minimum is 50): ");
+            Program.WaitTime = int.Parse(ReadLine());
+            Program.WaitTime = Program.WaitTime < 50 ? 50 : Program.WaitTime;
+
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.IndentChars = ("    ");
@@ -39,6 +52,8 @@ namespace startdemos_plus
             {
                 xml.WriteStartElement("config");
                 xml.WriteElementString("gameexe", Program.GameExe);
+                xml.WriteElementString("tickrate", Program.TickRate.ToString("0.000000000"));
+                xml.WriteElementString("waittime", Program.WaitTime.ToString());
                 xml.WriteEndElement();
                 xml.Flush();
             }

@@ -27,6 +27,11 @@ namespace startdemos_plus
             return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
         }
 
+        public static long ToUnixTime(DateTime time)
+        {
+            return ((DateTimeOffset)time).ToUnixTimeSeconds();
+        }
+
         public class DemoFile
         {
             public string FilePath { get; set; }
@@ -38,7 +43,7 @@ namespace startdemos_plus
             public DemoFile(string filePath)
             {
                 FilePath = filePath;
-                LastModifiedDate = ((DateTimeOffset)File.GetLastWriteTime(filePath)).ToUnixTimeSeconds();
+                LastModifiedDate = ToUnixTime(File.GetLastWriteTime(filePath));
                 Info = new DemoParseResult(filePath);
 
                 if ((new DriveInfo(Program.GameDir)).RootDirectory.FullName !=
@@ -59,7 +64,7 @@ namespace startdemos_plus
 
                 name += "...";
 
-                return $"{name}{File.GetLastWriteTimeUtc(FilePath)}";
+                return $"{name}{File.GetLastWriteTime(FilePath)}";
             }
         }
 
@@ -86,7 +91,18 @@ namespace startdemos_plus
 
             WriteLine($"Got {Files.Count()} files, listed from order of last modified date and demo index:");
             foreach (DemoFile file in Files)
-                WriteLine(file);
+                WriteLine($"[{Files.IndexOf(file):000}] - {file}");
+
+            double estTime =
+                (ToUnixTime(File.GetLastWriteTime(Files.Last().FilePath)) - ToUnixTime(File.GetLastWriteTime(Files.First().FilePath)))
+                + Files.First().Info.TotalTicks * Program.TickRate;
+
+            int estDemoTime = 0;
+            Files.ForEach(x => estDemoTime += x.Info.TotalTicks);
+
+            WriteLine($"Estimated run time (from file creation dates): {TimeSpan.FromSeconds(estTime)}");
+            WriteLine($"Estimated run time (from demo times): {TimeSpan.FromSeconds(estDemoTime * Program.TickRate)}");
+            WriteLine($"(estimated times calculated with tickrate of {Program.TickRate:0.000000})");
         }
     }
 }

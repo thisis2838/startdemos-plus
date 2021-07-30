@@ -17,6 +17,8 @@ namespace startdemos_plus
         public static string DemoPath { get; set; }
         public static string GameExe { get; set; }
         public static string GameDir { get; set; }
+        public static float TickRate { get; set; } = 0.015f;
+        public static int WaitTime { get; set; } = 50;
 
         private static SettingsHandler settings = new SettingsHandler();
         public static FileHandler FileHandler;
@@ -32,16 +34,19 @@ namespace startdemos_plus
             if (File.Exists("config.xml"))
                 settings.ReadSettings();
             else settings.FirstTimeSettings();
+            WriteLine("You can edit these in the config.xml file next to the .exe file");
 
             MemoryHandler handler = new MemoryHandler();
             change:
             FileHandler = new FileHandler();
+            PrintSeperator("CONTROLS");
             WriteLine("[x] To skip playing all demos");
             WriteLine("[s] To skip current demo");
-            WriteLine("Press Enter to begin playing demos");
-            ReadLine();
+            WriteLine();
+            WriteLine("Type in the demo index corresponding with the demo you wish to start playing from (0 is first demo)");
+            int startIndex = int.Parse(ReadLine());
             replay:
-            handler.Monitor();
+            handler.Monitor(startIndex);
 
             PrintSeperator("FINISH");
             WriteLine("[0] To replay all demos");

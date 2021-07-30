@@ -20,6 +20,7 @@ namespace startdemos_plus
         public string NProtocol { get; set; } = "-";
         public string ServerName { get; set; } = "-";
         public int Index { get; set; } = 0;
+        public int TotalTicks { get; set; } = 0;
 
         public DemoParseResult(string filePath)
         {
@@ -33,7 +34,59 @@ namespace startdemos_plus
                 PlayerName = ASCII.GetString(br.ReadBytes(260)).TrimEnd('\0');
                 MapName = ASCII.GetString(br.ReadBytes(260)).TrimEnd('\0');
                 GameName = ASCII.GetString(br.ReadBytes(260)).TrimEnd('\0');
+
+                br.BaseStream.Seek(4 * 3, SeekOrigin.Current);
+                var signOnLen = br.ReadInt32();
+
+                byte command = 0x0;
+                while (command != 0x07)
+                {
+                    command = br.ReadByte();
+
+                    if (command == 0x07) // dem_stop
+                        break;
+
+                    var tick = br.ReadInt32();
+                    if (tick > 0)
+                        TotalTicks = tick;
+
+                    switch (command)
+                    {
+                        case 0x01:
+                            br.BaseStream.Seek(signOnLen, SeekOrigin.Current);
+                            break;
+                        case 0x02:
+                            {
+                                br.BaseStream.Seek(4 + 0x44 + 4 * 3, SeekOrigin.Current);
+                                var packetLen = br.ReadInt32();
+                                br.BaseStream.Seek(packetLen, SeekOrigin.Current);
+                            }
+                            break;
+                        case 0x04:
+                            {
+                                var concmdLen = br.ReadInt32();
+                                br.ReadBytes(concmdLen - 1);
+                                br.BaseStream.Seek(1, SeekOrigin.Current); // skip null terminator
+                            }
+                            break;
+                        case 0x05:
+                            {
+                                br.BaseStream.Seek(4, SeekOrigin.Current); // skip sequence
+                                var userCmdLen = br.ReadInt32();
+                                br.BaseStream.Seek(userCmdLen, SeekOrigin.Current);
+                            }
+                            break;
+                        case 0x08:
+                            {
+                                var stringTableLen = br.ReadInt32();
+                                br.BaseStream.Seek(stringTableLen, SeekOrigin.Current);
+                            }
+                            break;
+                    }
+                }
             }
+
+            TotalTicks++;
 
             string index = Path.GetFileNameWithoutExtension(filePath).ToLower().Replace(MapName + "_", "");
             if (int.TryParse(index, out int tmp))

@@ -163,9 +163,10 @@ namespace startdemos_plus
             remoteOps.CallFunctionString(cmd, _execCmdPtr);
         }
 
-        public void Monitor()
+        public void Monitor(int index = 0)
         {
             Program.PrintSeperator("DEMO QUEUE START");
+            WriteLine($"Began playing from demo #{index}");
             Stopwatch watch = new Stopwatch();
             Stopwatch demoWatch = new Stopwatch();
             Stopwatch totalDemoWatch = new Stopwatch();
@@ -177,7 +178,7 @@ namespace startdemos_plus
 
             int played = 0;
 
-            foreach (FileHandler.DemoFile demo in Program.FileHandler.Files)
+            foreach (FileHandler.DemoFile demo in Program.FileHandler.Files.Skip(index))
             {
                 GameCommand(demo.PlayCommand);
                 WriteLine();
@@ -226,7 +227,7 @@ namespace startdemos_plus
             WriteLine();
             WriteLine($"Finished playing {played} demos after {totalDemoWatch.ElapsedMilliseconds * 0.001f}s");
             GameCommand("stopdemo");
-            Thread.Sleep(50);
+            Thread.Sleep(Program.WaitTime);
         }
     }
 }
