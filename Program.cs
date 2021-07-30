@@ -25,7 +25,9 @@ namespace startdemos_plus
         {
             PrintSeperator("ABOUT");
             WriteLine("startdemos+ by 2838");
+            WriteLine("Idea by donaldinio");
             WriteLine("July 2021");
+            WriteLine("Please report and issues or bugs to https://github.com/thisis2838/startdemos-plus/issues!");
 
             if (File.Exists("config.xml"))
                 settings.ReadSettings();
