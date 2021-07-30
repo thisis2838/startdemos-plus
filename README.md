@@ -1,0 +1,2 @@
+# print-demo-info-immediate
+ This tool monitors game memory to detect when a demo has just finished recording, then using the specified demo parser program to analyze the demo and print info into the game's Console.
