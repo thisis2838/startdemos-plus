@@ -163,10 +163,18 @@ namespace startdemos_plus
             remoteOps.CallFunctionString(cmd, _execCmdPtr);
         }
 
-        public void Monitor(int index = 0)
+        public void Monitor(List<int> indicies, List<ReorderInfo> reorder = null)
         {
             Program.PrintSeperator("DEMO QUEUE START");
-            WriteLine($"Began playing from demo #{index}");
+            if (reorder == null)
+                WriteLine($"Began playing from demo #{indicies[0]}");
+            else
+            {
+                WriteLine("Began playing demos in the following order: ");
+                reorder.ForEach(x => Write($"{x}, "));
+                WriteLine();
+            }
+            
             Stopwatch watch = new Stopwatch();
             Stopwatch demoWatch = new Stopwatch();
             Stopwatch totalDemoWatch = new Stopwatch();
@@ -177,9 +185,9 @@ namespace startdemos_plus
             GameCommand("stopdemo");
 
             int played = 0;
-
-            foreach (FileHandler.DemoFile demo in Program.FileHandler.Files.Skip(index))
+            foreach (int index in indicies)
             {
+                FileHandler.DemoFile demo = Program.FileHandler.Files[index];
                 GameCommand(demo.PlayCommand);
                 WriteLine();
                 WriteLine($"Began playing {demo.Name}");
@@ -209,7 +217,7 @@ namespace startdemos_plus
                     if (_demoIsPlaying.Changed && _demoIsPlaying.Current == false)
                     {
                         demoWatch.Stop();
-                        WriteLine($"Finished playing {demo.Name} after {demoWatch.ElapsedMilliseconds * 0.001f}s");
+                        WriteLine($"Finished playing [#{index:000}] - {demo.Name} after {demoWatch.ElapsedMilliseconds * 0.001f}s");
                         break;
                     }
 
@@ -219,7 +227,7 @@ namespace startdemos_plus
 
                 skipdemo:
                 demoWatch.Stop();
-                WriteLine($"Skipped playing {demo.Name} after {demoWatch.ElapsedMilliseconds * 0.001f}s");
+                WriteLine($"Skipped playing [#{index:000}] - {demo.Name} after {demoWatch.ElapsedMilliseconds * 0.001f}s");
             }
 
             end:

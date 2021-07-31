@@ -35,21 +35,30 @@ namespace startdemos_plus
                 settings.ReadSettings();
             else settings.FirstTimeSettings();
             WriteLine("You can edit these in the config.xml file next to the .exe file");
-
             MemoryHandler handler = new MemoryHandler();
+            
             change:
             FileHandler = new FileHandler();
-            PrintSeperator("CONTROLS");
+            replay:
+            PrintSeperator("DEMO ORDER");
+            PlayOrder.Instructions();
+            WriteLine("\nPlease enter demo playing order (or press Enter to play all demos in default order)");
+            string orderString = ReadLine();
+            if (orderString == "")
+                orderString = "-";
+            List<ReorderInfo> order = PlayOrder.ParseOrder(orderString, 0, FileHandler.Files.Count - 1);
+            List<int> indicies = PlayOrder.Reorder(order);
+            
+            PrintSeperator("DEMO CONTROLS");
             WriteLine("[x] To skip playing all demos");
             WriteLine("[s] To skip current demo");
-            WriteLine();
-            WriteLine("Type in the demo index corresponding with the demo you wish to start playing from (0 is first demo)");
-            int startIndex = int.Parse(ReadLine());
-            replay:
-            handler.Monitor(startIndex);
+            WriteLine("WARNING: Do not enter these while the demo is loading in, as that might cause a game crash");
+            WriteLine("Press Enter to begin");
+            ReadLine();
+            handler.Monitor(indicies, order);
 
             PrintSeperator("FINISH");
-            WriteLine("[0] To replay all demos");
+            WriteLine("[0] To replay the demos");
             WriteLine("[1] To choose another directory");
             WriteLine("[2] To quit");
 

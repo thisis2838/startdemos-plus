@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlayOrder.cs" />
     <Compile Include="SigScanExt.cs" />
     <Compile Include="MinimalDemoInfo.cs" />
     <Compile Include="RemoteOps.cs" />

@@ -48,7 +48,7 @@ namespace startdemos_plus
 
                 if ((new DriveInfo(Program.GameDir)).RootDirectory.FullName !=
                     (new DriveInfo(filePath)).RootDirectory.FullName)
-                    throw new Exception("Demo and game have to be in the same drive!");
+                    throw new Exception("Demo and game directories have to be in the same drive!");
                 PlayCommand = "playdemo " + GetRelativePath(filePath, Program.GameDir);
             }
 
@@ -75,7 +75,7 @@ namespace startdemos_plus
         {
             Program.PrintSeperator("DEMO QUEUE PREREQUISITES");
             WriteLine("Please enter the absolute path to the folder containing your demos");
-            DemoPath = ReadLine();
+            DemoPath = ReadLine().Trim();
 
             if (!Directory.Exists(DemoPath))
                 throw new FileNotFoundException("Folder does not exist!");
