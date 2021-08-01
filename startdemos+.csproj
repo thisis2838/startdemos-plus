@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="LiveSplit.Core">
       <HintPath>.\LiveSplit.Core.dll</HintPath>
@@ -47,12 +50,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlayOrder.cs" />
+    <Compile Include="MemoryMonitoringHandler.cs" />
+    <Compile Include="PlayOrderHandler.cs" />
     <Compile Include="SigScanExt.cs" />
-    <Compile Include="MinimalDemoInfo.cs" />
-    <Compile Include="RemoteOps.cs" />
-    <Compile Include="FileHandler.cs" />
-    <Compile Include="MemoryHandler.cs" />
+    <Compile Include="DemoAnalyzer.cs" />
+    <Compile Include="RemoteOpsHandler.cs" />
+    <Compile Include="DemoFileHandler.cs" />
+    <Compile Include="MemoryScanningHandler.cs" />
     <Compile Include="SettingsHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

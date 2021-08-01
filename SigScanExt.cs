@@ -15,15 +15,15 @@ namespace startdemos_plus
             var target = new SigScanTarget(0, BitConverter.ToString(Encoding.Default.GetBytes(input)).Replace("-", ""));
             target.OnFound = (f_proc, f_scanner, f_ptr) =>
             {
-                SigScanTarget newTarg = new SigScanTarget(0, $"68 {GetByteArrayI32(f_ptr)}");
+                SigScanTarget newTarg = new SigScanTarget(0, $"68 {GetByteArrayI32(f_ptr.ToInt32())}");
                 return f_scanner.Scan(newTarg);
             };
             return scanner.Scan(target);
         }
 
-        public static string GetByteArrayI32(IntPtr ptr)
+        public static string GetByteArrayI32(int ptr)
         {
-            byte[] b = BitConverter.GetBytes(ptr.ToInt32());
+            byte[] b = BitConverter.GetBytes(ptr);
             return $"{b[0]:X02} {b[1]:X02} {b[2]:X02} {b[3]:X02}";
         }
 

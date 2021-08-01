@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace startdemos_plus
 {
-    class RemoteOps
+    class RemoteOpsHandler
     {
         [DllImport("kernel32.dll")]
         public static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
@@ -56,7 +56,7 @@ namespace startdemos_plus
 
         public Process CurProcess;
 
-        public RemoteOps(Process process)
+        public RemoteOpsHandler(Process process)
         {
             CurProcess = process;
         }
@@ -88,10 +88,11 @@ namespace startdemos_plus
             if (s != IntPtr.Zero)
             {
                 WaitForSingleObject(s, 0xFFFFFFFF);
-                VirtualFreeEx(procHandle, stringBuf, bufSize, MEM_RELEASE);
                 TerminateThread(s, 0);
                 CloseHandle(s);
             }
+
+            VirtualFreeEx(procHandle, stringBuf, bufSize, MEM_RELEASE);
         }
     }
 }

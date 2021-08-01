@@ -9,20 +9,21 @@ using System.Windows.Forms;
 using System.Xml;
 using static System.Console;
 using LiveSplit.ComponentUtil;
+using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace startdemos_plus
 {
     class Program
     {
-        public static string DemoPath { get; set; }
-        public static string GameExe { get; set; }
-        public static string GameDir { get; set; }
-        public static float TickRate { get; set; } = 0.015f;
-        public static int WaitTime { get; set; } = 50;
+        public static SettingsHandler settings = new SettingsHandler();
+        public static DemoFileHandler demoFile;
+        public static MemoryScanningHandler mScan;
+        public static MemoryMonitoringHandler mMonitor;
+        public static PlayOrderHandler playOrderHandler;
+        public static CancellationTokenSource globalCTS;
 
-        private static SettingsHandler settings = new SettingsHandler();
-        public static FileHandler FileHandler;
-
+        [STAThread]
         static void Main(string[] args)
         {
             PrintSeperator("ABOUT");
@@ -35,27 +36,46 @@ namespace startdemos_plus
                 settings.ReadSettings();
             else settings.FirstTimeSettings();
             WriteLine("You can edit these in the config.xml file next to the .exe file");
-            MemoryHandler handler = new MemoryHandler();
-            
+
+            globalCTS = new CancellationTokenSource();
+            mScan = new MemoryScanningHandler();
+
+            Thread detectGameExit = new Thread(new ThreadStart(() =>
+            {
+                while (true)
+                {
+                    if (mScan.Game.HasExited || 
+                    Process.GetProcessesByName(Path.GetFileNameWithoutExtension(settings.GameExe)).Count() == 0)
+                    {
+                        globalCTS.Cancel();
+                        Thread.Sleep(30);
+                        Environment.Exit(0);
+                        return;
+                    }
+                    Thread.Sleep(2000);
+                }
+            }));
+            detectGameExit.Start();
+
             change:
-            FileHandler = new FileHandler();
-            replay:
-            PrintSeperator("DEMO ORDER");
-            PlayOrder.Instructions();
-            WriteLine("\nPlease enter demo playing order (or press Enter to play all demos in default order)");
-            string orderString = ReadLine();
-            if (orderString == "")
-                orderString = "-";
-            List<ReorderInfo> order = PlayOrder.ParseOrder(orderString, 0, FileHandler.Files.Count - 1);
-            List<int> indicies = PlayOrder.Reorder(order);
+            demoFile = new DemoFileHandler();
             
+            replay:
+            playOrderHandler = new PlayOrderHandler();
+
+            PrintSeperator("COMMANDS TO EXECUTE");
+            WriteLine("Commands to execute per demo start?");
+            settings.PerDemoCommands = ReadLine();
+
             PrintSeperator("DEMO CONTROLS");
             WriteLine("[x] To skip playing all demos");
             WriteLine("[s] To skip current demo");
             WriteLine("WARNING: Do not enter these while the demo is loading in, as that might cause a game crash");
             WriteLine("Press Enter to begin");
             ReadLine();
-            handler.Monitor(indicies, order);
+
+            mMonitor = new MemoryMonitoringHandler();
+            mMonitor.Monitor();
 
             PrintSeperator("FINISH");
             WriteLine("[0] To replay the demos");
@@ -70,6 +90,7 @@ namespace startdemos_plus
                 case 1:
                     goto change;
             }
+            detectGameExit.Abort();
         }
 
         public static void PrintSeperator(string name = "")
