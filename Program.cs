@@ -11,6 +11,7 @@ using static System.Console;
 using LiveSplit.ComponentUtil;
 using System.Threading;
 using System.Runtime.InteropServices;
+using static startdemos_plus.PrintHelper;
 
 namespace startdemos_plus
 {
@@ -23,13 +24,30 @@ namespace startdemos_plus
         public static PlayOrderHandler playOrderHandler;
         public static CancellationTokenSource globalCTS;
 
-        [STAThread]
+        private const int MF_BYCOMMAND = 0x00000000;
+        public const int SC_SIZE = 0xF000;
+
+        [DllImport("user32.dll")]
+        public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern IntPtr GetConsoleWindow();
+
         static void Main(string[] args)
         {
+            IntPtr handle = GetConsoleWindow();
+            IntPtr sysMenu = GetSystemMenu(handle, false);
+
+            if (handle != IntPtr.Zero)
+                DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
+
             PrintSeperator("ABOUT");
             WriteLine("startdemos+ by 2838");
             WriteLine("Idea by donaldinio");
-            WriteLine("July 2021");
+            WriteLine("August 2021");
             WriteLine("Please report any issues or bugs to https://github.com/thisis2838/startdemos-plus/issues!");
 
             if (File.Exists("config.xml"))
@@ -91,12 +109,6 @@ namespace startdemos_plus
                     goto change;
             }
             detectGameExit.Abort();
-        }
-
-        public static void PrintSeperator(string name = "")
-        {
-            WriteLine();
-            WriteLine($"------[{name}]------");
         }
     }
 }

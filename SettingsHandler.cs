@@ -6,6 +6,7 @@ using static System.Console;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static startdemos_plus.PrintHelper;
 
 namespace startdemos_plus
 {
@@ -18,7 +19,7 @@ namespace startdemos_plus
 
         public void ReadSettings()
         {
-            Program.PrintSeperator("LOAD SETTINGS");
+            PrintSeperator("LOAD SETTINGS");
             XmlDocument xml = new XmlDocument();
             xml.Load("config.xml");
 
@@ -34,7 +35,7 @@ namespace startdemos_plus
 
         public void FirstTimeSettings()
         {
-            Program.PrintSeperator("FIRST TIME SETUP");
+            PrintSeperator("FIRST TIME SETUP");
             WriteLine("Config not found! Starting first time setup...");
             WriteLine("Please enter without surrounding quotes the following info:");
 

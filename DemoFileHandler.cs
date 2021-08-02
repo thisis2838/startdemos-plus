@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using static System.Console;
 using System.IO;
 using static startdemos_plus.Program;
+using static startdemos_plus.PrintHelper;
 
 namespace startdemos_plus
 {
@@ -16,7 +17,7 @@ namespace startdemos_plus
 
         public DemoFileHandler()
         {
-            Program.PrintSeperator("DEMO QUEUE PREREQUISITES");
+            PrintSeperator("DEMO QUEUE PREREQUISITES");
             WriteLine("Please enter the absolute path to the folder containing your demos");
             DemoPath = ReadLine().Trim();
 
@@ -26,16 +27,28 @@ namespace startdemos_plus
             Files = new List<DemoFile>();
             var files = Directory.EnumerateFiles(DemoPath, "*.dem");
 
-            foreach (string demo in files)
-                Files.Add(new DemoFile(demo));
+            int y = CursorTop;
+            for (int j = 0; j < files.Count(); j++)
+            {
+                Files.Add(new DemoFile(files.ElementAt(j)));
+                PrintAtX($"Processed {j}/{files.Count()} \nCurrent file: {Files[j].Name}", CursorLeft);
+                CursorTop = y;
+            }
+            ClearAtY(CursorTop);
+            ClearAtY(CursorTop + 1);
 
             var result = Files.OrderBy(p => p.LastModifiedDate).ThenBy(p => p.Info.Index);
             Files = result.ToList();
 
-            WriteLine($"Got {Files.Count()} files, listed from order of last modified date and demo index:");
+            Table demoInfoTable = new Table(new int[] { 6, 35, 30, 6 }, true, ' ');
+            demoInfoTable.PrintHeader(new string[] { "INDEX", "DEMO NAME", "LAST MODIFY DATE", "TICKS"});
             int i = 0;
             foreach (DemoFile file in Files)
-                WriteLine($"[{i++:000}] - {file}");
+                demoInfoTable.PrintLine(new string[] { 
+                    i++.ToString(),
+                    file.Name,
+                    File.GetLastWriteTime(file.FilePath).ToString(),
+                    file.Info.TotalTicks.ToString()});
 
             double estTime =
                 (ToUnixTime(File.GetLastWriteTime(Files.Last().FilePath)) - ToUnixTime(File.GetLastWriteTime(Files.First().FilePath)))
@@ -71,17 +84,7 @@ namespace startdemos_plus
 
             public override string ToString()
             {
-                const int len = 35;
-                string name = new string('.', len + 3);
-                string cutName = (Name.Length > len) ? Name.Substring(0, len) : Name;
-
-                name = name
-                    .Remove(0, cutName.Length)
-                    .Insert(0, cutName);
-
-                name += "...";
-
-                return $"{name}{File.GetLastWriteTime(FilePath)}";
+                return $"{CharLeader(Name, 30, 35, ' ')}{CharLeader(File.GetLastWriteTime(FilePath).ToString(), 25, 30, ' ', false)}{Info.TotalTicks}";
             }
         }
         private static string GetRelativePath(string filespec, string folder)

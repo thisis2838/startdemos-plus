@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Runtime.InteropServices;
 using static startdemos_plus.SigScanExt;
+using static startdemos_plus.PrintHelper;
 
 namespace startdemos_plus
 {
@@ -30,7 +31,7 @@ namespace startdemos_plus
 
         public MemoryScanningHandler()
         {
-            Program.PrintSeperator("SIGSCANNING PREREQUISITES");
+            PrintSeperator("SIGSCANNING PREREQUISITES");
             _gameDirTarget = new SigScanTarget(0, "25732F736176652F25732E736176"); // "%s/save/%s.sav"
             _gameDirTarget.OnFound = (proc, scanner, ptr) =>
             {
@@ -179,7 +180,7 @@ namespace startdemos_plus
                     else
                     {
                         pHostTickCount = ptr;
-                        WriteLine($"Found host_tickcount at " + ptr.ToString("X"));
+                        WriteLine($"Found host_tickcount at 0x" + ptr.ToString("X"));
                         break;
                     }
                 }

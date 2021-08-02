@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
 using static startdemos_plus.Program;
+using static startdemos_plus.PrintHelper;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace startdemos_plus
 {
@@ -16,28 +19,26 @@ namespace startdemos_plus
         public PlayOrderHandler()
         {
             PrintSeperator("DEMO ORDER");
-            WriteLine("Format for specifying demo playing order:");
-            WriteLine("[,]   separates stages");
-            WriteLine("[-]   will play all demos from first to last according to index in that stage");
-            WriteLine("[a]   will play all demos in alphabetical order according to it's file name in that stage");
-            WriteLine("[x]   will play the demo with index of x in that stage");
-            WriteLine("[x-y] will play demos fron index x to y in that stage");
-            WriteLine("[r]   will reverse the order of the demos in that state (can be typed anywhere)");
-            WriteLine("\nExamples:");
-            WriteLine("\"-\"        will play all demos from first to last according to index");
-            WriteLine("\"r-\"       will play all demos in reverse order");
-            WriteLine("\"1,2\"      will play demo #1, then #2");
-            WriteLine("\"ra,5-12\"  will play every demo in reversed alphabetical order, then demos from #5 to #12");
+            WriteLine("Please enter demo playing order (or press Enter to play all demos in order of index)");
+            WriteLine("Enter h for info on formatting demo playing order.");
 
-            WriteLine("\nPlease enter demo playing order (or press Enter to play all demos in order of index)");
+            g:
+            string orderString = ReadLine().Trim();
+            if (orderString == "h")
+            {
+                Thread helpWindow = new Thread(new ThreadStart(PrintInstructions));
+                helpWindow.SetApartmentState(ApartmentState.STA);
+                helpWindow.Start();
+                WriteLine("Please enter demo playing order (or press Enter to play all demos in order of index)");
+                goto g;
+            }
 
             List<ReorderInfo> order = new List<ReorderInfo>();
             List<int> indicies = new List<int>();
-            string orderString = ReadLine().Trim();
             if (orderString == "")
                 orderString = "-";
 
-            order = ParseOrder(orderString, demoFile.Files);
+            order = ParseOrder(orderString);
             indicies = Reorder(order);
 
             PlayOrderIndicies = indicies;
@@ -65,20 +66,36 @@ namespace startdemos_plus
             return order;
         }
 
-        public List<ReorderInfo> ParseOrder(string input, List<DemoFileHandler.DemoFile> inputList)
+        public List<ReorderInfo> ParseOrder(string input)
         {
             List<ReorderInfo> infoList = new List<ReorderInfo>();
+            List<DemoFileHandler.DemoFile> inputList = new List<DemoFileHandler.DemoFile>();
 
             string[] list = input.Split(',');
             foreach (string member2 in list)
             {
-                string member = member2.Trim();
+                string[] parts = member2.Trim().Split('/');
+                string member = parts[0];
 
                 bool reversed = false;
+                bool compareTicks = false;
+                ComparisonInfo tickCompare = new ComparisonInfo();
+                bool alphabetical = false;
+
+                if (parts.Count() > 1 && !string.IsNullOrWhiteSpace(parts[1]))
+                {
+                    tickCompare = new ComparisonInfo(parts[1]);
+                    compareTicks = true;
+                }
                 if (member.Contains('r'))
                 {
                     reversed = true;
                     member = member.Replace("r", string.Empty);
+                }
+                if (member.Contains('a'))
+                {
+                    alphabetical = true;
+                    member = member.Replace("a", string.Empty);
                 }
 
                 if (string.IsNullOrWhiteSpace(member))
@@ -91,7 +108,7 @@ namespace startdemos_plus
                     if (member == "-")
                     {
                         info.Start = 0;
-                        info.End = inputList.Count() - 1;
+                        info.End = demoFile.Files.Count() - 1;
                     }
                     else
                     {
@@ -99,31 +116,42 @@ namespace startdemos_plus
                         info.Start = int.Parse(minimembers[0]);
                         info.End = int.Parse(minimembers[1]);
                     }
-                }
-                else if (member.Trim() == "a")
-                {
-                    var indicies = AlphabeticalReorder(inputList.ConvertAll(x => x.Name));
+
+                    inputList = info.Cut(demoFile.Files);
+
+                    if (alphabetical)
+                        inputList = inputList.OrderBy(x => x.Name).ToList();
+
                     if (reversed)
-                        indicies.Reverse();
+                        inputList.Reverse();
+
+                    if (compareTicks)
+                        inputList = inputList.Where(x => tickCompare.CompareTo(x.Info.TotalTicks)).ToList();
+
+                    List<int> indicies = new List<int>();
+                    inputList.ForEach(x => indicies.Add(demoFile.Files.IndexOf(x)));
+
                     infoList.AddRange(ParseOrder(indicies));
-                    continue;
                 }
                 else
                 {
                     info.Start = int.Parse(member);
                     info.End = info.Start;
-                }
 
-                if (reversed)
-                    info.Reverse();
+                    if (!(compareTicks && tickCompare.CompareTo(demoFile.Files[info.Start].Info.TotalTicks)))
+                        continue;
 
-                infoList.Add(info);
+                    infoList.Add(info);
+                }                
             }
             return infoList;
         }
 
         public List<ReorderInfo> ParseOrder(List<int> indicies)
         {
+            if (indicies.Count == 0)
+                return new List<ReorderInfo>();
+
             List<ReorderInfo> list = new List<ReorderInfo>();
             ReorderInfo info = new ReorderInfo();
             info.Start = indicies[0];
@@ -142,20 +170,64 @@ namespace startdemos_plus
             return list;
         }
 
-        public List<int> AlphabeticalReorder(List<string> names)
+        private void PrintInstructions()
         {
-            List<Tuple<int, string>> entries = new List<Tuple<int, string>>();
+            Application.EnableVisualStyles();
+            Application.Run(new PlayOrderHelpForm());
+        }
+    }
 
-            int i = 0;
-            foreach (string name in names)
+    public enum ComparisonOperator
+    {
+        Equal,
+        Greater,
+        Lower
+    }
+
+    public struct ComparisonInfo
+    {
+        public bool Active { get; internal set; }
+        public ComparisonOperator Operator { get; set; }
+        public bool Equal { get; set; }
+        public int Number { get; set; }
+        public ComparisonInfo (string input)
+        {
+            Operator = ComparisonOperator.Equal;
+            switch (input[0])
             {
-                entries.Add(new Tuple<int, string>(i, name));
-                i++;
+                case '>':
+                    Operator = ComparisonOperator.Greater;
+                    break;
+                case '<':
+                    Operator = ComparisonOperator.Lower;
+                    break;
+                case '=':
+                    Operator = ComparisonOperator.Equal;
+                    break;
             }
 
-            List<int> indicies = new List<int>();
-            entries.OrderBy(x => x.Item2).ToList().ForEach(x => indicies.Add(x.Item1));
-            return indicies;
+            Equal = input.Contains('=');
+            Number = int.Parse(input.Trim(new char[] { '>', '<', '=' }));
+            Active = true;
+
+        }
+        public bool CompareTo(int candidate)
+        {
+            bool returner = false;
+            switch (Operator)
+            {
+                case ComparisonOperator.Greater:
+                    returner = Number < candidate;
+                    break;
+                case ComparisonOperator.Lower:
+                    returner = Number > candidate;
+                    break;
+            }
+
+            if (!returner && Equal)
+                returner = Number == candidate;
+
+            return returner;
         }
     }
 
@@ -179,6 +251,11 @@ namespace startdemos_plus
             int tmp = End;
             End = Start;
             Start = tmp;
+        }
+
+        public List<T> Cut<T>(List<T> input)
+        {
+            return input.Skip(Start > End ? End : Start).Take(Math.Abs(Start - End) + 1).ToList();
         }
     }
 }

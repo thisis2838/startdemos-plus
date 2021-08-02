@@ -8,6 +8,7 @@ using static startdemos_plus.Program;
 using static System.Console;
 using LiveSplit.ComponentUtil;
 using System.Threading;
+using static startdemos_plus.PrintHelper;
 
 namespace startdemos_plus
 {
