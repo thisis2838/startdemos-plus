@@ -85,7 +85,8 @@ namespace HelpAndGuides
 			boxDCEConditionsTickCompare.Text = _curEval.TickComparison;
 			boxDCEConditionsName.Text = _curEval.EventName;
 
-			dgvDCEChecksListGrid.Rows[_curListIndex].Cells[0].Value = boxDCEConditionsName.Text;
+			if (dgvDCEChecksListGrid.RowCount > _curListIndex)
+				dgvDCEChecksListGrid.Rows[_curListIndex].Cells[0].Value = boxDCEConditionsName.Text;
 		}
 
 		private void EmptyInformation()
@@ -336,7 +337,8 @@ namespace HelpAndGuides
 			if (IsCurrentEvalValid())
             {
 				_curEval.EventName = boxDCEConditionsName.Text;
-				dgvDCEChecksListGrid.Rows[_curListIndex].Cells[0].Value = boxDCEConditionsName.Text;
+				if (dgvDCEChecksListGrid.RowCount > _curListIndex)
+					dgvDCEChecksListGrid.Rows[_curListIndex].Cells[0].Value = boxDCEConditionsName.Text;
 			}
 		}
 
