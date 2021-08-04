@@ -969,7 +969,7 @@ namespace HelpAndGuides
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MinimumSize = new System.Drawing.Size(816, 489);
             this.Name = "MainForm";
-            this.Text = "startdemos+ Help and Guide";
+            this.Text = "startdemos+ Help, Guides and Tools";
             this.tabDemoOrder.ResumeLayout(false);
             this.tabDemoOrderFormatting.ResumeLayout(false);
             this.tabDemoOrderExamples.ResumeLayout(false);

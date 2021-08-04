@@ -77,7 +77,7 @@ namespace startdemos_plus
 
             i = 0;
             SetOut(writerDemoEvents);
-            Table eventInfoTable = new Table(new int[] { 6, 25, 6, 30, 200 }, true, ' ');
+            Table eventInfoTable = new Table(new int[] { 6, 25, 6, 30, 200 }, true, ' ', true);
             eventInfoTable.PrintHeader(new string[] { "INDEX", "DEMO NAME", "TICK", "DESCRIPTION", "EVALUATED VALUE" });
             foreach (DemoFile file in Files)
             {

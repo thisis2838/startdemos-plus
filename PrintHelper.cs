@@ -61,11 +61,13 @@ namespace startdemos_plus
     public class Table
     {
         private List<int> _headerSizes;
+        private bool _headerAutoResize = false;
         public bool PrintPipes { get; set; }
         public char LeaderChar { get; set; } = '\0';
-        public Table(int[] sizes, bool printPipes = false, char leaderChar = '\0')
+        public Table(int[] sizes, bool printPipes = false, char leaderChar = '\0', bool headerAutoResize = false)
         {
             _headerSizes = new List<int>();
+            _headerAutoResize = headerAutoResize;
             sizes.ToList().ForEach(x => _headerSizes.Add(x));
             PrintPipes = printPipes;
             LeaderChar = leaderChar;
@@ -84,12 +86,20 @@ namespace startdemos_plus
                     Write("|");
 
                 int x = CursorLeft + (PrintPipes ? 1 : 0);
-                string name = "";
+                string name = (i >= names.Count()) ? "" : names[i];
+
+                if (_headerAutoResize && name.Length > _headerSizes[i])
+                    _headerSizes[i] = name.Length + 2;
+
                 if (LeaderChar == '\0')
                 {
-                    name = (i >= names.Count()) ? "" : names[i];
                     if (name.Length > _headerSizes[i])
-                        name = name.Substring(0, _headerSizes[i]);
+                    {
+                        if (_headerAutoResize)
+                            _headerSizes[i] = name.Length + 2;
+                        else
+                            name = name.Substring(0, _headerSizes[i]);
+                    }    
                 }
                 else
                     name = PrintHelper.CharLeader(names[i], _headerSizes[i], _headerSizes[i], LeaderChar, false);
