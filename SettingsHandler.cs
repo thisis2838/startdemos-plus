@@ -16,6 +16,7 @@ namespace startdemos_plus
         public int WaitTime { get; set; } = 50;
         public float TickRate { get; set; } = 0.015f;
         public string PerDemoCommands { get; set; } = "";
+        public bool ZerothTick { get; set; } = false;
 
         public void ReadSettings()
         {
@@ -30,6 +31,10 @@ namespace startdemos_plus
             WaitTime = int.Parse(xml.DocumentElement.SelectSingleNode("/config/waittime")?.InnerText ?? "50");
             WaitTime = WaitTime < 50 ? 50 : WaitTime;
             WriteLine($"Wait time between demos is {WaitTime}");
+            PerDemoCommands = xml.DocumentElement.SelectSingleNode("/config/commands")?.InnerText ?? "";
+            WriteLine($"Commands to executre per Demo is \"{PerDemoCommands}\"");
+            ZerothTick = bool.Parse(xml.DocumentElement.SelectSingleNode("/config/zerothtick")?.InnerText ?? "False");
+            WriteLine($"Accounting for Zeroth tick is {ZerothTick}");
             WriteLine("Successfully loaded settings.");
         }
 
@@ -44,6 +49,9 @@ namespace startdemos_plus
 
             WriteLine("Tickrate: ");
             TickRate = float.Parse(ReadLine());
+
+            WriteLine("Account for Zeroth tick (adding 1 tick per demo): ");
+            ZerothTick = bool.Parse(ReadLine());
 
             WriteLine("Wait time between demos (in milliseconds, minimum is 50): ");
             WaitTime = int.Parse(ReadLine());
@@ -60,6 +68,7 @@ namespace startdemos_plus
                 xml.WriteElementString("tickrate", TickRate.ToString("0.000000000"));
                 xml.WriteElementString("waittime", WaitTime.ToString());
                 xml.WriteElementString("commands", PerDemoCommands.ToString());
+                xml.WriteElementString("zerothtick", ZerothTick.ToString());
                 xml.WriteEndElement();
                 xml.Flush();
             }

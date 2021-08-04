@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,6 +55,7 @@ namespace startdemos_plus
 
             return name;
         }
+
     }
 
     public class Table
@@ -75,7 +77,7 @@ namespace startdemos_plus
         }
         public void PrintLine(string[] names)
         {
-            int oldCursor = CursorLeft;
+            //int oldCursor = CursorLeft;
             for (int i = 0; i < _headerSizes.Count(); i++)
             {
                 if (PrintPipes)
@@ -92,15 +94,15 @@ namespace startdemos_plus
                 else
                     name = PrintHelper.CharLeader(names[i], _headerSizes[i], _headerSizes[i], LeaderChar, false);
 
-                Write(name);
-                CursorLeft = x + _headerSizes[i] - 1;
+                Write(name.PadRight(_headerSizes[i]));
+                //CursorLeft = x + _headerSizes[i] - 1;
             }
 
             if (PrintPipes)
                 Write("|");
 
-            Write("\n");
-            CursorLeft = oldCursor;
+            WriteLine();
+            //CursorLeft = oldCursor;
         }
     }
 }

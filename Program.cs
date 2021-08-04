@@ -10,7 +10,7 @@ using System.Xml;
 using static System.Console;
 using LiveSplit.ComponentUtil;
 using System.Threading;
-using System.Runtime.InteropServices;
+using static startdemos_plus.WinAPI;
 using static startdemos_plus.PrintHelper;
 
 namespace startdemos_plus
@@ -23,18 +23,7 @@ namespace startdemos_plus
         public static MemoryMonitoringHandler mMonitor;
         public static PlayOrderHandler playOrderHandler;
         public static CancellationTokenSource globalCTS;
-
-        private const int MF_BYCOMMAND = 0x00000000;
-        public const int SC_SIZE = 0xF000;
-
-        [DllImport("user32.dll")]
-        public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
-
-        [DllImport("kernel32.dll", ExactSpelling = true)]
-        private static extern IntPtr GetConsoleWindow();
+        public static GameSupportHandler gameSupport;
 
         static void Main(string[] args)
         {
@@ -43,6 +32,7 @@ namespace startdemos_plus
 
             if (handle != IntPtr.Zero)
                 DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
+
 
             PrintSeperator("ABOUT");
             WriteLine("startdemos+ by 2838");
@@ -53,7 +43,7 @@ namespace startdemos_plus
             if (File.Exists("config.xml"))
                 settings.ReadSettings();
             else settings.FirstTimeSettings();
-            WriteLine("You can edit these in the config.xml file next to the .exe file");
+            WriteLine("You can edit these in the config.xml file next to the .exe file or use HelpGuidesandTools.exe");
 
             globalCTS = new CancellationTokenSource();
             mScan = new MemoryScanningHandler();
@@ -82,7 +72,7 @@ namespace startdemos_plus
             playOrderHandler = new PlayOrderHandler();
 
             PrintSeperator("COMMANDS TO EXECUTE");
-            WriteLine("Commands to execute per demo start?");
+            WriteLine("Commands to execute per demo start? Leave blank to use defaults.");
             settings.PerDemoCommands = ReadLine();
 
             PrintSeperator("DEMO CONTROLS");

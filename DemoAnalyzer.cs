@@ -8,6 +8,9 @@ using static System.Math;
 using static System.BitConverter;
 using static System.Globalization.CultureInfo;
 using System.IO;
+using static startdemos_plus.Program;
+using LiveSplit.ComponentUtil;
+using static System.Console;
 
 namespace startdemos_plus
 {
@@ -21,9 +24,14 @@ namespace startdemos_plus
         public string ServerName { get; set; } = "-";
         public int Index { get; set; } = 0;
         public int TotalTicks { get; set; } = 0;
+        public int AdjustedTicks { get; set; } = 0;
+        public List<(int, string, string)> EventNames { get; set; }
+        private ResultType gameSupportResult = ResultType.None;
 
         public DemoParseResult(string filePath)
         {
+            EventNames = new List<(int, string, string)>();
+
             using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             using (var br = new BinaryReader(fs))
             {
@@ -34,6 +42,9 @@ namespace startdemos_plus
                 PlayerName = ASCII.GetString(br.ReadBytes(260)).TrimEnd('\0');
                 MapName = ASCII.GetString(br.ReadBytes(260)).TrimEnd('\0');
                 GameName = ASCII.GetString(br.ReadBytes(260)).TrimEnd('\0');
+
+                if (gameSupport == null)
+                    gameSupport = new GameSupportHandler(GameName);
 
                 br.BaseStream.Seek(4 * 3, SeekOrigin.Current);
                 var signOnLen = br.ReadInt32();
@@ -47,7 +58,7 @@ namespace startdemos_plus
                         break;
 
                     var tick = br.ReadInt32();
-                    if (tick > 0)
+                    if (tick >= 0)
                         TotalTicks = tick;
 
                     switch (command)
@@ -57,23 +68,40 @@ namespace startdemos_plus
                             break;
                         case 0x02:
                             {
-                                br.BaseStream.Seek(4 + 0x44 + 4 * 3, SeekOrigin.Current);
+                                br.BaseStream.Seek(4, SeekOrigin.Current);
+                                float x = br.ReadSingle();
+                                float y = br.ReadSingle();
+                                float z = br.ReadSingle();
+
+                                Vector3f pos = new Vector3f(x, y, z);
+                                HandleResultType(gameSupport.Check(EvaluationDataType.Position, MapName, TotalTicks, pos));
+
+                                br.BaseStream.Seek(68L, SeekOrigin.Current);
                                 var packetLen = br.ReadInt32();
                                 br.BaseStream.Seek(packetLen, SeekOrigin.Current);
                             }
                             break;
-                        case 0x04:
+                        case 0x04: // console commands
                             {
                                 var concmdLen = br.ReadInt32();
-                                br.ReadBytes(concmdLen - 1);
+                                HandleResultType(gameSupport.Check(
+                                    EvaluationDataType.ConsoleCommand,
+                                    MapName,
+                                    TotalTicks,
+                                    ASCII.GetString(br.ReadBytes(concmdLen - 1)).Trim(new char[1])));
                                 br.BaseStream.Seek(1, SeekOrigin.Current); // skip null terminator
                             }
                             break;
-                        case 0x05:
+                        case 0x05: // user commands
                             {
                                 br.BaseStream.Seek(4, SeekOrigin.Current); // skip sequence
                                 var userCmdLen = br.ReadInt32();
-                                br.BaseStream.Seek(userCmdLen, SeekOrigin.Current);
+                                HandleResultType(gameSupport.Check(
+                                    EvaluationDataType.UserCommand,
+                                    MapName,
+                                    TotalTicks,
+                                    ASCII.GetString(br.ReadBytes(userCmdLen)).Trim(new char[1])));
+                                //br.BaseStream.Seek(userCmdLen, SeekOrigin.Current);
                             }
                             break;
                         case 0x08:
@@ -86,11 +114,46 @@ namespace startdemos_plus
                 }
             }
 
-            TotalTicks++;
+            if (settings.ZerothTick)
+                TotalTicks++;
+
+            switch (gameSupportResult)
+            {
+                case ResultType.BeginOnce:
+                case ResultType.BeginMultiple:
+                    AdjustedTicks = TotalTicks - (AdjustedTicks + 1);
+                    break;
+                case ResultType.EndOnce:
+                case ResultType.EndMultiple:
+                    AdjustedTicks = (AdjustedTicks + 1);
+                    break;
+                case ResultType.None:
+                    AdjustedTicks = TotalTicks;
+                    break;
+            }
 
             string index = Path.GetFileNameWithoutExtension(filePath).ToLower().Replace(MapName + "_", "");
             if (int.TryParse(index, out int tmp))
                 Index = tmp;
+        }
+
+        private void HandleResultType(List<(ResultType, string, string)> results)
+        {
+            if (results.All( x => x.Item1 == ResultType.None))
+                return;
+
+            foreach ((ResultType, string, string) result in results)
+            {
+                if (result.Item1 != ResultType.None)
+                {
+                    EventNames.Add((TotalTicks, result.Item2, result.Item3));
+
+                    if (gameSupportResult == ResultType.None && result.Item1 != ResultType.Note)
+                        gameSupportResult = result.Item1;
+                }
+            }
+            
+            AdjustedTicks = TotalTicks;
         }
     }
 }

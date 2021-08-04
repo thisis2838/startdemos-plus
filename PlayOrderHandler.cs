@@ -20,26 +20,14 @@ namespace startdemos_plus
         {
             PrintSeperator("DEMO ORDER");
             WriteLine("Please enter demo playing order (or press Enter to play all demos in order of index)");
-            WriteLine("Enter h for info on formatting demo playing order.");
+            WriteLine("Info on formatting can be found in the Help & Guides .exe!");
 
-            g:
             string orderString = ReadLine().Trim();
-            if (orderString == "h")
-            {
-                Thread helpWindow = new Thread(new ThreadStart(PrintInstructions));
-                helpWindow.SetApartmentState(ApartmentState.STA);
-                helpWindow.Start();
-                WriteLine("Please enter demo playing order (or press Enter to play all demos in order of index)");
-                goto g;
-            }
-
-            List<ReorderInfo> order = new List<ReorderInfo>();
-            List<int> indicies = new List<int>();
             if (orderString == "")
                 orderString = "-";
 
-            order = ParseOrder(orderString);
-            indicies = Reorder(order);
+            List<ReorderInfo> order = ParseOrder(orderString);
+            List<int> indicies = Reorder(order);
 
             PlayOrderIndicies = indicies;
             PlayOrderList = order;
@@ -54,7 +42,7 @@ namespace startdemos_plus
                     order.Add(info.Start);
                 else
                 {
-                    int i = i = info.Start;
+                    int i  = info.Start;
                     int end = info.End + ((info.Start < info.End) ? 1 : -1);
                     while (i != end)
                     {
@@ -78,15 +66,11 @@ namespace startdemos_plus
                 string member = parts[0];
 
                 bool reversed = false;
-                bool compareTicks = false;
-                ComparisonInfo tickCompare = new ComparisonInfo();
+                ComparisonInfo<int> tickCompare = new ComparisonInfo<int>("");
                 bool alphabetical = false;
 
                 if (parts.Count() > 1 && !string.IsNullOrWhiteSpace(parts[1]))
-                {
-                    tickCompare = new ComparisonInfo(parts[1]);
-                    compareTicks = true;
-                }
+                     tickCompare = new ComparisonInfo<int>(parts[1]);
                 if (member.Contains('r'))
                 {
                     reversed = true;
@@ -125,7 +109,7 @@ namespace startdemos_plus
                     if (reversed)
                         inputList.Reverse();
 
-                    if (compareTicks)
+                    if (tickCompare.Active)
                         inputList = inputList.Where(x => tickCompare.CompareTo(x.Info.TotalTicks)).ToList();
 
                     List<int> indicies = new List<int>();
@@ -138,7 +122,7 @@ namespace startdemos_plus
                     info.Start = int.Parse(member);
                     info.End = info.Start;
 
-                    if (!(compareTicks && tickCompare.CompareTo(demoFile.Files[info.Start].Info.TotalTicks)))
+                    if (tickCompare.Active && !tickCompare.CompareTo(demoFile.Files[info.Start].Info.TotalTicks))
                         continue;
 
                     infoList.Add(info);
@@ -169,12 +153,6 @@ namespace startdemos_plus
             }
             return list;
         }
-
-        private void PrintInstructions()
-        {
-            Application.EnableVisualStyles();
-            Application.Run(new PlayOrderHelpForm());
-        }
     }
 
     public enum ComparisonOperator
@@ -182,53 +160,6 @@ namespace startdemos_plus
         Equal,
         Greater,
         Lower
-    }
-
-    public struct ComparisonInfo
-    {
-        public bool Active { get; internal set; }
-        public ComparisonOperator Operator { get; set; }
-        public bool Equal { get; set; }
-        public int Number { get; set; }
-        public ComparisonInfo (string input)
-        {
-            Operator = ComparisonOperator.Equal;
-            switch (input[0])
-            {
-                case '>':
-                    Operator = ComparisonOperator.Greater;
-                    break;
-                case '<':
-                    Operator = ComparisonOperator.Lower;
-                    break;
-                case '=':
-                    Operator = ComparisonOperator.Equal;
-                    break;
-            }
-
-            Equal = input.Contains('=');
-            Number = int.Parse(input.Trim(new char[] { '>', '<', '=' }));
-            Active = true;
-
-        }
-        public bool CompareTo(int candidate)
-        {
-            bool returner = false;
-            switch (Operator)
-            {
-                case ComparisonOperator.Greater:
-                    returner = Number < candidate;
-                    break;
-                case ComparisonOperator.Lower:
-                    returner = Number > candidate;
-                    break;
-            }
-
-            if (!returner && Equal)
-                returner = Number == candidate;
-
-            return returner;
-        }
     }
 
     public struct ReorderInfo
@@ -255,7 +186,10 @@ namespace startdemos_plus
 
         public List<T> Cut<T>(List<T> input)
         {
-            return input.Skip(Start > End ? End : Start).Take(Math.Abs(Start - End) + 1).ToList();
+            List<T> d = input.Skip(Start > End ? End : Start).Take(Math.Abs(Start - End) + 1).ToList();
+            if (Start > End)
+                d.Reverse();
+            return d;
         }
     }
 }
