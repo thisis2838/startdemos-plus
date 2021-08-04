@@ -34,10 +34,8 @@ These are the attributes used to sort the defined demo array. Accepted entires i
 
 ### `<tick condition>`
 This the condition to apply on the tick counts of demos to filter them. Note that this is done after Sorting. 
-It is formatted as a comparison, for example:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`<10`  
-means to only select demos that are less than 10 ticks long.  
-Accepted operators include: `>=`, `<=`, `>`, `<`, `=`. Note that the tick amount must always be preceeded by the operator.
+It is formatted as a Comparison accepting an interger value, which is described in *Shared Syntax and Formatting*.  
+
 ";
 
 		static public string textDemoOrderFormattingExamples = @"
@@ -120,7 +118,7 @@ This is a typical entry in the Checks list.
 Let's dissect each of these tags one by one.
 
 ## `<games>`
-This is the outmost tag, and is necessary for parsing the file.
+This is the outermost tag, and is necessary for parsing the file.
 
 ## `<gameDir>`
 This indicates what games these checks apply for. The tag name is the  game directory name, for example:  
@@ -317,9 +315,9 @@ When combined together, this check will tell the tool to: Record every single ti
 An external alternative to the in-game Source command `startdemos`.  
 
 Features include:
-* Listing demos and indexing and sorting data using user-definable scripts.
-* Playing Demos in any order, including sorting.
-* Game Memory Monitoring and External Function Calling to queue demos up for playing.
+* Listing, timing and indexing data in Demos in various ways.
+* Queue up Demos to be played in any order, with support for filtering by demo length and sorting.
+* Game Memory Monitoring and External Function Calling to directly tell the game to play demos.
 
 
 ## Credts
@@ -330,7 +328,8 @@ Original concept, Testing.
 * Traderain  
 Listdemo- codebase which was used in the Demo processing code.
 
-Version dated August 2021. Please mention any encountered bug at [the project's Github page](https://github.com/thisis2838/startdemos-plus/issues)!
+Version dated August 2021. Please mention any encountered bug at the project's Github page!  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```https://github.com/thisis2838/startdemos-plus/issues```
 ";
 
 		public static string textToolsAbout = @"

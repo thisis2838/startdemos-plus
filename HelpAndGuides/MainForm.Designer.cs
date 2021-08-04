@@ -91,18 +91,18 @@ namespace HelpAndGuides
             this.butSERefresh = new System.Windows.Forms.Button();
             this.butSESave = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
             this.boxSETickrate = new System.Windows.Forms.TextBox();
             this.labSETickRate = new System.Windows.Forms.Label();
             this.labSEExecName = new System.Windows.Forms.Label();
             this.boxSEExeName = new System.Windows.Forms.TextBox();
             this.labSEWaitTime = new System.Windows.Forms.Label();
-            this.tabAbout = new System.Windows.Forms.TabPage();
-            this.dispAbout = new System.Windows.Forms.WebBrowser();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.boxSECommands = new System.Windows.Forms.TextBox();
             this.boxSEWaitTime = new System.Windows.Forms.NumericUpDown();
             this.chkSEZerothTick = new System.Windows.Forms.CheckBox();
+            this.tabAbout = new System.Windows.Forms.TabPage();
+            this.dispAbout = new System.Windows.Forms.WebBrowser();
             this.tabDemoOrder.SuspendLayout();
             this.tabDemoOrderFormatting.SuspendLayout();
             this.tabDemoOrderExamples.SuspendLayout();
@@ -131,8 +131,8 @@ namespace HelpAndGuides
             ((System.ComponentModel.ISupportInitialize)(this.dgvDCEChecksListGrid)).BeginInit();
             this.tabToolsProgramConfig.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tabAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.boxSEWaitTime)).BeginInit();
+            this.tabAbout.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabDemoOrder
@@ -547,7 +547,7 @@ namespace HelpAndGuides
             this.gDCEReturnType.Controls.Add(this.tableDCEReturnType);
             this.gDCEReturnType.Location = new System.Drawing.Point(6, 103);
             this.gDCEReturnType.Name = "gDCEReturnType";
-            this.gDCEReturnType.Size = new System.Drawing.Size(494, 54);
+            this.gDCEReturnType.Size = new System.Drawing.Size(235, 54);
             this.gDCEReturnType.TabIndex = 2;
             this.gDCEReturnType.TabStop = false;
             this.gDCEReturnType.Text = "Return Type";
@@ -837,6 +837,16 @@ namespace HelpAndGuides
             this.tableLayoutPanel1.Size = new System.Drawing.Size(358, 125);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 106);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(104, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Account for 0th Tick";
+            // 
             // boxSETickrate
             // 
             this.boxSETickrate.Location = new System.Drawing.Point(118, 28);
@@ -881,26 +891,6 @@ namespace HelpAndGuides
             this.labSEWaitTime.TabIndex = 3;
             this.labSEWaitTime.Text = "Wait Time";
             // 
-            // tabAbout
-            // 
-            this.tabAbout.Controls.Add(this.dispAbout);
-            this.tabAbout.Location = new System.Drawing.Point(4, 22);
-            this.tabAbout.Name = "tabAbout";
-            this.tabAbout.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAbout.Size = new System.Drawing.Size(792, 440);
-            this.tabAbout.TabIndex = 3;
-            this.tabAbout.Text = "About";
-            this.tabAbout.UseVisualStyleBackColor = true;
-            // 
-            // dispAbout
-            // 
-            this.dispAbout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dispAbout.Location = new System.Drawing.Point(3, 3);
-            this.dispAbout.MinimumSize = new System.Drawing.Size(20, 20);
-            this.dispAbout.Name = "dispAbout";
-            this.dispAbout.Size = new System.Drawing.Size(786, 434);
-            this.dispAbout.TabIndex = 0;
-            // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -910,16 +900,6 @@ namespace HelpAndGuides
             this.label1.Size = new System.Drawing.Size(108, 13);
             this.label1.TabIndex = 6;
             this.label1.Text = "Commands per Demo";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 106);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(104, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Account for 0th Tick";
             // 
             // boxSECommands
             // 
@@ -959,6 +939,26 @@ namespace HelpAndGuides
             this.chkSEZerothTick.Size = new System.Drawing.Size(15, 14);
             this.chkSEZerothTick.TabIndex = 10;
             this.chkSEZerothTick.UseVisualStyleBackColor = true;
+            // 
+            // tabAbout
+            // 
+            this.tabAbout.Controls.Add(this.dispAbout);
+            this.tabAbout.Location = new System.Drawing.Point(4, 22);
+            this.tabAbout.Name = "tabAbout";
+            this.tabAbout.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAbout.Size = new System.Drawing.Size(792, 440);
+            this.tabAbout.TabIndex = 3;
+            this.tabAbout.Text = "About";
+            this.tabAbout.UseVisualStyleBackColor = true;
+            // 
+            // dispAbout
+            // 
+            this.dispAbout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dispAbout.Location = new System.Drawing.Point(3, 3);
+            this.dispAbout.MinimumSize = new System.Drawing.Size(20, 20);
+            this.dispAbout.Name = "dispAbout";
+            this.dispAbout.Size = new System.Drawing.Size(786, 434);
+            this.dispAbout.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -1004,8 +1004,8 @@ namespace HelpAndGuides
             this.tabToolsProgramConfig.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.tabAbout.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.boxSEWaitTime)).EndInit();
+            this.tabAbout.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
