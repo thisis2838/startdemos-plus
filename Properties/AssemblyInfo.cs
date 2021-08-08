@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("print-demo-info-immediate")]
+[assembly: AssemblyTitle("startdemos+ui")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("print-demo-info-immediate")]
+[assembly: AssemblyProduct("startdemos+ui")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f5ceebbf-022c-4533-af45-458e1ef96ba2")]
+[assembly: Guid("53cd2e32-9789-4de6-bfba-6da4fc3844d9")]
 
 // Version information for an assembly consists of the following four values:
 //

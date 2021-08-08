@@ -1,104 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
-using static System.Console;
-using LiveSplit.ComponentUtil;
-using System.Threading;
-using static startdemos_plus.WinAPI;
-using static startdemos_plus.PrintHelper;
 
-namespace startdemos_plus
+namespace startdemos_ui
 {
-    class Program
+    static class Program
     {
-        public static SettingsHandler settings = new SettingsHandler();
-        public static DemoFileHandler demoFile;
-        public static MemoryScanningHandler mScan;
-        public static MemoryMonitoringHandler mMonitor;
-        public static PlayOrderHandler playOrderHandler;
-        public static CancellationTokenSource globalCTS;
-        public static GameSupportHandler gameSupport;
-
-        static void Main(string[] args)
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
         {
-            IntPtr handle = GetConsoleWindow();
-            IntPtr sysMenu = GetSystemMenu(handle, false);
-
-            if (handle != IntPtr.Zero)
-                DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
-
-
-            PrintSeperator("ABOUT");
-            WriteLine("startdemos+ by 2838");
-            WriteLine("Idea by donaldinio");
-            WriteLine("August 2021");
-            WriteLine("Please report any issues or bugs to https://github.com/thisis2838/startdemos-plus/issues!");
-
-            if (File.Exists("config.xml"))
-                settings.ReadSettings();
-            else settings.FirstTimeSettings();
-            WriteLine("You can edit these in the config.xml file next to the .exe file or use HelpGuidesandTools.exe");
-
-            globalCTS = new CancellationTokenSource();
-            mScan = new MemoryScanningHandler();
-
-            Thread detectGameExit = new Thread(new ThreadStart(() =>
-            {
-                while (true)
-                {
-                    if (mScan.Game.HasExited || 
-                    Process.GetProcessesByName(Path.GetFileNameWithoutExtension(settings.GameExe)).Count() == 0)
-                    {
-                        globalCTS.Cancel();
-                        Thread.Sleep(30);
-                        Environment.Exit(0);
-                        return;
-                    }
-                    Thread.Sleep(2000);
-                }
-            }));
-            detectGameExit.Start();
-
-            change:
-            demoFile = new DemoFileHandler();
-            
-            replay:
-            playOrderHandler = new PlayOrderHandler();
-
-            PrintSeperator("COMMANDS TO EXECUTE");
-            WriteLine("Commands to execute per demo start? Leave blank to use defaults.");
-            settings.PerDemoCommands = ReadLine();
-
-            PrintSeperator("DEMO CONTROLS");
-            WriteLine("[x] To skip playing all demos");
-            WriteLine("[s] To skip current demo");
-            WriteLine("WARNING: Do not enter these while the demo is loading in, as that might cause a game crash");
-            WriteLine("Press Enter to begin");
-            ReadLine();
-
-            mMonitor = new MemoryMonitoringHandler();
-            mMonitor.Monitor();
-
-            PrintSeperator("FINISH");
-            WriteLine("[0] To replay the demos");
-            WriteLine("[1] To choose another directory");
-            WriteLine("[2] To quit");
-
-            int.TryParse(ReadLine(), out int option);
-            switch (option)
-            {
-                case 0:
-                    goto replay;
-                case 1:
-                    goto change;
-            }
-            detectGameExit.Abort();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainForm());
         }
     }
 }
