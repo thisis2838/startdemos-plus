@@ -36,8 +36,8 @@ namespace startdemos_ui
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.butHelp = new System.Windows.Forms.Button();
@@ -114,6 +114,15 @@ namespace startdemos_ui
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "About";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 273);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(395, 117);
+            this.label2.TabIndex = 3;
+            this.label2.Text = resources.GetString("label2.Text");
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -123,15 +132,6 @@ namespace startdemos_ui
             this.label1.Size = new System.Drawing.Size(239, 43);
             this.label1.TabIndex = 2;
             this.label1.Text = "startdemos+";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 273);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(395, 104);
-            this.label2.TabIndex = 3;
-            this.label2.Text = resources.GetString("label2.Text");
             // 
             // pictureBox1
             // 
