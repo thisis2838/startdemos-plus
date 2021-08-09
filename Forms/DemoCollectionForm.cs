@@ -31,12 +31,12 @@ namespace startdemos_ui.Forms
         {
             sH.SubscribedSettings.Add(new SettingEntry(
                 "tickrate", 
-                (s) => { boxTickRate.Value = decimal.Parse(s == "" ? "0.001" : s); }, 
-                () => { return boxTickRate.Value.ToString("0.0000000"); }));
+                s => boxTickRate.Value = decimal.Parse(s == "" ? "0.001" : s), 
+                () => boxTickRate.Value.ToString("0.0000000")));
             sH.SubscribedSettings.Add(new SettingEntry(
                 "zerothtick", 
-                (s) => { chk0thTick.Checked = bool.Parse(s == "" ? "False" : s); }, 
-                () => { return chk0thTick.Checked.ToString(); }));
+                s => chk0thTick.Checked = bool.Parse(s == "" ? "False" : s), 
+                () => chk0thTick.Checked.ToString()));
 
             butProcess.Enabled = false;
         }

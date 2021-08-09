@@ -111,7 +111,7 @@ namespace startdemos_ui
 
         private void PostLoad()
         {
-            sH.SubscribedSettings.ForEach(x => x.Set(sH.GetSetting(x.Name)));
+            sH.LoadSettings();
 
             dCH = new DemoCollectionHandler();
             mMH = new MemoryMonitoringHandler();

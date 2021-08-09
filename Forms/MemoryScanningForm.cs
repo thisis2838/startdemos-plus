@@ -29,8 +29,8 @@ namespace startdemos_ui.Forms
         {
             sH.SubscribedSettings.Add(new SettingEntry(
                 "gameexe",
-                (s) => { boxGameExe.Text = s; },
-                () => { return boxGameExe.Text; }));
+                s => boxGameExe.Text = s,
+                () => boxGameExe.Text));
         }
 
         private void FillInformation(object sender, GameDiscoveryArgs args)

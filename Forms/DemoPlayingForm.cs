@@ -41,20 +41,20 @@ namespace startdemos_ui.Forms
 
             sH.SubscribedSettings.Add(new SettingEntry(
                 "playorder",
-                (s) => { boxPlayOrder.Text = s; },
-                () => { return boxPlayOrder.Text; }));
+                s => boxPlayOrder.Text = s,
+                () => boxPlayOrder.Text));
             sH.SubscribedSettings.Add(new SettingEntry(
                 "waittime",
-                (s) => { boxWaitTime.Value = decimal.Parse(s == "" ? "50" : s); },
-                () => { return boxWaitTime.Value.ToString(); }));
+                s => boxWaitTime.Value = decimal.Parse(s == "" ? "50" : s),
+                () => boxWaitTime.Value.ToString()));
             sH.SubscribedSettings.Add(new SettingEntry(
                 "perdemocommands",
-                (s) => { boxCommands.Text = s; },
-                () => { return boxCommands.Text; }));
+                s => boxCommands.Text = s,
+                () => boxCommands.Text));
             sH.SubscribedSettings.Add(new SettingEntry(
                 "autoplaynext",
-                (s) => { chkAutoNext.Checked = bool.Parse(s == "" ? "True" : s); },
-                () => { return chkAutoNext.Checked.ToString(); }));
+                s => chkAutoNext.Checked = bool.Parse(s == "" ? "True" : s),
+                () => chkAutoNext.Checked.ToString()));
         }
 
         public void UpdateCurrentPlayInfo(int curIndex, int total, string current, string previous, string next)

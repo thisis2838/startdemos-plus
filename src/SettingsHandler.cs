@@ -11,12 +11,12 @@ namespace startdemos_ui.src
 {
     public class SettingsHandler
     {
-        public List<SettingInfo> Settings;
+        private List<SettingInfo> _settings;
         public List<SettingEntry> SubscribedSettings;
 
         public SettingsHandler()
         {
-            Settings = new List<SettingInfo>();
+            _settings = new List<SettingInfo>();
             SubscribedSettings = new List<SettingEntry>();
 
             if (!File.Exists("settings.xml"))
@@ -34,19 +34,19 @@ namespace startdemos_ui.src
 
             while (s != null)
             {
-                Settings.Add(new SettingInfo(s.Name, s.InnerText ?? ""));
+                _settings.Add(new SettingInfo(s.Name, s.InnerText ?? ""));
                 s = s.NextSibling;
             }
         }
 
         public string GetSetting(string name)
         {
-            if (Settings.Count == 0)
+            if (_settings.Count == 0)
                 return "";
 
-            if (Settings.Where(x => x.Name == name).Count() == 0)
+            if (_settings.Where(x => x.Name == name).Count() == 0)
                 return "";
-            return Settings.Where(x => x.Name == name)?.ElementAt(0).Setting;
+            return _settings.Where(x => x.Name == name)?.ElementAt(0).Setting;
         }
 
         public void WriteSettings()
@@ -62,6 +62,11 @@ namespace startdemos_ui.src
                 xmlWriter.WriteEndElement();
                 xmlWriter.Flush();
             }
+        }
+
+        public void LoadSettings()
+        {
+            SubscribedSettings.ForEach(x => x.Set(GetSetting(x.Name)));
         }
     }
 
