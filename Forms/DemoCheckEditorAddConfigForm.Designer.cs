@@ -82,7 +82,7 @@ namespace startdemos_ui.Forms
             this.Controls.Add(this.boxName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "DemoCheckEditorAddConfigForm";
-            this.Text = "Add Configuration";
+            this.Text = "Demo Checks | Add Configuration";
             this.ResumeLayout(false);
             this.PerformLayout();
 

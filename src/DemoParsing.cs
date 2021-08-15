@@ -23,11 +23,11 @@ namespace startdemos_ui.src
         public int TotalTicks { get; set; } = 0;
         public int AdjustedTicks { get; set; } = 0;
         public List<DemoCheckResult> Events { get; set; }
-        private ResultType gameSupportResult = ResultType.None;
+
+        private ResultType _gameSupportResult = ResultType.None;
 
         public DemoParseResult(string filePath, DemoCheckHandler curDemoChecks = null)
         {
-
             Events = new List<DemoCheckResult>();
 
             using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
@@ -44,78 +44,85 @@ namespace startdemos_ui.src
                 br.BaseStream.Seek(4 * 3, SeekOrigin.Current);
                 var signOnLen = br.ReadInt32();
 
-                byte command = 0x0;
-                while (command != 0x07)
+                try
                 {
-                    command = br.ReadByte();
-
-                    if (command == 0x07) // dem_stop
-                        break;
-
-                    var tick = br.ReadInt32();
-                    if (tick >= 0)
-                        TotalTicks = tick;
-
-                    switch (command)
+                    byte command = 0x0;
+                    while (command != 0x07)
                     {
-                        case 0x01:
-                            br.BaseStream.Seek(signOnLen, SeekOrigin.Current);
-                            break;
-                        case 0x02:
-                            {
-                                br.BaseStream.Seek(4, SeekOrigin.Current);
-                                float x = br.ReadSingle();
-                                float y = br.ReadSingle();
-                                float z = br.ReadSingle();
+                        command = br.ReadByte();
 
-                                Vector3f pos = new Vector3f(x, y, z);
-                                if (curDemoChecks != null)
-                                    HandleResultType(curDemoChecks.Check(EvaluationDataType.Position, MapName, TotalTicks, pos));
-
-                                br.BaseStream.Seek(68L, SeekOrigin.Current);
-                                var packetLen = br.ReadInt32();
-                                br.BaseStream.Seek(packetLen, SeekOrigin.Current);
-                            }
+                        if (command == 0x07) // dem_stop
                             break;
-                        case 0x04: // console commands
-                            {
-                                var concmdLen = br.ReadInt32();
-                                if (curDemoChecks != null)
-                                    HandleResultType(curDemoChecks.Check(
-                                        EvaluationDataType.ConsoleCommand,
-                                        MapName,
-                                        TotalTicks,
-                                        ASCII.GetString(br.ReadBytes(concmdLen - 1)).Trim(new char[1])));
+
+                        var tick = br.ReadInt32();
+                        if (tick >= 0)
+                            TotalTicks = tick;
+
+                        switch (command)
+                        {
+                            case 0x01:
+                                br.BaseStream.Seek(signOnLen, SeekOrigin.Current);
+                                break;
+                            case 0x02:
+                                {
+                                    br.BaseStream.Seek(4, SeekOrigin.Current);
+                                    float x = br.ReadSingle();
+                                    float y = br.ReadSingle();
+                                    float z = br.ReadSingle();
+
+                                    Vector3f pos = new Vector3f(x, y, z);
+                                    if (curDemoChecks != null)
+                                        HandleResultType(curDemoChecks.Check(EvaluationDataType.Position, MapName, TotalTicks, pos));
+
+                                    br.BaseStream.Seek(68L, SeekOrigin.Current);
+                                    var packetLen = br.ReadInt32();
+                                    br.BaseStream.Seek(packetLen, SeekOrigin.Current);
+                                }
+                                break;
+                            case 0x04: // console commands
+                                {
+                                    var concmdLen = br.ReadInt32();
+                                    if (curDemoChecks != null)
+                                        HandleResultType(curDemoChecks.Check(
+                                            EvaluationDataType.ConsoleCommand,
+                                            MapName,
+                                            TotalTicks,
+                                            ASCII.GetString(br.ReadBytes(concmdLen - 1)).Trim(new char[1])));
                                     br.BaseStream.Seek(1, SeekOrigin.Current); // skip null terminator
-                            }
-                            break;
-                        case 0x05: // user commands
-                            {
-                                br.BaseStream.Seek(4, SeekOrigin.Current); // skip sequence
-                                var userCmdLen = br.ReadInt32();
-                                if (curDemoChecks != null)
-                                    HandleResultType(curDemoChecks.Check(
-                                        EvaluationDataType.UserCommand,
-                                        MapName,
-                                        TotalTicks,
-                                        ASCII.GetString(br.ReadBytes(userCmdLen)).Trim(new char[1])));
-                                //br.BaseStream.Seek(userCmdLen, SeekOrigin.Current);
-                            }
-                            break;
-                        case 0x08:
-                            {
-                                var stringTableLen = br.ReadInt32();
-                                br.BaseStream.Seek(stringTableLen, SeekOrigin.Current);
-                            }
-                            break;
+                                }
+                                break;
+                            case 0x05: // user commands
+                                {
+                                    br.BaseStream.Seek(4, SeekOrigin.Current); // skip sequence
+                                    var userCmdLen = br.ReadInt32();
+                                    if (curDemoChecks != null)
+                                        HandleResultType(curDemoChecks.Check(
+                                            EvaluationDataType.UserCommand,
+                                            MapName,
+                                            TotalTicks,
+                                            ASCII.GetString(br.ReadBytes(userCmdLen)).Trim(new char[1])));
+                                    //br.BaseStream.Seek(userCmdLen, SeekOrigin.Current);
+                                }
+                                break;
+                            case 0x08:
+                                {
+                                    var stringTableLen = br.ReadInt32();
+                                    br.BaseStream.Seek(stringTableLen, SeekOrigin.Current);
+                                }
+                                break;
+                        }
                     }
+                }
+                catch
+                {
+                    MessageBox.Show($"Problem while parsing {Path.GetFileName(filePath)}, file may be corrupted!", "Demo Collection", MessageBoxButtons.OK);
                 }
             }
 
             if (dCF.chk0thTick.Checked)
                 TotalTicks++;
 
-            switch (gameSupportResult)
+            switch (_gameSupportResult)
             {
                 case ResultType.BeginOnce:
                 case ResultType.BeginMultiple:
@@ -146,8 +153,8 @@ namespace startdemos_ui.src
                 {
                     Events.Add(result);
 
-                    if (gameSupportResult == ResultType.None && result.Result != ResultType.Note)
-                        gameSupportResult = result.Result;
+                    if (_gameSupportResult == ResultType.None && result.Result != ResultType.Note)
+                        _gameSupportResult = result.Result;
                 }
             }
 

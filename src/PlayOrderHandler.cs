@@ -21,7 +21,7 @@ namespace startdemos_ui.src
             }
             catch 
             {
-                MessageBox.Show("Play Order syntax invalid! Defaulting to \"-\"", "startdemos+ | Play Order", MessageBoxButtons.OK);
+                MessageBox.Show("Play Order syntax invalid! Defaulting to \"-\"", "Play Order | Play Order parsing", MessageBoxButtons.OK);
                 OrderInfo = ParseOrder("-");
             }
 
