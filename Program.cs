@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +16,7 @@ namespace startdemos_ui
         static void Main()
         {
             Application.EnableVisualStyles();
+            CultureInfo.CurrentCulture = new CultureInfo("en-US", false);
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
         }

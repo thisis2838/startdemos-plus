@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static startdemos_ui.Utils.WarningHelper;
+using static startdemos_ui.Utils.EnumHelper;
 using static startdemos_ui.Utils.ByteConvert;
 using static startdemos_ui.MainForm;
 using static startdemos_ui.Forms.MemoryScanningForm;

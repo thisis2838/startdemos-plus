@@ -139,7 +139,7 @@
     <Compile Include="src\SettingsHandler.cs" />
     <Compile Include="Utils\ByteConvert.cs" />
     <Compile Include="Utils\FileHelper.cs" />
-    <Compile Include="Utils\WarningHelper.cs" />
+    <Compile Include="Utils\EnumHelper.cs" />
     <Compile Include="Utils\RemoteOps.cs" />
     <Compile Include="Utils\ThreadHelper.cs" />
     <Compile Include="Utils\Vector3f.cs" />

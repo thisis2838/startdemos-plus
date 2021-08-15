@@ -39,12 +39,12 @@ namespace startdemos_ui.Forms
 
         private List<DemoCheckHandler> _configs;
         private Evaluation _curEval => _configs?[_curConfigIndex].Evaluations?[_curEvalIndex] ?? null;
-        private DemoCheckHandler curDemoChecks => (_curConfigIndex == -1 || _configs?.Count() == 0) ? null : _configs[_curConfigIndex];
+        private DemoCheckHandler _curDemoChecks => (_curConfigIndex == -1 || _configs?.Count() == 0) ? null : _configs[_curConfigIndex];
 
         public DemoCheckHandler GetCurrentDemoChecks()
         {
             // copy the current one for safety
-            return new DemoCheckHandler(curDemoChecks);
+            return new DemoCheckHandler(_curDemoChecks);
         }
 
         private Timer _errorTimer;

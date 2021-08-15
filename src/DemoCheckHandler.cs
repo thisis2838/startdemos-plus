@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using static startdemos_ui.Utils.EnumHelper;
 
 namespace startdemos_ui.src
 {
@@ -95,9 +96,9 @@ namespace startdemos_ui.src
 
         public Evaluation(XmlNode xmlNode) :
             this(
-                (EvaluationDataType)Enum.Parse(typeof(EvaluationDataType), xmlNode.SelectSingleNode($"types/evaluation/type").InnerText),
-                (EvaluationDirective)Enum.Parse(typeof(EvaluationDirective), xmlNode.SelectSingleNode($"types/evaluation/directive").InnerText),
-                (ResultType)Enum.Parse(typeof(ResultType), xmlNode.SelectSingleNode($"types/result").InnerText),
+                ParseEnum<EvaluationDataType>(xmlNode.SelectSingleNode($"types/evaluation/type").InnerText),
+                ParseEnum <EvaluationDirective>(xmlNode.SelectSingleNode($"types/evaluation/directive").InnerText),
+                ParseEnum<ResultType>(xmlNode.SelectSingleNode($"types/result").InnerText),
                 xmlNode.SelectSingleNode($"var").InnerText,
                 xmlNode.SelectSingleNode($"map").InnerText ?? "",
                 xmlNode.SelectSingleNode($"tickcompare")?.InnerText ?? "",

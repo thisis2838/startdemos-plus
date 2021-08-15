@@ -81,7 +81,7 @@ This can be understood as ""Finally, play demo 8 only if it is under 90 ticks lo
 	
 ### `a-/x/sens change, -/>25/go`
 This expression has 2 stages, which include:
-* `a-/x/check`  
+* `a-/x/sens change`  
 This can be understood as ""Sort all demos in alphabetical order according to their name, then only play demos that pass the check named ""sens change"".""
 	* `-` means to select all demos from first to last.
 	* `a` means to sort the demos alphabetically according to their name.
