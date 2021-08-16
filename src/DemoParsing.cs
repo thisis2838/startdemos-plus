@@ -24,7 +24,8 @@ namespace startdemos_ui.src
         public int AdjustedTicks { get; set; } = 0;
         public List<DemoCheckResult> Events { get; set; }
 
-        private ResultType _gameSupportResult = ResultType.None;
+        private int _startTick = -1;
+        private int _endTick = -1;
 
         public DemoParseResult(string filePath, DemoCheckHandler curDemoChecks = null)
         {
@@ -122,20 +123,12 @@ namespace startdemos_ui.src
             if (dCF.chk0thTick.Checked)
                 TotalTicks++;
 
-            switch (_gameSupportResult)
-            {
-                case ResultType.BeginOnce:
-                case ResultType.BeginMultiple:
-                    AdjustedTicks = TotalTicks - (AdjustedTicks + 1);
-                    break;
-                case ResultType.EndOnce:
-                case ResultType.EndMultiple:
-                    AdjustedTicks = (AdjustedTicks + 1);
-                    break;
-                case ResultType.None:
-                    AdjustedTicks = TotalTicks;
-                    break;
-            }
+            AdjustedTicks = TotalTicks;
+
+            if (_startTick != -1)
+                AdjustedTicks = TotalTicks - _startTick;
+            if (_endTick != -1)
+                AdjustedTicks -= TotalTicks - _endTick;
 
             string index = Path.GetFileNameWithoutExtension(filePath).ToLower().Replace(MapName + "_", "");
             if (int.TryParse(index, out int tmp))
@@ -153,12 +146,19 @@ namespace startdemos_ui.src
                 {
                     Events.Add(result);
 
-                    if (_gameSupportResult == ResultType.None && result.Result != ResultType.Note)
-                        _gameSupportResult = result.Result;
+                    switch (result.Result)
+                    {
+                        case ResultType.BeginOnce:
+                        case ResultType.BeginMultiple:
+                            _startTick = result.Tick + 1;
+                            break;
+                        case ResultType.EndOnce:
+                        case ResultType.EndMultiple:
+                            _endTick = result.Tick + 1;
+                            break;
+                    }
                 }
             }
-
-            AdjustedTicks = TotalTicks;
         }
     }
 }

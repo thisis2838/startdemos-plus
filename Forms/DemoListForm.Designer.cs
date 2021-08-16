@@ -157,6 +157,7 @@ namespace startdemos_ui.Forms
             this.dgvDemoList.AllowUserToAddRows = false;
             this.dgvDemoList.AllowUserToDeleteRows = false;
             this.dgvDemoList.AllowUserToOrderColumns = true;
+            this.dgvDemoList.AllowUserToResizeColumns = false;
             this.dgvDemoList.AllowUserToResizeRows = false;
             this.dgvDemoList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDemoList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -258,6 +259,7 @@ namespace startdemos_ui.Forms
             this.dgvDemoCheckResults.AllowUserToAddRows = false;
             this.dgvDemoCheckResults.AllowUserToDeleteRows = false;
             this.dgvDemoCheckResults.AllowUserToOrderColumns = true;
+            this.dgvDemoCheckResults.AllowUserToResizeColumns = false;
             this.dgvDemoCheckResults.AllowUserToResizeRows = false;
             this.dgvDemoCheckResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDemoCheckResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {

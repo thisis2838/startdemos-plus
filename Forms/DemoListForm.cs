@@ -23,6 +23,41 @@ namespace startdemos_ui.Forms
         {
             InitializeComponent();
             FormClosing += DemoListForm_FormClosing;
+            dgvDemoCheckResults.SortCompare += DgvDemoCheckResults_SortCompare;
+            dgvDemoList.SortCompare += DgvDemoList_SortCompare;
+        }
+
+        private void DgvDemoList_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            switch (e.Column.Index)
+            {
+                case 0:
+                case 4:
+                case 5:
+                    {
+                        e.SortResult = int.Parse(e.CellValue1.ToString()).CompareTo(int.Parse(e.CellValue2.ToString()));
+                        e.Handled = true;
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+
+        private void DgvDemoCheckResults_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            switch (e.Column.Index)
+            {
+                case 0:
+                case 1:
+                    {
+                        e.SortResult = int.Parse(e.CellValue1.ToString()).CompareTo(int.Parse(e.CellValue2.ToString()));
+                        e.Handled = true;
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
 
         private void DemoListForm_FormClosing(object sender, FormClosingEventArgs e)
