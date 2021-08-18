@@ -38,6 +38,8 @@ namespace startdemos_ui.Forms
             this.boxDemoPath = new System.Windows.Forms.TextBox();
             this.boxTickRate = new System.Windows.Forms.NumericUpDown();
             this.chk0thTick = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.boxIndexOrder = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.butProcess = new System.Windows.Forms.Button();
             this.butOpenDemoList = new System.Windows.Forms.Button();
@@ -48,11 +50,23 @@ namespace startdemos_ui.Forms
             this.label2 = new System.Windows.Forms.Label();
             this.labProcessedDemosCount = new System.Windows.Forms.Label();
             this.labProcessing = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.gCustomMapOrder = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.butCustomMapOrderBrowse = new System.Windows.Forms.Button();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.boxCustomMapOrderPath = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.boxTickRate)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.gCustomMapOrder.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -89,10 +103,11 @@ namespace startdemos_ui.Forms
             this.tableLayoutPanel1.Controls.Add(this.chk0thTick, 1, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 19);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(641, 75);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
@@ -128,6 +143,7 @@ namespace startdemos_ui.Forms
             // 
             // boxDemoPath
             // 
+            this.boxDemoPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.boxDemoPath.Location = new System.Drawing.Point(103, 3);
             this.boxDemoPath.Name = "boxDemoPath";
             this.boxDemoPath.Size = new System.Drawing.Size(535, 20);
@@ -167,14 +183,39 @@ namespace startdemos_ui.Forms
             this.chk0thTick.TabIndex = 6;
             this.chk0thTick.UseVisualStyleBackColor = true;
             // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 6);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(83, 13);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "Order Demos by";
+            // 
+            // boxIndexOrder
+            // 
+            this.boxIndexOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxIndexOrder.FormattingEnabled = true;
+            this.boxIndexOrder.Items.AddRange(new object[] {
+            "Last Modified Date (from oldest to earliest)",
+            "Demo File Name",
+            "Demo Map Name",
+            "Custom Map Order"});
+            this.boxIndexOrder.Location = new System.Drawing.Point(103, 3);
+            this.boxIndexOrder.Name = "boxIndexOrder";
+            this.boxIndexOrder.Size = new System.Drawing.Size(259, 21);
+            this.boxIndexOrder.TabIndex = 8;
+            this.boxIndexOrder.SelectedIndexChanged += new System.EventHandler(this.boxIndexOrder_SelectedIndexChanged);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.butProcess);
             this.groupBox2.Controls.Add(this.butOpenDemoList);
             this.groupBox2.Controls.Add(this.tableLayoutPanel2);
-            this.groupBox2.Location = new System.Drawing.Point(12, 119);
+            this.groupBox2.Location = new System.Drawing.Point(12, 250);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(742, 131);
+            this.groupBox2.Size = new System.Drawing.Size(743, 131);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Demo List";
@@ -277,12 +318,104 @@ namespace startdemos_ui.Forms
             this.labProcessing.Size = new System.Drawing.Size(0, 13);
             this.labProcessing.TabIndex = 5;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.gCustomMapOrder);
+            this.groupBox3.Controls.Add(this.tableLayoutPanel3);
+            this.groupBox3.Location = new System.Drawing.Point(12, 119);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(743, 125);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Demo Indexing";
+            // 
+            // gCustomMapOrder
+            // 
+            this.gCustomMapOrder.Controls.Add(this.label9);
+            this.gCustomMapOrder.Controls.Add(this.butCustomMapOrderBrowse);
+            this.gCustomMapOrder.Controls.Add(this.tableLayoutPanel4);
+            this.gCustomMapOrder.Location = new System.Drawing.Point(7, 52);
+            this.gCustomMapOrder.Name = "gCustomMapOrder";
+            this.gCustomMapOrder.Size = new System.Drawing.Size(730, 66);
+            this.gCustomMapOrder.TabIndex = 1;
+            this.gCustomMapOrder.TabStop = false;
+            this.gCustomMapOrder.Text = "Custom Map Order";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F);
+            this.label9.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label9.Location = new System.Drawing.Point(6, 47);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(322, 13);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "Map names are entered line-by-line. Press Show Help for more Info!";
+            // 
+            // butCustomMapOrderBrowse
+            // 
+            this.butCustomMapOrderBrowse.Location = new System.Drawing.Point(646, 20);
+            this.butCustomMapOrderBrowse.Name = "butCustomMapOrderBrowse";
+            this.butCustomMapOrderBrowse.Size = new System.Drawing.Size(75, 23);
+            this.butCustomMapOrderBrowse.TabIndex = 3;
+            this.butCustomMapOrderBrowse.Text = "Browse";
+            this.butCustomMapOrderBrowse.UseVisualStyleBackColor = true;
+            this.butCustomMapOrderBrowse.Click += new System.EventHandler(this.butCustomMapOrderBrowse_Click);
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 93F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 548F));
+            this.tableLayoutPanel4.Controls.Add(this.boxCustomMapOrderPath, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.label7, 0, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(6, 19);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(634, 25);
+            this.tableLayoutPanel4.TabIndex = 1;
+            // 
+            // boxCustomMapOrderPath
+            // 
+            this.boxCustomMapOrderPath.Location = new System.Drawing.Point(96, 3);
+            this.boxCustomMapOrderPath.Name = "boxCustomMapOrderPath";
+            this.boxCustomMapOrderPath.Size = new System.Drawing.Size(535, 20);
+            this.boxCustomMapOrderPath.TabIndex = 8;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 6);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(50, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Input List";
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 541F));
+            this.tableLayoutPanel3.Controls.Add(this.label5, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.boxIndexOrder, 1, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(7, 20);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(641, 25);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
             // DemoCollectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(767, 399);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -295,6 +428,13 @@ namespace startdemos_ui.Forms
             this.groupBox2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.gCustomMapOrder.ResumeLayout(false);
+            this.gCustomMapOrder.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -320,5 +460,15 @@ namespace startdemos_ui.Forms
         private System.Windows.Forms.Button butProcess;
         public System.Windows.Forms.Label labFoundDemosCount;
         public System.Windows.Forms.NumericUpDown boxTickRate;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.GroupBox gCustomMapOrder;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button butCustomMapOrderBrowse;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox boxIndexOrder;
+        private System.Windows.Forms.TextBox boxCustomMapOrderPath;
     }
 }

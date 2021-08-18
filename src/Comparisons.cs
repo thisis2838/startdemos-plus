@@ -99,4 +99,42 @@ namespace startdemos_ui.src
             Lower
         }
     }
+
+    public class Comparisons
+    {
+        public List<ComparisonInfo> InfoList { get; internal set; }
+        public Comparisons(string input)
+        {
+            InfoList = new List<ComparisonInfo>();
+            List<string> comparisons = input.Split('&').Where(x => !string.IsNullOrEmpty(x)).ToList();
+            comparisons.ForEach(x => InfoList.Add(new ComparisonInfo(x)));
+        }
+        public Comparisons(ComparisonInfo info)
+        {
+            InfoList = new List<ComparisonInfo>();
+            InfoList.Add(info);
+        }
+        public Comparisons()
+        {
+            InfoList = new List<ComparisonInfo>();
+        }
+        public bool CompareTo(int candidate)
+        {
+            return CompareTo((float)candidate);
+        }
+        public bool CompareTo(float candidate)
+        {
+            if (InfoList.Count == 0)
+                return true;
+
+            return InfoList.All(x => x.CompareTo(candidate));
+        }
+        public override string ToString()
+        {
+            string print = "";
+            InfoList.ForEach(x => print += x.ToString() + '&');
+            print = print.TrimEnd('&');
+            return print;
+        }
+    }
 }

@@ -318,7 +318,7 @@ namespace startdemos_ui.Forms
                 return;
             try
             {
-                _curEval.TickComparison = new ComparisonInfo(boxDCEConditionsTickCompare.Text);
+                _curEval.TickComparison = new Comparisons(boxDCEConditionsTickCompare.Text);
                 WriteNoteLabel("");
             }
             catch 
@@ -335,8 +335,12 @@ namespace startdemos_ui.Forms
             _curEval.Not = chkDCEConditionsNot.Checked;
         }
 
+        private char[] _disallowedConditionNameChars = { ',', '&', '/' };
+
         private void boxDCEConditionsName_TextChanged(object sender, EventArgs e)
         {
+            labNameNote.Visible = _disallowedConditionNameChars.Any(x => boxDCEConditionsName.Text.Contains(x));
+
             if (!IsCurEvalValid())
                 return;
 

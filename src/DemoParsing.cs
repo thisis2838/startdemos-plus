@@ -130,6 +130,9 @@ namespace startdemos_ui.src
             if (_endTick != -1)
                 AdjustedTicks -= TotalTicks - _endTick;
 
+            if (curDemoChecks != null)
+                HandleResultType(curDemoChecks.Check(EvaluationDataType.DemoName, MapName, TotalTicks, Path.GetFileNameWithoutExtension(filePath)));
+
             string index = Path.GetFileNameWithoutExtension(filePath).ToLower().Replace(MapName + "_", "");
             if (int.TryParse(index, out int tmp))
                 Index = tmp;

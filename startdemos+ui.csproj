@@ -205,4 +205,8 @@
     <None Include="graphics\about_bg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy bin\*.exe ..\Release\ /y
+xcopy bin\*.dll ..\Release\ /y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

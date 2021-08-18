@@ -66,6 +66,7 @@ namespace startdemos_ui.Forms
             this.butOpenDemoEvents = new System.Windows.Forms.Button();
             this.labError = new System.Windows.Forms.Label();
             this.butSave = new System.Windows.Forms.Button();
+            this.labNameNote = new System.Windows.Forms.Label();
             this.gDCEChecksList.SuspendLayout();
             this.gDCEChecksListGame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDCEChecksListGrid)).BeginInit();
@@ -189,18 +190,19 @@ namespace startdemos_ui.Forms
             this.gDCECheckData.Controls.Add(this.gDCECheckDataEvaluation);
             this.gDCECheckData.Location = new System.Drawing.Point(271, 41);
             this.gDCECheckData.Name = "gDCECheckData";
-            this.gDCECheckData.Size = new System.Drawing.Size(484, 299);
+            this.gDCECheckData.Size = new System.Drawing.Size(484, 316);
             this.gDCECheckData.TabIndex = 4;
             this.gDCECheckData.TabStop = false;
             this.gDCECheckData.Text = "Check Definition";
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.labNameNote);
             this.groupBox2.Controls.Add(this.labDCEConditionsName);
             this.groupBox2.Controls.Add(this.boxDCEConditionsName);
             this.groupBox2.Location = new System.Drawing.Point(6, 241);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(472, 49);
+            this.groupBox2.Size = new System.Drawing.Size(472, 69);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Identification";
@@ -209,7 +211,7 @@ namespace startdemos_ui.Forms
             // 
             this.labDCEConditionsName.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labDCEConditionsName.AutoSize = true;
-            this.labDCEConditionsName.Location = new System.Drawing.Point(6, 23);
+            this.labDCEConditionsName.Location = new System.Drawing.Point(10, 23);
             this.labDCEConditionsName.Name = "labDCEConditionsName";
             this.labDCEConditionsName.Size = new System.Drawing.Size(35, 13);
             this.labDCEConditionsName.TabIndex = 10;
@@ -365,7 +367,8 @@ namespace startdemos_ui.Forms
             "BeginMultiple",
             "EndOnce",
             "EndMultiple",
-            "Note"});
+            "Note",
+            "Remember"});
             this.cbDCEReturnType.Location = new System.Drawing.Point(99, 3);
             this.cbDCEReturnType.Name = "cbDCEReturnType";
             this.cbDCEReturnType.Size = new System.Drawing.Size(120, 21);
@@ -427,7 +430,8 @@ namespace startdemos_ui.Forms
             "None",
             "Position",
             "ConsoleCommand",
-            "UserCommand"});
+            "UserCommand",
+            "DemoName"});
             this.cbDCEEvaluationDataType.Location = new System.Drawing.Point(99, 3);
             this.cbDCEEvaluationDataType.Name = "cbDCEEvaluationDataType";
             this.cbDCEEvaluationDataType.Size = new System.Drawing.Size(120, 21);
@@ -496,6 +500,17 @@ namespace startdemos_ui.Forms
             this.butSave.Text = "Save to File";
             this.butSave.UseVisualStyleBackColor = true;
             this.butSave.Click += new System.EventHandler(this.butSave_Click);
+            // 
+            // labNameNote
+            // 
+            this.labNameNote.AutoSize = true;
+            this.labNameNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F);
+            this.labNameNote.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.labNameNote.Location = new System.Drawing.Point(10, 43);
+            this.labNameNote.Name = "labNameNote";
+            this.labNameNote.Size = new System.Drawing.Size(361, 13);
+            this.labNameNote.TabIndex = 12;
+            this.labNameNote.Text = "Having commas, ampersands and slashes in the name is not recommended!";
             // 
             // DemoCheckEditor
             // 
@@ -572,5 +587,6 @@ namespace startdemos_ui.Forms
         private System.Windows.Forms.Button butOpenDemoEvents;
         private System.Windows.Forms.Label labError;
         private System.Windows.Forms.Button butSave;
+        private System.Windows.Forms.Label labNameNote;
     }
 }

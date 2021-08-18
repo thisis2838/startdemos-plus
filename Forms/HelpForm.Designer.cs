@@ -34,6 +34,8 @@ namespace startdemos_ui.Forms
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dispWelcome = new System.Windows.Forms.WebBrowser();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dispBasicGuide = new System.Windows.Forms.WebBrowser();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
@@ -46,14 +48,15 @@ namespace startdemos_ui.Forms
             this.dispDCInfo = new System.Windows.Forms.WebBrowser();
             this.tabPage10 = new System.Windows.Forms.TabPage();
             this.dispDCElements = new System.Windows.Forms.WebBrowser();
-            this.tabPage11 = new System.Windows.Forms.TabPage();
-            this.dispSharedSyntax = new System.Windows.Forms.WebBrowser();
-            this.dispBasicGuide = new System.Windows.Forms.WebBrowser();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dispDCExamples = new System.Windows.Forms.WebBrowser();
+            this.tabPage11 = new System.Windows.Forms.TabPage();
+            this.dispSharedSyntax = new System.Windows.Forms.WebBrowser();
+            this.dispDemoIndexing = new System.Windows.Forms.WebBrowser();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tabControl3.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -62,14 +65,15 @@ namespace startdemos_ui.Forms
             this.tabControl4.SuspendLayout();
             this.tabPage9.SuspendLayout();
             this.tabPage10.SuspendLayout();
-            this.tabPage11.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage11.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Controls.Add(this.tabPage11);
@@ -110,6 +114,26 @@ namespace startdemos_ui.Forms
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Basic Guide";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dispBasicGuide
+            // 
+            this.dispBasicGuide.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dispBasicGuide.Location = new System.Drawing.Point(3, 3);
+            this.dispBasicGuide.MinimumSize = new System.Drawing.Size(20, 20);
+            this.dispBasicGuide.Name = "dispBasicGuide";
+            this.dispBasicGuide.Size = new System.Drawing.Size(786, 418);
+            this.dispBasicGuide.TabIndex = 0;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.dispDemoIndexing);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(792, 424);
+            this.tabPage4.TabIndex = 5;
+            this.tabPage4.Text = "Demo Indexing";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // tabPage5
             // 
@@ -236,35 +260,6 @@ namespace startdemos_ui.Forms
             this.dispDCElements.Size = new System.Drawing.Size(772, 386);
             this.dispDCElements.TabIndex = 1;
             // 
-            // tabPage11
-            // 
-            this.tabPage11.Controls.Add(this.dispSharedSyntax);
-            this.tabPage11.Location = new System.Drawing.Point(4, 22);
-            this.tabPage11.Name = "tabPage11";
-            this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage11.Size = new System.Drawing.Size(792, 424);
-            this.tabPage11.TabIndex = 4;
-            this.tabPage11.Text = "Shared Syntax";
-            this.tabPage11.UseVisualStyleBackColor = true;
-            // 
-            // dispSharedSyntax
-            // 
-            this.dispSharedSyntax.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dispSharedSyntax.Location = new System.Drawing.Point(3, 3);
-            this.dispSharedSyntax.MinimumSize = new System.Drawing.Size(20, 20);
-            this.dispSharedSyntax.Name = "dispSharedSyntax";
-            this.dispSharedSyntax.Size = new System.Drawing.Size(786, 418);
-            this.dispSharedSyntax.TabIndex = 1;
-            // 
-            // dispBasicGuide
-            // 
-            this.dispBasicGuide.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dispBasicGuide.Location = new System.Drawing.Point(3, 3);
-            this.dispBasicGuide.MinimumSize = new System.Drawing.Size(20, 20);
-            this.dispBasicGuide.Name = "dispBasicGuide";
-            this.dispBasicGuide.Size = new System.Drawing.Size(786, 418);
-            this.dispBasicGuide.TabIndex = 0;
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.dispDCExamples);
@@ -285,6 +280,35 @@ namespace startdemos_ui.Forms
             this.dispDCExamples.Size = new System.Drawing.Size(772, 386);
             this.dispDCExamples.TabIndex = 0;
             // 
+            // tabPage11
+            // 
+            this.tabPage11.Controls.Add(this.dispSharedSyntax);
+            this.tabPage11.Location = new System.Drawing.Point(4, 22);
+            this.tabPage11.Name = "tabPage11";
+            this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage11.Size = new System.Drawing.Size(792, 424);
+            this.tabPage11.TabIndex = 4;
+            this.tabPage11.Text = "Shared Syntax";
+            this.tabPage11.UseVisualStyleBackColor = true;
+            // 
+            // dispSharedSyntax
+            // 
+            this.dispSharedSyntax.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dispSharedSyntax.Location = new System.Drawing.Point(3, 3);
+            this.dispSharedSyntax.MinimumSize = new System.Drawing.Size(20, 20);
+            this.dispSharedSyntax.Name = "dispSharedSyntax";
+            this.dispSharedSyntax.Size = new System.Drawing.Size(786, 418);
+            this.dispSharedSyntax.TabIndex = 1;
+            // 
+            // dispDemoIndexing
+            // 
+            this.dispDemoIndexing.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dispDemoIndexing.Location = new System.Drawing.Point(3, 3);
+            this.dispDemoIndexing.MinimumSize = new System.Drawing.Size(20, 20);
+            this.dispDemoIndexing.Name = "dispDemoIndexing";
+            this.dispDemoIndexing.Size = new System.Drawing.Size(786, 418);
+            this.dispDemoIndexing.TabIndex = 0;
+            // 
             // HelpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -297,6 +321,7 @@ namespace startdemos_ui.Forms
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tabControl3.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
@@ -305,8 +330,8 @@ namespace startdemos_ui.Forms
             this.tabControl4.ResumeLayout(false);
             this.tabPage9.ResumeLayout(false);
             this.tabPage10.ResumeLayout(false);
-            this.tabPage11.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage11.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -333,5 +358,7 @@ namespace startdemos_ui.Forms
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.WebBrowser dispDCExamples;
         public System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.WebBrowser dispDemoIndexing;
     }
 }

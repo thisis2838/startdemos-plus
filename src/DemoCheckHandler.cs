@@ -73,7 +73,7 @@ namespace startdemos_ui.src
         public ResultType ResType { get; set; }
         public string EventName { get; set; }
         public bool Not { get; set; }
-        public ComparisonInfo TickComparison { get; set; }
+        public Comparisons TickComparison { get; set; }
         public Evaluation(
             EvaluationDataType type,
             EvaluationDirective directive,
@@ -89,7 +89,7 @@ namespace startdemos_ui.src
             Directive = directive;
             ResType = resType;
             EventName = eventName;
-            TickComparison = new ComparisonInfo(tickCondition);
+            TickComparison = new Comparisons(tickCondition);
             Not = not;
             ParseVar(varString);
         }
@@ -152,9 +152,7 @@ namespace startdemos_ui.src
                              Var[1] = new ComparisonInfo(elements.Count() > 1 ? elements[1] : "");
                         break;
                     }
-                case EvaluationDataType.None:
-                case EvaluationDataType.ConsoleCommand:
-                case EvaluationDataType.UserCommand:
+                default:
                     {
                         Var = new object[1];
                         Var[0] = new string(varString.ToCharArray());
@@ -170,7 +168,7 @@ namespace startdemos_ui.src
                 || ResType == ResultType.None
                 || type != Type 
                 || (Map != "" && curMap != Map) 
-                || (TickComparison.Effective && !TickComparison.CompareTo(tick)))
+                || (!TickComparison.CompareTo(tick)))
                 return ResultType.None;
 
             switch (type)
@@ -192,6 +190,7 @@ namespace startdemos_ui.src
                     }
                 case EvaluationDataType.ConsoleCommand:
                 case EvaluationDataType.UserCommand:
+                case EvaluationDataType.DemoName:
                     {
                         if (!Regex.IsMatch(candidate.ToString(), @"([ -~])+"))
                             return ResultType.None;
@@ -228,7 +227,8 @@ namespace startdemos_ui.src
         None,
         Position,
         ConsoleCommand,
-        UserCommand
+        UserCommand,
+        DemoName
     }
 
     public enum EvaluationDirective
@@ -246,7 +246,8 @@ namespace startdemos_ui.src
         BeginMultiple,
         EndOnce,
         EndMultiple,
-        Note
+        Note,
+        Remember
     }
 
     public struct DemoCheckResult

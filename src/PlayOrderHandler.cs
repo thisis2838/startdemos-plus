@@ -58,15 +58,21 @@ namespace startdemos_ui.src
             foreach (string member2 in list)
             {
                 string[] parts = member2.Trim().Split('/');
-                string member = parts[0];
-                string check = parts.Count() > 2 ? parts[2] : "";
+                string member = parts[0].Trim();
+                List<string> check = parts.Count() > 2 ?
+                    parts[2]
+                    .Split('&')
+                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                    .ToList() 
+                : new List<string>();
 
                 bool reversed = false;
-                ComparisonInfo tickCompare = new ComparisonInfo("");
+                Comparisons tickCompare = new Comparisons();
                 bool alphabetical = false;
 
                 if (parts.Count() > 1 && !string.IsNullOrWhiteSpace(parts[1]))
-                    tickCompare = new ComparisonInfo(parts[1]);
+                    tickCompare = new Comparisons(parts[1]);
+
                 if (member.Contains('r'))
                 {
                     reversed = true;
@@ -105,11 +111,9 @@ namespace startdemos_ui.src
                     if (reversed)
                         inputList.Reverse();
 
-                    if (tickCompare.Effective)
-                        inputList = inputList.Where(x => tickCompare.CompareTo(x.Info.TotalTicks)).ToList();
-
-                    if (!string.IsNullOrWhiteSpace(check))
-                        inputList = inputList.Where(x => x.Info.Events.Any(y => y.Name.Trim() == check.Trim())).ToList();
+                    inputList = inputList
+                        .Where(x => tickCompare.CompareTo(x.Info.TotalTicks)).ToList()
+                        .Where(x => check.All(y => x.Info.Events.Any(z => z.Name.Trim() == y.Trim()))).ToList();
 
                     List<int> indicies = new List<int>();
                     inputList.ForEach(x => indicies.Add(dCH.Files.IndexOf(x)));

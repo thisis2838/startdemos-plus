@@ -122,11 +122,14 @@
 
 Created by 2838
 Original idea by donaldinio
+Testing and Feedback by calamity
 
 Code snippets taken from Listdemo+ by Traderain and Portal Demo Timer by fatalis
 Along with process and memory handling code from livesplit-core
 
-August 2021, please forward any bugs to the project's Issues tabs on Github!</value>
+August 2021, please forward any bugs to the project's Issues tabs on Github!
+
+</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

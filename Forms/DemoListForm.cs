@@ -101,6 +101,9 @@ namespace startdemos_ui.Forms
 
                 foreach (DemoCheckResult result in demo.Info.Events)
                 {
+                    if (result.Result == ResultType.Remember)
+                        continue;
+
                     string[] checkInfo = new string[6] {
                         index.ToString(),
                         result.Tick.ToString(),

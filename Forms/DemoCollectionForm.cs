@@ -27,8 +27,13 @@ namespace startdemos_ui.Forms
             StoppedPlaying += (s, e) => { butProcess.Enabled = true; };
         }
 
+        public string CustomMapOrderPath => GetValue(this, boxCustomMapOrderPath, s => s.Text);
+        public int DemoOrder => GetValue(this, boxIndexOrder, s => s.SelectedIndex);
+
         private void DemoCollectionForm_Load(object sender, EventArgs e)
         {
+            boxIndexOrder.SelectedIndex = 0;
+
             sH.SubscribedSettings.Add(new SettingEntry(
                 "tickrate", 
                 s => boxTickRate.Value = decimal.Parse(s == "" ? "0.001" : s), 
@@ -37,6 +42,14 @@ namespace startdemos_ui.Forms
                 "zerothtick", 
                 s => chk0thTick.Checked = bool.Parse(s == "" ? "False" : s), 
                 () => chk0thTick.Checked.ToString()));
+            sH.SubscribedSettings.Add(new SettingEntry(
+                "demoindexordering",
+                s => boxIndexOrder.SelectedIndex = int.Parse(s),
+                () => boxIndexOrder.SelectedIndex.ToString()));
+            sH.SubscribedSettings.Add(new SettingEntry(
+                "demoindexorderingfile",
+                s => boxCustomMapOrderPath.Text = s,
+                () => boxCustomMapOrderPath.Text));
 
             butProcess.Enabled = false;
         }
@@ -74,12 +87,29 @@ namespace startdemos_ui.Forms
         private void butOpenDemoList_Click(object sender, EventArgs e)
         {
             dLF.tabControl1.SelectedIndex = 0;
-            dLF.Show();
+            if (Application.OpenForms[dLF.Name] == null || !dLF.Visible)
+                dLF.Show();
+            else
+                Application.OpenForms[dLF.Name].Focus();
         }
 
         private void boxDemoPath_TextChanged(object sender, EventArgs e)
         {
             butProcess.Enabled = Directory.Exists(boxDemoPath.Text);
+        }
+
+        private void boxIndexOrder_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gCustomMapOrder.Enabled = (IndexOrder)boxIndexOrder.SelectedIndex == IndexOrder.CustomMapOrder;
+        }
+
+        private void butCustomMapOrderBrowse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            DialogResult result = dialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+                boxCustomMapOrderPath.Text = dialog.FileName;
         }
     }
 }

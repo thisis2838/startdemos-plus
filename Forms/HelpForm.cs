@@ -22,7 +22,7 @@ Represents 4 stages, each playing a different set of demos in specific orders.
 
 ## Formatting a stage
 Each stage is formatted as such:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`<attributes> <index or array of demos> / <tick condition> / <check>`  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`<attributes> <index or array of demos> / <tick condition> / <check condition>`  
 Note that a space isn't required between these variables.
 <br><br>
 ### `<index or array of demos>`
@@ -41,8 +41,8 @@ These are the attributes used to sort the defined demo array. Accepted entires i
 This the condition to apply on the tick counts of demos to filter them. Note that this is done after Sorting. 
 It is formatted as a Comparison accepting an interger value, which is described in *Shared Syntax*. 
 
-### `<check>`
-This is the name of the Check that a demo must have passed at least once to be included in the stage. 
+### `<check condition>`
+This is the list of the names of the Checks that a demo must have all passed at least once to be included in the Play Order. It is formatted as the names separated with an ampersand (&), similar to a combined Numerical Comparison.
 
 ";
 
@@ -79,7 +79,7 @@ This can be understood as ""Finally, play demo 8 only if it is under 90 ticks lo
 	* `8` means to select demo #8
 	* `<90` means to only select demos which are under 90 ticks long.
 	
-### `a-/x/sens change, -/>25/go`
+### `a-/x/sens change, -/>25/go&notvault`
 This expression has 2 stages, which include:
 * `a-/x/sens change`  
 This can be understood as ""Sort all demos in alphabetical order according to their name, then only play demos that pass the check named ""sens change"".""
@@ -87,17 +87,17 @@ This can be understood as ""Sort all demos in alphabetical order according to th
 	* `a` means to sort the demos alphabetically according to their name.
 	* `x` means the Tick Condition is Ineffective
 	* `sens change` means to select demos that pass the check ""sens change"".
-* `-/>25/go`  
+* `-/>25/go&notvault`  
 This can be understood as ""Play demos that are more than 25 ticks long and must have passed the check ""go"" at least once.""
 	* `-` means to select all demos from first to last.
 	* `>25` means to select demos which are over 25 ticks long.
-	* `go` means to select demos that pass the check ""sens change"".
+	* `go` means to select demos that pass both the checks ""sens change"" and ""notvault"".
 ";
 
 		private static string _textGeneralFormatting = @"
-## Conditional
-A Conditional describes a comparison which is done in the tool against numeric values.  
-A Conditional is formatted like so:  
+## Numerical Comparison
+A Numerical Comparison describes a comparison which is done in the tool against numeric values.  
+A Numerical Comparison is formatted like so:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `<operator><value>`  
 Where:  
 *   `<operator>` is the desired comparision operator, which includes:
@@ -105,13 +105,19 @@ Where:
 	* `<` to signify that our candidate must be smaller than `<value>`.
 	* `=` to signify that our candidate must be equal to `<value>`. This sign can be placed after `>` or `<` to signify that the number can also equal to our `<value>` in those cases.
 * `<value>` is the desired value that is compared against, its type depends on its use case.  
-If the Conditional is formatted as `x` then that means the Conditional is *Ineffective*, meaning it will always return True.
+If the Numerical Comparison is formatted as `x` then that means the Numerical Comparison is *Ineffective*, meaning it will always return True.
+
+You can also combine multiple comparisons like so:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `<comparison1>&<comparison2>`  
+which will only pass if the candidate number passes all conditions. 
 
 Examples:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `>9` means our number must exceed 9.  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `<=3` means our number must be 3 or lower.  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `>=12.256` means our number must be 12.256 or higher.  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `x` means our Conditional always returns true.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `x` means our Numerical Comparison always returns true.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `>25&<50`  means our number must be bigger than 25 and smaller than 50.
+
 
 ## Position / Coordinate
 A position or coordinate value describes a point in 3D space, or more specifically an array of 3 floating point numbers within the tool.  
@@ -124,6 +130,7 @@ Examples:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `25 36 124`  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `17.269 25.14 96.125`  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `0 10 20`
+
 ";
 
 		private static string _textWelcome = @"
@@ -133,6 +140,7 @@ Welcome to the startdemos+ Help window, laden with Times New Roman due to WinFor
 ## Contents
 In this Help window, you'll find info and exmaples on the following:  
 * startdemos+ usage and info on how it works.
+* Demo Indexing
 * Demo Order formatting
 * Demo Checking documentation 
 * Syntax shared across the tool's functions.
@@ -178,7 +186,7 @@ Along with cataloging data, checks can also tell the Collector what is the start
 		private static string _textDemoCheckingElements = @"
 A Check comprises:
 * Evaluation Data
-* Return Type
+* Result Type
 * Conditions
 * Identification
 
@@ -190,13 +198,14 @@ This decribes how to evaluate data coming into the Check. This data includes:
 	* *UserCommand* which are the commands passed by the User.
 * *Directive* which describes how to check the demo data against the *Target Variables*. These Directives include:
 	* *Direct* which directly compares the demo data to the *Target Variables*
-	* *Difference* (only works with the *Position* type) which interprets the first value in the *Target Variables* as Positional data and the 2nd as a Conditional. Then it checks if the difference between the aforementioned Positional data and the player's position passes the Conditional.
+	* *Difference* (only works with the *Position* type) which interprets the first value in the *Target Variables* as Positional data and the 2nd as a Numerical Comparison. Then it checks if the difference between the aforementioned Positional data and the player's position passes the Numerical Comparison.
 	* *Substring* (only works with the Command types) which checks if the *Target Variables* is a substring of the demo data.
 
 ## Result Type  
 This tells the Demo Collector what to do if the check passes. This includes:  
 * *None* which will only tell the Collector not to catalog this check and print info even if it passes.
-* *Note* which will only tell the Collector to print the result in the *Demo Events*.
+* *Remember* which will only tell the Collector to catalog this check but not to print the result in the *Demo Events*.
+* *Note* which will tell the Collector to catalog and print the result in the *Demo Events*.
 * *BeginOnce* and *EndOnce* which will respectively indicate the Collector that the current tick is the start and end tick of the demo and to print the result in the *Demo Events*. These will also disable this check for the rest of the demos.
 * *BeginMultiple* and *EndMultiple* works the same as their *Once* counterparts, but do not disable the check if it passes.
 
@@ -204,11 +213,11 @@ This tells the Demo Collector what to do if the check passes. This includes:
 These are the conditional data used in determining if data passes the Check. If the demo data fals any of these then it will fail the Check.
 * *Target Variable(s)* are what values passed into the checks should be compared to.  These values are separated with a backslash `/` and are formatted depending on the *Directive* described above.
 * *Map* is what map this check should be done on. If this is left empty then the Check will be run on all maps.
-* *Tick Compare* determines what Conditional should the demo's current tick be checked against. If it fails, the checks will not be run for that tick. If this is left empty, the Conditional will default to being ineffective, always returning true for any tick value.
+* *Tick Compare* determines what Numerical Comparison should the demo's current tick be checked against. If it fails, the checks will not be run for that tick. If this is left empty, the Numerical Comparison will default to being ineffective, always returning true for any tick value.
 * *Not* determines if the result from the check should be reversed.
 
 ## Identification
-This field determines the identification data for the check. Note that currently, this is purely visual. This includes:
+This field determines the identification data for the check.
 * *Name* which is the name of the check.
 ";
 
@@ -251,14 +260,62 @@ ___
 * *Result* `Note`
 * *Conditions*
 	* *Target Variable(s)* `-544 -368.75 160 / >256`
-	* *Tick Compare* `>0`
+	* *Tick Compare* `>0&<500`
 	* *Not* `True`
 * Identification
 	* *Name* `Away`
 	
 
-When combined together, this check will tell the tool to: Record every single tick in which the player is NOT `>256` (less or equal than 256) units away from `-544 -368.75 160`.
+When combined together, this check will tell the tool to: Record every single tick between 0 and 500 in which the player is NOT `>256` (less or equal than 256) units away from `-544 -368.75 160`.
 
+
+";
+
+		private static string _textDemoIndexing = @"
+When collecting demos, the tool will assign each demo with an Index which is used in determining what order demos should be played.  
+
+## Indexing using demos' data
+There are multiple data sources with which the tool can index demos, these include:
+* Last Modified Date (from newest to oldest)
+* Demo File Name (sorted alphabetically)
+* Demo Map Name (sorted alphabetically)
+
+
+## Indexing using a Custom Map Order
+Alternatively, you can choose to use a *Custom Map Order* to index the demos. Maps are laid out line-by-line in an external file specified by the *Input File* field. The tool will go through the maps from top to bottom, for example:
+
+```
+map01
+map02
+map03
+mapend
+```
+will tell the tool to place demos made in `map01` above those in `map02` and etc. These maps don't necessarily have to be of the same game and as such you can hoard map names of multiple games in the same file, provided there are no duplicates.
+
+If there are multiple demos made in the same map, they are sorted alphabetically according to their names.  
+Demos whose maps aren't included in the list will also be sorted alphabetically by map, then by name, and will be put at the end of the Demo List. For example, utilizing the example map list from before, if the demos are:
+```
+Demo Name           Map
+-------------------------
+c                   map01
+a                   map01
+z                   map02
+outlier             map00
+outlier2            map00
+b                   map05
+```
+then the Demo List will be
+```
+Index       Demo Name       Map
+---------------------------------
+0           a               map01
+1           c               map01
+2           z               map02
+3           outlier         map00
+4           outlier2        map00
+5           b               map05
+
+```
 
 ";
 		public HelpForm()
@@ -272,6 +329,7 @@ When combined together, this check will tell the tool to: Record every single ti
 			FillForm(_textDemoCheckingInfo, dispDCInfo);
 			FillForm(_textDemoCheckingElements, dispDCElements);
 			FillForm(_textDemoCheckingExmaples, dispDCExamples);
+			FillForm(_textDemoIndexing, dispDemoIndexing);
 
 			FormClosing += (s, e) =>
 			{

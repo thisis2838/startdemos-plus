@@ -117,9 +117,9 @@ namespace startdemos_ui
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 273);
+            this.label2.Location = new System.Drawing.Point(12, 249);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(395, 117);
+            this.label2.Size = new System.Drawing.Size(395, 143);
             this.label2.TabIndex = 3;
             this.label2.Text = resources.GetString("label2.Text");
             // 
@@ -127,7 +127,7 @@ namespace startdemos_ui
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(71, 218);
+            this.label1.Location = new System.Drawing.Point(71, 194);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(239, 43);
             this.label1.TabIndex = 2;
@@ -136,7 +136,7 @@ namespace startdemos_ui
             // pictureBox1
             // 
             this.pictureBox1.Image = global::startdemos_ui.Properties.Resources.icon_200;
-            this.pictureBox1.Location = new System.Drawing.Point(6, 203);
+            this.pictureBox1.Location = new System.Drawing.Point(6, 179);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(59, 58);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;

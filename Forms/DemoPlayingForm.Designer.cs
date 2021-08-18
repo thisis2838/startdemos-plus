@@ -211,9 +211,10 @@ namespace startdemos_ui.Forms
             // 
             // boxPlayOrder
             // 
+            this.boxPlayOrder.Font = new System.Drawing.Font("Consolas", 8.5F);
             this.boxPlayOrder.Location = new System.Drawing.Point(103, 3);
             this.boxPlayOrder.Name = "boxPlayOrder";
-            this.boxPlayOrder.Size = new System.Drawing.Size(625, 20);
+            this.boxPlayOrder.Size = new System.Drawing.Size(625, 21);
             this.boxPlayOrder.TabIndex = 1;
             this.boxPlayOrder.Text = "-";
             // 
@@ -374,10 +375,11 @@ namespace startdemos_ui.Forms
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F);
             this.label6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label6.Location = new System.Drawing.Point(137, 45);
+            this.label6.Location = new System.Drawing.Point(141, 45);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(455, 13);
+            this.label6.Size = new System.Drawing.Size(447, 13);
             this.label6.TabIndex = 3;
             this.label6.Text = "WARNING: Only press these while the Game isn\'t loading a demo, or else a crash mi" +
     "ght occur!!";

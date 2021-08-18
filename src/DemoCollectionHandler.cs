@@ -25,6 +25,63 @@ namespace startdemos_ui.src
             if (!Directory.Exists(folder))
                 return;
 
+            IndexOrder order = (IndexOrder)dCF.DemoOrder;
+            List<string> custMapOrderList = new List<string>();
+            Func<DemoFile, dynamic> sel = p => p.LastModifiedDate;
+            Func<List<DemoFile>, List<DemoFile>> orderAction = s => s.OrderBy(sel).ThenBy(p => p.Info.Index).ToList();
+            switch (order)
+            {
+                case IndexOrder.DemoMapName:
+                    sel = p => p.Info.MapName;
+                    break;
+                case IndexOrder.DemoFileName:
+                    sel = p => p.Name;
+                    break;
+                case IndexOrder.CustomMapOrder:
+                    {
+                        string custMapOrderPath = dCF.CustomMapOrderPath;
+
+                        if (!File.Exists(custMapOrderPath))
+                        {
+                            MessageBox.Show("Input File for Custom Map Ordering does not exist!", "Demo Collection | Custom Map Ordering", MessageBoxButtons.OK);
+                            return;
+                        }
+
+                        var custMapOrderFile = File.OpenText(custMapOrderPath);
+                        string mapEntry = "";
+                        while ((mapEntry = custMapOrderFile.ReadLine()) != null)
+                            custMapOrderList.Add(mapEntry);
+
+                        orderAction = s =>
+                        {
+                            List<DemoFile> included = new List<DemoFile>();
+                            List<DemoFile> other = new List<DemoFile>();
+
+                            s.ForEach(entry => 
+                            {
+                                if (custMapOrderList.Contains(entry.Info.MapName))
+                                    included.Add(entry);
+                                else
+                                    other.Add(entry);
+                            });
+
+                            included = included
+                                .OrderBy(p => custMapOrderList.IndexOf(p.Info.MapName))
+                                .ThenBy(p => p.Name)
+                                .ToList();
+
+                            other = other
+                                .OrderBy(p => p.Info.MapName)
+                                .ThenBy(p => p.Name)
+                                .ToList();
+
+                            return included.Concat(other).ToList();                            
+                        };
+
+                        break;
+                    }
+            }
+
             Files = new List<DemoFile>();
             var files = Directory.EnumerateFiles(folder, "*.dem");
             ThreadAction(dCF, () => { dCF.labFoundDemosCount.Text = files.Count().ToString(); });
@@ -40,8 +97,7 @@ namespace startdemos_ui.src
             }
 
             dCF.SetCurDemoInfo(files.Count() - 1, "");
-
-            Files = Files.OrderBy(p => p.LastModifiedDate).ThenBy(p => p.Info.Index).ToList();
+            Files = orderAction(Files);
 
             for (int j = 0; j < files.Count(); j++)
                 dLF.DemoListAdd(j, Files[j]);
@@ -65,5 +121,13 @@ namespace startdemos_ui.src
             Info = new DemoParseResult(filePath, curDemoChecks);
             PlayCommand = $"playdemo \"{filePath}\";";
         }
+    }
+
+    public enum IndexOrder
+    {
+        LastModifiedDate,
+        DemoFileName,
+        DemoMapName,
+        CustomMapOrder
     }
 }

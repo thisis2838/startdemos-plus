@@ -136,23 +136,7 @@ namespace startdemos_ui
 
         private void butHelp_Click(object sender, EventArgs e)
         {
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-                    _help.tabControl1.SelectedIndex = 0;
-                    break;
-                case 1:
-                case 2:
-                    _help.tabControl1.SelectedIndex = 1;
-                    break;
-                case 3:
-                    _help.tabControl1.SelectedIndex = 2;
-                    break;
-                case 4:
-                    _help.tabControl1.SelectedIndex = 3;
-                    break;
-            }
-
+            _help.tabControl1.SelectedIndex = tabControl1.SelectedIndex;
             _help.Show();
         }
     }

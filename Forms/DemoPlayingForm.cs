@@ -12,6 +12,7 @@ using static startdemos_ui.src.Events;
 using static startdemos_ui.MainForm;
 using startdemos_ui.src;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace startdemos_ui.Forms
 {
@@ -100,7 +101,7 @@ namespace startdemos_ui.Forms
         {
             string d = "";
             info.ForEach(x => d += $"{x}, ");
-            d.TrimEnd(',');
+            d = d.Trim().Trim(',');
 
             if (string.IsNullOrWhiteSpace(d))
                 d = "(empty)";
@@ -118,6 +119,9 @@ namespace startdemos_ui.Forms
                     MessageBoxButtons.OK);
                 return;
             }
+
+            Regex regex = new Regex("([ ]*(,)[ ]*)", RegexOptions.None);
+            boxPlayOrder.Text = regex.Replace(boxPlayOrder.Text, $" , ");
 
             if (_playThread != null && _playThread.IsAlive)
             {
