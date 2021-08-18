@@ -10,7 +10,8 @@ startdemos+ is an externally-run alternative to the Source Engine command startd
 
 # Credits
 * 2838 for Programming, Graphics, Project Lead.
-* donaldinio for the Original Concept
+* donaldinio for the Original Concept.
+* calamity for Testing and Feedback.
 
 Code snippets taken from:
 * [Listdemo+](https://github.com/Traderain/Listdemo-/tree/master/Listdemo) by Traderain
