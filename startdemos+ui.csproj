@@ -206,7 +206,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy bin\*.exe ..\Release\ /y
-xcopy bin\*.dll ..\Release\ /y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)*.exe" "$(TargetDir)..\Release\" /Y
+xcopy "$(TargetDir)*.dll" "$(TargetDir)..\Release\" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
