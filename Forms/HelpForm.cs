@@ -188,7 +188,7 @@ A Check comprises:
 * Evaluation Data
 * Result Type
 * Conditions
-* Identification
+* Identification  
 
 ## Evaluation Data
 This decribes how to evaluate data coming into the Check. This data includes:
@@ -196,10 +196,11 @@ This decribes how to evaluate data coming into the Check. This data includes:
 	* *Position* which is the player's position.
 	* *ConsoleCommand* which are the commands passed into the console by the user or the game.
 	* *UserCommand* which are the commands passed by the User.
+	* *DemoName* which is the name of the demo file without it's file extension (*.dem*). Note that this check is ran on the last tick of a demo and as such *Tick Compare* will be comparing against the total tick count of the demo.
 * *Directive* which describes how to check the demo data against the *Target Variables*. These Directives include:
 	* *Direct* which directly compares the demo data to the *Target Variables*
 	* *Difference* (only works with the *Position* type) which interprets the first value in the *Target Variables* as Positional data and the 2nd as a Numerical Comparison. Then it checks if the difference between the aforementioned Positional data and the player's position passes the Numerical Comparison.
-	* *Substring* (only works with the Command types) which checks if the *Target Variables* is a substring of the demo data.
+	* *Substring* (only works with the Command and DemoName types) which checks if the *Target Variables* is a substring of the demo data.
 
 ## Result Type  
 This tells the Demo Collector what to do if the check passes. This includes:  
@@ -210,15 +211,15 @@ This tells the Demo Collector what to do if the check passes. This includes:
 * *BeginMultiple* and *EndMultiple* works the same as their *Once* counterparts, but do not disable the check if it passes.
 
 ## Conditions
-These are the conditional data used in determining if data passes the Check. If the demo data fals any of these then it will fail the Check.
+These are the conditional data used in determining if data passes the Check. If the demo data fails any of these then it will fail the Check.
 * *Target Variable(s)* are what values passed into the checks should be compared to.  These values are separated with a backslash `/` and are formatted depending on the *Directive* described above.
 * *Map* is what map this check should be done on. If this is left empty then the Check will be run on all maps.
 * *Tick Compare* determines what Numerical Comparison should the demo's current tick be checked against. If it fails, the checks will not be run for that tick. If this is left empty, the Numerical Comparison will default to being ineffective, always returning true for any tick value.
 * *Not* determines if the result from the check should be reversed.
 
 ## Identification
-This field determines the identification data for the check.
-* *Name* which is the name of the check.
+This field determines the identification data for the check. This includes:
+* *Name* which is the name of the check. Note that the name shouldn't contain and commas, slashes or ampersands if you wish to use this check in creating a *Play Order*.
 ";
 
 		private static string _textDemoCheckingExmaples = @"
