@@ -38,11 +38,10 @@ These are the attributes used to sort the defined demo array. Accepted entires i
 * `r` which will reverse the array. Note that this is done after all other Sorting operations.
 
 ### `<tick condition>`
-This the condition to apply on the tick counts of demos to filter them. Note that this is done after Sorting. 
-It is formatted as a Comparison accepting an interger value, which is described in *Shared Syntax*. 
+This is the Numerical Condition to apply on the tick counts of demos to filter them. Note that this is done after Sorting. 
 
 ### `<check condition>`
-This is the list of the names of the Checks that a demo must have all passed at least once to be included in the Play Order. It is formatted as the names separated with an ampersand (&), similar to a combined Numerical Comparison.
+This is the String Condition to apply on the names of the Demo Checks that a demo passed at least once. Note that this is done on all of those Checks, and the Condition will fail if one of the names do not pass.
 
 ";
 
@@ -79,46 +78,79 @@ This can be understood as ""Finally, play demo 8 only if it is under 90 ticks lo
 	* `8` means to select demo #8
 	* `<90` means to only select demos which are under 90 ticks long.
 	
-### `a-/x/sens change, -/>25/go&notvault`
+### `a-/x/sens change, -/>25/*go&!*vault`
 This expression has 2 stages, which include:
 * `a-/x/sens change`  
-This can be understood as ""Sort all demos in alphabetical order according to their name, then only play demos that pass the check named ""sens change"".""
+This can be understood as ""Sort all demos in alphabetical order according to their names, then only play demos that ONLY passed the check named ""sens change"".""
 	* `-` means to select all demos from first to last.
 	* `a` means to sort the demos alphabetically according to their name.
 	* `x` means the Tick Condition is Ineffective
-	* `sens change` means to select demos that pass the check ""sens change"".
-* `-/>25/go&notvault`  
-This can be understood as ""Play demos that are more than 25 ticks long and must have passed the check ""go"" at least once.""
+	* `sens change` means to select demos that ONLY passed the check ""sens change"".
+* `-/>25/*go&!*vault`  
+This can be understood as ""Play demos that are more than 25 ticks long and must have passed the checks which include ""go"", but not ones which have ""vault"" in their names.""
 	* `-` means to select all demos from first to last.
 	* `>25` means to select demos which are over 25 ticks long.
-	* `go` means to select demos that pass both the checks ""sens change"" and ""notvault"".
+	* `*go&!*vault` means to select demos whose events include those with `go` in their names, and must NOT include `vault` in their names.
 ";
 
-		private static string _textGeneralFormatting = @"
+		private static string _textSSConditions = @"
+## Comparison
+A Comparison describes a condition which a candidate value must pass.  
+It is formatted as so  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `<operator><value>`   
+Where:
+* `<operator>` is the desired comparision operator, this depends on the type of Comparison used, however all of them allow:
+	* `!` to signify that the result of the Comparison is reversed. This must always be put in front of all other operators.
+	
+If a Comparison is left empty or only filled with whitespaces then it is left as *Ineffective*, meaning it will always return True no matter what.
+	
+There are 2 types of Comparisons used in the tool:
+* Numerical Comparison
+* String Comparison
+
 ## Numerical Comparison
-A Numerical Comparison describes a comparison which is done in the tool against numeric values.  
-A Numerical Comparison is formatted like so:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `<operator><value>`  
-Where:  
-*   `<operator>` is the desired comparision operator, which includes:
-	* `>` to signify that our candidate must be greater than `<value>`.
-	* `<` to signify that our candidate must be smaller than `<value>`.
-	* `=` to signify that our candidate must be equal to `<value>`. This sign can be placed after `>` or `<` to signify that the number can also equal to our `<value>` in those cases.
-* `<value>` is the desired value that is compared against, its type depends on its use case.  
-If the Numerical Comparison is formatted as `x` then that means the Numerical Comparison is *Ineffective*, meaning it will always return True.
+A Numerical Comparison describes a Comparison which is done in the tool against numeric values.  
+Its' operators are:
+* `>` to signify that our candidate must be greater than `<value>`.
+* `<` to signify that our candidate must be smaller than `<value>`.
+* `=` to signify that our candidate must be equal to `<value>`. This sign can be placed after `>` or `<` to signify that the number can also equal to our `<value>` in those cases.
 
-You can also combine multiple comparisons like so:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `<comparison1>&<comparison2>`  
-which will only pass if the candidate number passes all conditions. 
-
-Examples:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `>9` means our number must exceed 9.  
+For example:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `<=3` means our number must be 3 or lower.  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `>=12.256` means our number must be 12.256 or higher.  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `x` means our Numerical Comparison always returns true.  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `>25&<50`  means our number must be bigger than 25 and smaller than 50.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `!=100` means our number must NOT be 100
 
+## String Comparison
+A String Comparison describes a comparison which is done in the tool against strings.  
+Its' operators are:  
+* `*` to signify that candidate values are evaluated as substrings of `<value>`
+* `@` to signify that candidate values are evaluated using a Regex with `<value>` as the pattern.
+* Leaving only the bare string will signify the candidate values must match out `<value>` exactly.
 
+For example:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `this` matches the string `this`  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `!*hello` signifies that the candidate string must NOT include the string `hello`
+
+Due to limitations in combining Comparisons (which is described below), the characters `!` `|` `^` `&` `(` `)` are reserved. To combat this, surround your string with `\""` to signify that characters in your string are not to be used in combining Comparisons.  
+For example:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `\""(hello)\""` matches the string `(hello)`  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `@\""([0-9]+)\""` matches the regex expression `([0-9]+)`  
+
+## Combining Comparisons  
+You can combine comparisons using logical OR `|`, logical AND `&` and logical XOR `^` along with parentheses `(` `)`  
+
+For example:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `<20|>500` means the candidate value can be either less than 20 or larger than 500   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `!=10|(>500&!=1024)` means the candidate value must not be 10, or be more than 500 but must not be 1024.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `* hello&!\""hello world\""` means that the candidate string must contain the word `hello` but not be the phrase `hello world`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `@\""[A-z ]+[0-9]+\""&!*dsp` means that the candidate string must pass the regex expression `[A-z ]+[0-9]+` (any string of letters or spaces followed by numbers) but not include the word `dsp`.
+
+You can also put the logical negation `!` in front of nested groups of conditions like so:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `!(<20|>500)&(!=300)` means the candidate value must NOT be smaller than 20 or larger than 50, and that it must also NOT be equal to 300.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `*a&!(*b|*c)` means the candidate string must include the character `a` but must NOT include either the characters `b` or `c`.
+";
+
+		private static string _textSSPositionCoordinate = @"
 ## Position / Coordinate
 A position or coordinate value describes a point in 3D space, or more specifically an array of 3 floating point numbers within the tool.  
 It is formatted as such  
@@ -198,9 +230,8 @@ This decribes how to evaluate data coming into the Check. This data includes:
 	* *UserCommand* which are the commands passed by the User.
 	* *DemoName* which is the name of the demo file without it's file extension (*.dem*). Note that this check is ran on the last tick of a demo and as such *Tick Compare* will be comparing against the total tick count of the demo.
 * *Directive* which describes how to check the demo data against the *Target Variables*. These Directives include:
-	* *Direct* which directly compares the demo data to the *Target Variables*
+	* *Direct* which directly compares the demo data to the *Target Variables*. If the *Type* is a string type then the *Target Variables* will be the String Comparison against which the demo data is compared.
 	* *Difference* (only works with the *Position* type) which interprets the first value in the *Target Variables* as Positional data and the 2nd as a Numerical Comparison. Then it checks if the difference between the aforementioned Positional data and the player's position passes the Numerical Comparison.
-	* *Substring* (only works with the Command and DemoName types) which checks if the *Target Variables* is a substring of the demo data.
 
 ## Result Type  
 This tells the Demo Collector what to do if the check passes. This includes:  
@@ -213,13 +244,15 @@ This tells the Demo Collector what to do if the check passes. This includes:
 ## Conditions
 These are the conditional data used in determining if data passes the Check. If the demo data fails any of these then it will fail the Check.
 * *Target Variable(s)* are what values passed into the checks should be compared to.  These values are separated with a backslash `/` and are formatted depending on the *Directive* described above.
-* *Map* is what map this check should be done on. If this is left empty then the Check will be run on all maps.
-* *Tick Compare* determines what Numerical Comparison should the demo's current tick be checked against. If it fails, the checks will not be run for that tick. If this is left empty, the Numerical Comparison will default to being ineffective, always returning true for any tick value.
-* *Not* determines if the result from the check should be reversed.
+* *Map* is the String Comparison against which the demo's map should be compared. If it fails, the checks will not be run for that tick.
+* *Tick Compare* is what Numerical Comparison should the demo's current tick be checked against. If it fails, the checks will not be run for that tick.
+* *Not* determines if the result from the conditions should be reversed.
 
 ## Identification
 This field determines the identification data for the check. This includes:
 * *Name* which is the name of the check. Note that the name shouldn't contain and commas, slashes or ampersands if you wish to use this check in creating a *Play Order*.
+
+
 ";
 
 		private static string _textDemoCheckingExmaples = @"
@@ -241,10 +274,10 @@ ___
 
 * *Evaluation Data*
 	* *Type* `ConsoleCommand`
-	* *Directive* `Substring`
+	* *Directive* `Direct`
 * *Result* `EndMultiple`
 * *Conditions*
-	* *Target Variable(s)* `#SAVE#`
+	* *Target Variable(s)* `*#SAVE#`
 	* *Tick Compare* `>0`
 * Identification
 	* *Name* `Segment End`
@@ -324,7 +357,8 @@ Index       Demo Name       Map
 			InitializeComponent();
 			FillForm(_textDemoOrderFormatting, dispDOFormatting);
 			FillForm(_textDemoOrderFormattingExamples, dispDOExamples);
-			FillForm(_textGeneralFormatting, dispSharedSyntax);
+			FillForm(_textSSConditions, dispSSConditions);
+			FillForm(_textSSPositionCoordinate, dispSSPositionCoordinate);
 			FillForm(_textWelcome, dispWelcome);
 			FillForm(_textBasicGuide, dispBasicGuide);
 			FillForm(_textDemoCheckingInfo, dispDCInfo);

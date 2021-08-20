@@ -141,6 +141,7 @@
     <Compile Include="Utils\FileHelper.cs" />
     <Compile Include="Utils\EnumHelper.cs" />
     <Compile Include="Utils\RemoteOps.cs" />
+    <Compile Include="Utils\ShuntingYard.cs" />
     <Compile Include="Utils\ThreadHelper.cs" />
     <Compile Include="Utils\Vector3f.cs" />
     <Compile Include="Utils\MemoryWatcher.cs" />
@@ -206,7 +207,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)*.exe" "$(TargetDir)..\Release\" /Y
-xcopy "$(TargetDir)*.dll" "$(TargetDir)..\Release\" /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)*.exe" "$(SolutionDir)Release\" /Y
+xcopy "$(TargetDir)*.dll" "$(SolutionDir)Release\" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

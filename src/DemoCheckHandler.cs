@@ -66,14 +66,14 @@ namespace startdemos_ui.src
 
     public class Evaluation
     {
-        public string Map { get; set; }
+        public StringComparison Map { get; set; }
         public object[] Var { get; set; }
         public EvaluationDataType Type { get; set; }
         public EvaluationDirective Directive { get; set; }
         public ResultType ResType { get; set; }
         public string EventName { get; set; }
         public bool Not { get; set; }
-        public Comparisons TickComparison { get; set; }
+        public NumericalComparison TickComparison { get; set; }
         public Evaluation(
             EvaluationDataType type,
             EvaluationDirective directive,
@@ -84,12 +84,12 @@ namespace startdemos_ui.src
             bool not = false,
             string eventName = "")
         {
-            Map = map;
+            Map = new StringComparison(map);
             Type = type;
             Directive = directive;
             ResType = resType;
             EventName = eventName;
-            TickComparison = new Comparisons(tickCondition);
+            TickComparison = new NumericalComparison(tickCondition);
             Not = not;
             ParseVar(varString);
         }
@@ -149,13 +149,13 @@ namespace startdemos_ui.src
 
                         Var[0] = new Vector3f(float.Parse(pos[0]), float.Parse(pos[1]), float.Parse(pos[2]));
                         if (Directive == EvaluationDirective.Difference)
-                             Var[1] = new ComparisonInfo(elements.Count() > 1 ? elements[1] : "");
+                             Var[1] = new NumericalComparison(elements.Count() > 1 ? elements[1] : "");
                         break;
                     }
                 default:
                     {
                         Var = new object[1];
-                        Var[0] = new string(varString.ToCharArray());
+                        Var[0] = new StringComparison(varString);
                         break;
                     }
             }
@@ -167,7 +167,7 @@ namespace startdemos_ui.src
                 || Directive == EvaluationDirective.None
                 || ResType == ResultType.None
                 || type != Type 
-                || (Map != "" && curMap != Map) 
+                || (!Map.CompareTo(curMap)) 
                 || (!TickComparison.CompareTo(tick)))
                 return ResultType.None;
 
@@ -182,7 +182,7 @@ namespace startdemos_ui.src
                                     return ResType;
                                 break;
                             case EvaluationDirective.Difference:
-                                if (Not ^ ((ComparisonInfo)Var[1]).CompareTo(((Vector3f)Var[0]).Distance((Vector3f)candidate)))
+                                if (Not ^ ((NumericalComparison)Var[1]).CompareTo(((Vector3f)Var[0]).Distance((Vector3f)candidate)))
                                     return ResType;
                                 break;
                         }
@@ -195,20 +195,11 @@ namespace startdemos_ui.src
                         if (!Regex.IsMatch(candidate.ToString(), @"([ -~])+"))
                             return ResultType.None;
 
-                        if (string.IsNullOrWhiteSpace((string)Var[0]))
-                            return ResType;
-
                         switch (Directive)
                         {
                             case EvaluationDirective.Direct:
                                 {
-                                    if (Not ^ (string)Var[0] == (string)candidate)
-                                        return ResType;
-                                    break;
-                                }
-                            case EvaluationDirective.Substring:
-                                {
-                                    if (Not ^ ((string)candidate).Contains((string)Var[0]))
+                                    if (Not ^ ((StringComparison)Var[0]).CompareTo(candidate.ToString()))
                                         return ResType;
                                     break;
                                 }
@@ -235,8 +226,7 @@ namespace startdemos_ui.src
     {
         None,
         Direct,
-        Difference,
-        Substring
+        Difference
     }
 
     public enum ResultType

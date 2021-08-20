@@ -144,7 +144,7 @@ namespace startdemos_ui.src
                 continue;
 
                 previous:
-                i = i == 0 ? i : i - 2;
+                i = i == 0 ? i - 1 : i - 2;
 
                 skipdemo:
                 ;

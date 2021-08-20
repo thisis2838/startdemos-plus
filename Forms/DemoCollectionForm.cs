@@ -74,12 +74,14 @@ namespace startdemos_ui.Forms
 
         private void butProcess_Click(object sender, EventArgs e)
         {
+            butProcess.Enabled = false;
             if (!string.IsNullOrWhiteSpace(boxDemoPath.Text))
             {
                 Task d = Task.Factory.StartNew(() => 
                 {
                     dCH.Scan(boxDemoPath.Text);
                     ThreadAction(this, () => { butOpenDemoList_Click(null, null); });
+                    butProcess.Enabled = true;
                 });
             }
         }

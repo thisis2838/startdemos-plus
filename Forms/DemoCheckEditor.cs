@@ -115,7 +115,7 @@ namespace startdemos_ui.Forms
                 return;
 
             boxDCEConditionsTargetVariable.Text = _curEval.VarToString();
-            boxDCEConditionsMap.Text = _curEval.Map;
+            boxDCEConditionsMap.Text = _curEval.Map.ToString();
             chkDCEConditionsNot.Checked = _curEval.Not;
             boxDCEConditionsTickCompare.Text = _curEval.TickComparison.ToString();
             boxDCEConditionsName.Text = _curEval.EventName;
@@ -309,7 +309,7 @@ namespace startdemos_ui.Forms
             if (!IsCurEvalValid())
                 return;
 
-            _curEval.Map = boxDCEConditionsMap.Text;
+            _curEval.Map = new src.StringComparison(boxDCEConditionsMap.Text);
         }
 
         private void boxDCEConditionsTickCompare_TextChanged(object sender, EventArgs e)
@@ -318,7 +318,7 @@ namespace startdemos_ui.Forms
                 return;
             try
             {
-                _curEval.TickComparison = new Comparisons(boxDCEConditionsTickCompare.Text);
+                _curEval.TickComparison = new NumericalComparison(boxDCEConditionsTickCompare.Text);
                 WriteNoteLabel("");
             }
             catch 
@@ -396,7 +396,7 @@ namespace startdemos_ui.Forms
                         xml.WriteElementString("result", eval.ResType.ToString());
                         xml.WriteEndElement();
                         xml.WriteElementString("var", eval.VarToString());
-                        xml.WriteElementString("map", eval.Map);
+                        xml.WriteElementString("map", eval.Map.ToString());
                         xml.WriteElementString("tickcompare", eval.TickComparison.ToString());
                         xml.WriteElementString("not", eval.Not.ToString());
                         xml.WriteElementString("name", eval.EventName);

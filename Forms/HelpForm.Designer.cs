@@ -36,6 +36,7 @@ namespace startdemos_ui.Forms
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dispBasicGuide = new System.Windows.Forms.WebBrowser();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.dispDemoIndexing = new System.Windows.Forms.WebBrowser();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
@@ -51,8 +52,11 @@ namespace startdemos_ui.Forms
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dispDCExamples = new System.Windows.Forms.WebBrowser();
             this.tabPage11 = new System.Windows.Forms.TabPage();
-            this.dispSharedSyntax = new System.Windows.Forms.WebBrowser();
-            this.dispDemoIndexing = new System.Windows.Forms.WebBrowser();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage12 = new System.Windows.Forms.TabPage();
+            this.dispSSConditions = new System.Windows.Forms.WebBrowser();
+            this.tabPage13 = new System.Windows.Forms.TabPage();
+            this.dispSSPositionCoordinate = new System.Windows.Forms.WebBrowser();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -67,6 +71,9 @@ namespace startdemos_ui.Forms
             this.tabPage10.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage11.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage12.SuspendLayout();
+            this.tabPage13.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -134,6 +141,15 @@ namespace startdemos_ui.Forms
             this.tabPage4.TabIndex = 5;
             this.tabPage4.Text = "Demo Indexing";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // dispDemoIndexing
+            // 
+            this.dispDemoIndexing.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dispDemoIndexing.Location = new System.Drawing.Point(3, 3);
+            this.dispDemoIndexing.MinimumSize = new System.Drawing.Size(20, 20);
+            this.dispDemoIndexing.Name = "dispDemoIndexing";
+            this.dispDemoIndexing.Size = new System.Drawing.Size(786, 418);
+            this.dispDemoIndexing.TabIndex = 0;
             // 
             // tabPage5
             // 
@@ -282,7 +298,7 @@ namespace startdemos_ui.Forms
             // 
             // tabPage11
             // 
-            this.tabPage11.Controls.Add(this.dispSharedSyntax);
+            this.tabPage11.Controls.Add(this.tabControl2);
             this.tabPage11.Location = new System.Drawing.Point(4, 22);
             this.tabPage11.Name = "tabPage11";
             this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
@@ -291,23 +307,56 @@ namespace startdemos_ui.Forms
             this.tabPage11.Text = "Shared Syntax";
             this.tabPage11.UseVisualStyleBackColor = true;
             // 
-            // dispSharedSyntax
+            // tabControl2
             // 
-            this.dispSharedSyntax.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dispSharedSyntax.Location = new System.Drawing.Point(3, 3);
-            this.dispSharedSyntax.MinimumSize = new System.Drawing.Size(20, 20);
-            this.dispSharedSyntax.Name = "dispSharedSyntax";
-            this.dispSharedSyntax.Size = new System.Drawing.Size(786, 418);
-            this.dispSharedSyntax.TabIndex = 1;
+            this.tabControl2.Controls.Add(this.tabPage12);
+            this.tabControl2.Controls.Add(this.tabPage13);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.Location = new System.Drawing.Point(3, 3);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(786, 418);
+            this.tabControl2.TabIndex = 0;
             // 
-            // dispDemoIndexing
+            // tabPage12
             // 
-            this.dispDemoIndexing.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dispDemoIndexing.Location = new System.Drawing.Point(3, 3);
-            this.dispDemoIndexing.MinimumSize = new System.Drawing.Size(20, 20);
-            this.dispDemoIndexing.Name = "dispDemoIndexing";
-            this.dispDemoIndexing.Size = new System.Drawing.Size(786, 418);
-            this.dispDemoIndexing.TabIndex = 0;
+            this.tabPage12.Controls.Add(this.dispSSConditions);
+            this.tabPage12.Location = new System.Drawing.Point(4, 22);
+            this.tabPage12.Name = "tabPage12";
+            this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage12.Size = new System.Drawing.Size(778, 392);
+            this.tabPage12.TabIndex = 0;
+            this.tabPage12.Text = "Comparisons";
+            this.tabPage12.UseVisualStyleBackColor = true;
+            // 
+            // dispSSConditions
+            // 
+            this.dispSSConditions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dispSSConditions.Location = new System.Drawing.Point(3, 3);
+            this.dispSSConditions.MinimumSize = new System.Drawing.Size(20, 20);
+            this.dispSSConditions.Name = "dispSSConditions";
+            this.dispSSConditions.Size = new System.Drawing.Size(772, 386);
+            this.dispSSConditions.TabIndex = 2;
+            // 
+            // tabPage13
+            // 
+            this.tabPage13.Controls.Add(this.dispSSPositionCoordinate);
+            this.tabPage13.Location = new System.Drawing.Point(4, 22);
+            this.tabPage13.Name = "tabPage13";
+            this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage13.Size = new System.Drawing.Size(778, 392);
+            this.tabPage13.TabIndex = 1;
+            this.tabPage13.Text = "Position / Coordinate";
+            this.tabPage13.UseVisualStyleBackColor = true;
+            // 
+            // dispSSPositionCoordinate
+            // 
+            this.dispSSPositionCoordinate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dispSSPositionCoordinate.Location = new System.Drawing.Point(3, 3);
+            this.dispSSPositionCoordinate.MinimumSize = new System.Drawing.Size(20, 20);
+            this.dispSSPositionCoordinate.Name = "dispSSPositionCoordinate";
+            this.dispSSPositionCoordinate.Size = new System.Drawing.Size(772, 386);
+            this.dispSSPositionCoordinate.TabIndex = 0;
             // 
             // HelpForm
             // 
@@ -332,6 +381,9 @@ namespace startdemos_ui.Forms
             this.tabPage10.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage11.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage12.ResumeLayout(false);
+            this.tabPage13.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -353,12 +405,16 @@ namespace startdemos_ui.Forms
         private System.Windows.Forms.TabPage tabPage10;
         private System.Windows.Forms.WebBrowser dispDCElements;
         private System.Windows.Forms.TabPage tabPage11;
-        private System.Windows.Forms.WebBrowser dispSharedSyntax;
         private System.Windows.Forms.WebBrowser dispBasicGuide;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.WebBrowser dispDCExamples;
         public System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.WebBrowser dispDemoIndexing;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage12;
+        private System.Windows.Forms.WebBrowser dispSSConditions;
+        private System.Windows.Forms.TabPage tabPage13;
+        private System.Windows.Forms.WebBrowser dispSSPositionCoordinate;
     }
 }

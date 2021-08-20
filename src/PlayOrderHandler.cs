@@ -59,19 +59,11 @@ namespace startdemos_ui.src
             {
                 string[] parts = member2.Trim().Split('/');
                 string member = parts[0].Trim();
-                List<string> check = parts.Count() > 2 ?
-                    parts[2]
-                    .Split('&')
-                    .Where(x => !string.IsNullOrWhiteSpace(x))
-                    .ToList() 
-                : new List<string>();
+                StringComparison check = new StringComparison(parts.Count() > 2 ? parts[2] : "");
 
                 bool reversed = false;
-                Comparisons tickCompare = new Comparisons();
+                NumericalComparison tickCompare = new NumericalComparison(parts.Count() > 1 ? parts[1] : "");
                 bool alphabetical = false;
-
-                if (parts.Count() > 1 && !string.IsNullOrWhiteSpace(parts[1]))
-                    tickCompare = new Comparisons(parts[1]);
 
                 if (member.Contains('r'))
                 {
@@ -106,14 +98,15 @@ namespace startdemos_ui.src
                     inputList = info.Cut(dCH.Files);
 
                     if (alphabetical)
-                        inputList = inputList.OrderBy(x => x.Name).ToList();
+                            inputList = inputList.OrderBy(x => x.Name).ToList();
 
                     if (reversed)
                         inputList.Reverse();
 
                     inputList = inputList
-                        .Where(x => tickCompare.CompareTo(x.Info.TotalTicks)).ToList()
-                        .Where(x => check.All(y => x.Info.Events.Any(z => z.Name.Trim() == y.Trim()))).ToList();
+                        .Where(x => tickCompare.CompareTo(x.Info.TotalTicks))
+                        .Where(x => check.CompareTo(string.Join("", x.Info.Events.Distinct().Select(y => y.Name))))
+                        .ToList();
 
                     List<int> indicies = new List<int>();
                     inputList.ForEach(x => indicies.Add(dCH.Files.IndexOf(x)));

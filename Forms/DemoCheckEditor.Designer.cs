@@ -40,6 +40,7 @@ namespace startdemos_ui.Forms
             this.dgvDCEChecksListGridColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gDCECheckData = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.labNameNote = new System.Windows.Forms.Label();
             this.labDCEConditionsName = new System.Windows.Forms.Label();
             this.boxDCEConditionsName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -66,7 +67,6 @@ namespace startdemos_ui.Forms
             this.butOpenDemoEvents = new System.Windows.Forms.Button();
             this.labError = new System.Windows.Forms.Label();
             this.butSave = new System.Windows.Forms.Button();
-            this.labNameNote = new System.Windows.Forms.Label();
             this.gDCEChecksList.SuspendLayout();
             this.gDCEChecksListGame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDCEChecksListGrid)).BeginInit();
@@ -206,6 +206,17 @@ namespace startdemos_ui.Forms
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Identification";
+            // 
+            // labNameNote
+            // 
+            this.labNameNote.AutoSize = true;
+            this.labNameNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F);
+            this.labNameNote.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.labNameNote.Location = new System.Drawing.Point(10, 43);
+            this.labNameNote.Name = "labNameNote";
+            this.labNameNote.Size = new System.Drawing.Size(361, 13);
+            this.labNameNote.TabIndex = 12;
+            this.labNameNote.Text = "Having commas, ampersands and slashes in the name is not recommended!";
             // 
             // labDCEConditionsName
             // 
@@ -455,8 +466,7 @@ namespace startdemos_ui.Forms
             this.cbDCEEvaluationDataDirective.Items.AddRange(new object[] {
             "None",
             "Direct",
-            "Difference",
-            "Substring"});
+            "Difference"});
             this.cbDCEEvaluationDataDirective.Location = new System.Drawing.Point(99, 28);
             this.cbDCEEvaluationDataDirective.Name = "cbDCEEvaluationDataDirective";
             this.cbDCEEvaluationDataDirective.Size = new System.Drawing.Size(120, 21);
@@ -500,17 +510,6 @@ namespace startdemos_ui.Forms
             this.butSave.Text = "Save to File";
             this.butSave.UseVisualStyleBackColor = true;
             this.butSave.Click += new System.EventHandler(this.butSave_Click);
-            // 
-            // labNameNote
-            // 
-            this.labNameNote.AutoSize = true;
-            this.labNameNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F);
-            this.labNameNote.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.labNameNote.Location = new System.Drawing.Point(10, 43);
-            this.labNameNote.Name = "labNameNote";
-            this.labNameNote.Size = new System.Drawing.Size(361, 13);
-            this.labNameNote.TabIndex = 12;
-            this.labNameNote.Text = "Having commas, ampersands and slashes in the name is not recommended!";
             // 
             // DemoCheckEditor
             // 
