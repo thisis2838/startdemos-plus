@@ -63,8 +63,10 @@ namespace startdemos_ui.Utils
 
         private TokenType DetermineType(string ch)
         {
+            if (_ignoreParentheses)
+                return TokenType.Member;
             if (ch == "(" || ch == ")")
-                return _ignoreParentheses ? TokenType.Member : TokenType.Parenthesis;
+                return TokenType.Parenthesis;
             if (operators.ContainsKey(Convert.ToString(ch)))
                 return TokenType.Operator;
             return TokenType.Member;
@@ -82,7 +84,7 @@ namespace startdemos_ui.Utils
                 var ch = (char)curr;
                 token.Append(ch);
 
-                if (ch == '/' && (char)reader.Peek() == '"')
+                if (ch == '\\' && (char)reader.Peek() == '"')
                 {
                     _ignoreParentheses = !_ignoreParentheses;
                     continue;
