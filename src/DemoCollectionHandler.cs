@@ -28,14 +28,17 @@ namespace startdemos_ui.src
             IndexOrder order = (IndexOrder)dCF.DemoOrder;
             List<string> custMapOrderList = new List<string>();
             Func<DemoFile, dynamic> sel = p => p.LastModifiedDate;
-            Func<List<DemoFile>, List<DemoFile>> orderAction = s => s.OrderBy(sel).ThenBy(p => p.Info.Index).ToList();
+            Func<List<DemoFile>, List<DemoFile>> orderAction = null;
             switch (order)
             {
+                case IndexOrder.LastModifiedDate:
+                    orderAction = s => s.OrderBy(p => p.LastModifiedDate).ThenBy(p => p.Info.Index).ThenBy(p => p.Name).ToList();
+                    break;
                 case IndexOrder.DemoMapName:
-                    sel = p => p.Info.MapName;
+                    orderAction = s => s.OrderBy(p => p.Info.MapName).ThenBy(p => p.Info.Index).ThenBy(p => p.Name).ToList();
                     break;
                 case IndexOrder.DemoFileName:
-                    sel = p => p.Name;
+                    orderAction = s => s.OrderBy(p => p.Info.Index).ThenBy(p => p.Name).ToList();
                     break;
                 case IndexOrder.CustomMapOrder:
                     {
@@ -67,11 +70,13 @@ namespace startdemos_ui.src
 
                             included = included
                                 .OrderBy(p => custMapOrderList.IndexOf(p.Info.MapName))
+                                .ThenBy(p => p.Info.Index)
                                 .ThenBy(p => p.Name)
                                 .ToList();
 
                             other = other
                                 .OrderBy(p => p.Info.MapName)
+                                .ThenBy(p => p.Info.Index)
                                 .ThenBy(p => p.Name)
                                 .ToList();
 

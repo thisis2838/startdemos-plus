@@ -316,7 +316,7 @@ There are multiple data sources with which the tool can index demos, these inclu
 
 
 ## Indexing using a Custom Map Order
-Alternatively, you can choose to use a *Custom Map Order* to index the demos. Maps are laid out line-by-line in an external file specified by the *Input File* field. The tool will go through the maps from top to bottom, for example:
+Alternatively, you can choose to use a *Custom Map Order* to index the demos. Maps are laid out line-by-line in an external file specified by the *Input List* field. The tool will go through the maps from top to bottom, for example:
 
 ```
 map01
