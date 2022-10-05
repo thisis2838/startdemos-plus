@@ -2,59 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-#pragma warning disable 1591
 
-// Note: Please be careful when modifying this because it could break existing components!
-
-namespace startdemos_ui.Utils
+namespace startdemos_plus.Utils
 {
-    public class MemoryWatcherList : List<MemoryWatcher>
-    {
-        public delegate void MemoryWatcherDataChangedEventHandler(MemoryWatcher watcher);
-        public event MemoryWatcherDataChangedEventHandler OnWatcherDataChanged;
-
-        public MemoryWatcher this[string name]
-        {
-            get { return this.First(w => w.Name == name); }
-        }
-
-        public void UpdateAll(Process process)
-        {
-            if (OnWatcherDataChanged != null)
-            {
-                var changedList = new List<MemoryWatcher>();
-
-                foreach (var watcher in this)
-                {
-                    bool changed = watcher.Update(process);
-                    if (changed)
-                        changedList.Add(watcher);
-                }
-
-                // only report changes when all of the other watches are updated too
-                foreach (var watcher in changedList)
-                {
-                    OnWatcherDataChanged(watcher);
-                }
-            }
-            else
-            {
-                foreach (var watcher in this)
-                {
-                    watcher.Update(process);
-                }
-            }
-        }
-
-        public void ResetAll()
-        {
-            foreach (var watcher in this)
-            {
-                watcher.Reset();
-            }
-        }
-    }
-
     public abstract class MemoryWatcher
     {
         public enum ReadFailAction
@@ -75,14 +25,9 @@ namespace startdemos_ui.Utils
         protected DateTime? LastUpdateTime { get; set; }
         protected IntPtr Address { get; set; }
 
-        protected AddressType AddrType { get; }
-        protected enum AddressType { DeepPointer, Absolute }
-
-
         protected MemoryWatcher(IntPtr address)
         {
             Address = address;
-            AddrType = AddressType.Absolute;
             Enabled = true;
             FailAction = ReadFailAction.DontUpdate;
         }
@@ -205,6 +150,7 @@ namespace startdemos_ui.Utils
 
         public delegate void DataChangedEventHandler(T old, T current);
         public event DataChangedEventHandler OnChanged;
+
         public MemoryWatcher(IntPtr address)
             : base(address) { }
 

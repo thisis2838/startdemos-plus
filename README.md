@@ -1,19 +1,15 @@
 # startdemos+
-startdemos+ is an externally-run alternative to the Source Engine command startdemos.
+startdemos+ is an alternative to the startdemos command present in most Source games, featuring many options for demo analysis and advanced playback.
 
-# Features
-* Play Demos in any order, with the ability to sort and filter in many ways.
-* Skip to the next Demo or Rewind to the previous in queue.
-* Insert Commands every time a Demo is played.
-* Customizable Demo Checks to catalog desired data from demos, for use in timing them or filtering them for Play.
-* Memory Scanning and Monitoring to queue up and play demos one after another.
 
 # Credits
-* 2838 for Programming, Graphics, Project Lead.
-* donaldinio for the Original Concept.
-* calamity for Testing and Feedback.
+* Development: 2838
+* Original concept: Donaldinio
+* Testing and Feedback:
+    *	For v 2.0: SarahSpeedrun, Donaldinio, El Korgus, reassagressta, xeonic, iggy, Meiscool125, Donaldinio
+    * For Older versions: calamity
 
-Code snippets taken from:
-* [Listdemo+](https://github.com/Traderain/Listdemo-/tree/master/Listdemo) by Traderain
-* Portal Demo Timer by fatalis
-* [livesplit-core](https://github.com/LiveSplit/livesplit-core) by the Livesplit Team
+3rd party:
+* LiveSplit team for Signature Scanning and various game memory-tinkering code. 
+* Traderain for listdemo-, taken from which the code that parses demos.
+* Fatalis for Portal Demo Timer, taken from which some data structuring.

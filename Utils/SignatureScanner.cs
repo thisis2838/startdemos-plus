@@ -6,13 +6,9 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using static startdemos_ui.Utils.ByteConvert;
+using System.Threading.Tasks;
 
-#pragma warning disable 1591
-
-// Note: Please be careful when modifying this because it could break existing components!
-
-namespace startdemos_ui.Utils
+namespace startdemos_plus.Utils
 {
     public class SignatureScanner
     {
@@ -96,7 +92,7 @@ namespace startdemos_ui.Utils
             var target = new SigScanTarget(0, BitConverter.ToString(Encoding.Default.GetBytes(input)).Replace("-", ""));
             target.OnFound = (f_proc, f_scanner, f_ptr) =>
             {
-                SigScanTarget newTarg = new SigScanTarget(0, $"68 {GetByteArray(f_ptr.ToInt32())}");
+                SigScanTarget newTarg = new SigScanTarget(0, $"68 {Utils.GetByteArray(f_ptr.ToInt32())}");
                 return f_scanner.Scan(newTarg);
             };
             return Scan(target);

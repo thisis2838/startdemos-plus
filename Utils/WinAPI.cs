@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
-#pragma warning disable 1591
-
-namespace startdemos_ui.Utils
+namespace startdemos_plus.Utils
 {
     using SizeT = UIntPtr;
 
@@ -87,10 +88,6 @@ namespace startdemos_ui.Utils
             [Out, MarshalAs(UnmanagedType.Bool)] out bool wow64Process);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern SizeT VirtualQueryEx(IntPtr hProcess, IntPtr lpAddress,
-            [Out] out MemoryBasicInformation lpBuffer, SizeT dwLength);
-
-        [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, SizeT dwSize, uint flAllocationType,
             MemPageProtect flProtect);
 
@@ -102,34 +99,6 @@ namespace startdemos_ui.Utils
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool VirtualProtectEx(IntPtr hProcess, IntPtr lpAddress, SizeT dwSize,
             MemPageProtect flNewProtect, [Out] out MemPageProtect lpflOldProtect);
-
-        [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern IntPtr NtSuspendProcess(IntPtr hProcess);
-
-        [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern IntPtr NtResumeProcess(IntPtr hProcess);
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, SizeT dwStackSize,
-            IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);
-
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
-
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-        public  static extern IntPtr GetModuleHandle(string lpModuleName);
-
-        [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
-
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr CloseHandle(IntPtr handle);
-
-        [DllImport("kernel32.dll")]
-        public static extern uint WaitForSingleObject(IntPtr handle, uint time);
-
-        [DllImport("kernel32.dll")]
-        public static extern bool TerminateThread(IntPtr handle, uint code);
 
         // privileges
         public const int PROCESS_CREATE_THREAD = 0x0002;
@@ -144,6 +113,33 @@ namespace startdemos_ui.Utils
             public IntPtr lpBaseOfDll;
             public uint SizeOfImage;
             public IntPtr EntryPoint;
+        }
+
+        [DllImport("User32")]
+        private static extern int SendMessage(IntPtr hWnd, int wMsg, int wParam, ref COPYDATASTRUCT lParam);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct COPYDATASTRUCT
+        {
+            public IntPtr dwData;
+            public int cbData;
+            public IntPtr lpData;
+        }
+
+        public const int WM_COPYDATA = 0x4a;
+
+        public static void SendMessage(Process proc, string input)
+        {
+            if (proc == null || proc.HasExited || proc.Handle == IntPtr.Zero || input.Length == 0)
+                return;
+
+            var copy = new COPYDATASTRUCT()
+            {
+                cbData = input.Length,
+                dwData = IntPtr.Zero,
+                lpData = Marshal.StringToHGlobalAnsi(input)
+            };
+            int res = SendMessage(proc.MainWindowHandle, WM_COPYDATA, 0, ref copy);
         }
     }
 }

@@ -1,23 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 
-// Note: Please be careful when modifying this because it could break existing components!
-
-namespace startdemos_ui.Utils
+namespace startdemos_plus.Utils
 {
-
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector3f
     {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
+        public float X;
+        public float Y;
+        public float Z;
 
-        public int IX { get { return (int)X; } }
-        public int IY { get { return (int)Y; } }
-        public int IZ { get { return (int)Z; } }
-
-        public Vector3f(float x, float y, float z) : this()
+        public Vector3f(float x, float y, float z)
         {
             X = x;
             Y = y;
@@ -26,35 +23,43 @@ namespace startdemos_ui.Utils
 
         public float Distance(Vector3f other)
         {
-            float result = (X - other.X) * (X - other.X) +
-                (Y - other.Y) * (Y - other.Y) +
-                (Z - other.Z) * (Z - other.Z);
-            return (float)Math.Sqrt(result);
+            return (float)Math.Sqrt(
+                Math.Pow(other.X - X, 2) +
+                Math.Pow(other.Y - Y, 2) +
+                Math.Pow(other.Z - Z, 2));
         }
 
-        public float DistanceXY(Vector3f other)
+        public bool Equals(Vector3f other)
         {
-            float result = (X - other.X) * (X - other.X) +
-                (Y - other.Y) * (Y - other.Y);
-            return (float)Math.Sqrt(result);
+            return Distance(other) <= float.Epsilon;
         }
 
-        public bool BitEquals(Vector3f other)
-        {
-            return X.BitEquals(other.X)
-                   && Y.BitEquals(other.Y)
-                   && Z.BitEquals(other.Z);
-        }
-
-        public bool BitEqualsXY(Vector3f other)
-        {
-            return X.BitEquals(other.X)
-                   && Y.BitEquals(other.Y);
-        }
+        public static Vector3f Zero = new Vector3f(0, 0, 0);
 
         public override string ToString()
         {
-            return X + " " + Y + " " + Z;
+            return $"{X} {Y} {Z}";
         }
+
+        public static bool operator == (Vector3f a, Vector3f b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator != (Vector3f a, Vector3f b)
+        {
+            return !a.Equals(b);
+        }
+
+        public static Vector3f operator + (Vector3f a, Vector3f b)
+        {
+            return new Vector3f(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+        }
+
+        public static Vector3f operator -(Vector3f a, Vector3f b)
+        {
+            return new Vector3f(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+        }
+
     }
 }

@@ -118,10 +118,67 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="icon_200" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\graphics\icon_200.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="playing_000000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\playing_000000.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="about_bg" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\graphics\about_bg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="controls_fast_forward_000000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\controls-fast forward_000000.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="controls_pause_000000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\controls-pause_000000.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="paused_000000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\paused_000000.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="controls_rewind_000000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\controls-rewind_000000.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="controls_play_000000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\controls-play_000000.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="controls_stop_000000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\controls-stop_000000.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Comp_2_000000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Comp 2_000000.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Comp_3_000000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Comp 3_000000.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Comp_4_000000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Comp 4_000000.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="docs_demo_checks_demo_action" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\docs\docs_demo-checks_demo-action.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="docs_demo_checks_demo_check" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\docs\docs_demo-checks_demo-check.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="docs_demo_checks_edit_demo_checks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\docs\docs_demo-checks_edit-demo-checks.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="docs_demo_ordering_and_playing_modify_queue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\docs\docs_demo-ordering-and-playing_modify-queue.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="docs_demo_ordering_and_playing_play" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\docs\docs_demo-ordering-and-playing_play.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="docs_demo_ordering_and_playing_the_queue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\docs\docs_demo-ordering-and-playing_the-queue.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="docs_demo_parsing" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\docs\docs_demo-parsing.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="docs_game_hooking" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\docs\docs_game-hooking.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="docs_getting_started" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\docs\docs_getting-started.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="docs_miscellaneous_comparison_strings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\docs\docs_miscellaneous_comparison-strings.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="docs_welcome" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\docs\docs_welcome.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

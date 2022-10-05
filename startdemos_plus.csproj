@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DD6AD3AF-CF21-4B6F-98AF-6737D49B9D17}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>startdemos_plus</RootNamespace>
+    <AssemblyName>startdemos_plus</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Globals\Events.cs" />
+    <Compile Include="Globals\Values.cs" />
+    <Compile Include="Help\MainHelpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Help\MainHelpForm.Designer.cs">
+      <DependentUpon>MainHelpForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\DemoChecking\DemoAction.cs" />
+    <Compile Include="Src\DemoChecking\DemoCheckCondition.cs" />
+    <Compile Include="Src\DemoChecking\DemoCheck.cs" />
+    <Compile Include="Src\DemoPlayingHandler.cs" />
+    <Compile Include="Src\GameValues.cs" />
+    <Compile Include="Src\GameWorker.cs" />
+    <Compile Include="UI\AboutForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DemoCheckForm__Models.cs" />
+    <Compile Include="UI\DemoCheckForm__Settings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\DemoCheckResultDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\DemoCheckResultDetailsForm.Designer.cs">
+      <DependentUpon>DemoCheckResultDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ConfigureCustomMapForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ConfigureCustomMapForm.Designer.cs">
+      <DependentUpon>ConfigureCustomMapForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\Comparisons.cs" />
+    <Compile Include="Utils\MemoryWatcher.cs" />
+    <Compile Include="Utils\MultiCheckForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\MultiCheckForm.Designer.cs">
+      <DependentUpon>MultiCheckForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\MultiCheckTextBox.cs" />
+    <Compile Include="Utils\NavigableList.cs" />
+    <Compile Include="Utils\PictureButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\ProcessExtensions.cs" />
+    <Compile Include="Utils\ProgressWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\ProgressWindow.Designer.cs">
+      <DependentUpon>ProgressWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\SignatureScanner.cs" />
+    <Compile Include="Utils\UniqueNamePrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\UniqueNamePrompt.Designer.cs">
+      <DependentUpon>UniqueNamePrompt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\Vector3f.cs" />
+    <Compile Include="Src\DemoQueueHandler.cs" />
+    <Compile Include="Src\DemoFile.cs" />
+    <Compile Include="UI\DemoCheckForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\DemoCheckForm.Designer.cs">
+      <DependentUpon>DemoCheckForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DemoCollectionForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\DemoCollectionForm.Designer.cs">
+      <DependentUpon>DemoCollectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DemoPlayForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\DemoPlayForm.Designer.cs">
+      <DependentUpon>DemoPlayForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\GameHookForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\GameHookForm.Designer.cs">
+      <DependentUpon>GameHookForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\CleanListBox.cs" />
+    <Compile Include="Src\SettingsHandler.cs" />
+    <Compile Include="Utils\Utils.cs" />
+    <Compile Include="Utils\WinAPI.cs" />
+    <EmbeddedResource Include="Help\MainHelpForm.resx">
+      <DependentUpon>MainHelpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="UI\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DemoCheckForm.resx">
+      <DependentUpon>DemoCheckForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DemoCheckResultDetailsForm.resx">
+      <DependentUpon>DemoCheckResultDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DemoCollectionForm.resx">
+      <DependentUpon>DemoCollectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DemoPlayForm.resx">
+      <DependentUpon>DemoPlayForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ConfigureCustomMapForm.resx">
+      <DependentUpon>ConfigureCustomMapForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\GameHookForm.resx">
+      <DependentUpon>GameHookForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\MultiCheckForm.resx">
+      <DependentUpon>MultiCheckForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\ProgressWindow.resx">
+      <DependentUpon>ProgressWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\UniqueNamePrompt.resx">
+      <DependentUpon>UniqueNamePrompt.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="docs\docs_demo-checks_demo-action.rtf" />
+    <None Include="docs\docs_demo-checks_demo-check.rtf" />
+    <None Include="docs\docs_demo-checks_edit-demo-checks.rtf" />
+    <None Include="docs\docs_demo-ordering-and-playing_modify-queue.rtf" />
+    <None Include="docs\docs_demo-ordering-and-playing_play.rtf" />
+    <None Include="docs\docs_demo-ordering-and-playing_the-queue.rtf" />
+    <None Include="docs\docs_demo-parsing.rtf" />
+    <None Include="docs\docs_game-hooking.rtf" />
+    <None Include="docs\docs_getting-started.rtf" />
+    <None Include="docs\docs_miscellaneous_comparison-strings.rtf" />
+    <None Include="docs\docs_welcome.rtf" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\controls-rewind_000000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rewind_000000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paused_000000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\playing_000000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\controls-fast forward_000000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\controls-pause_000000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\controls-play_000000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\controls-stop_000000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Comp 2_000000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Comp 3_000000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Comp 4_000000.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
