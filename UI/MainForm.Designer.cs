@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabCtrlMaster = new System.Windows.Forms.TabControl();
             this.tabPgAbout = new System.Windows.Forms.TabPage();
             this.tabPgGameHook = new System.Windows.Forms.TabPage();
@@ -119,6 +120,7 @@
             this.Controls.Add(this.butHelp);
             this.Controls.Add(this.tabCtrlMaster);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;

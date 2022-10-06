@@ -55,13 +55,18 @@ namespace startdemos_plus.Src
         }
 
         public bool Scan(Process game)
-        {
+        {   
             if (!_goodProcesses.Contains(game.ProcessName))
                 return false;
 
-            var engine = game.GetModule("engine.dll");
-            if (engine == null)
-                return false;
+            ProcessModuleWow64Safe engine = null;
+            try
+            {
+                engine = game.GetModule("engine.dll");
+            }
+            catch { return false; }
+
+            if (engine == null) return false;
 
             Game = game;
 

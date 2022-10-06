@@ -268,4 +268,8 @@
     <None Include="Resources\Comp 4_000000.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)\*.dll" "$(ProjectDir)\..\Release\"  /Y
+xcopy "$(TargetDir)\*.exe" "$(ProjectDir)\..\Release\"  /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainHelpForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.pgWelcome = new System.Windows.Forms.TabPage();
             this.pgGetitngStarted = new System.Windows.Forms.TabPage();
@@ -254,6 +255,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "MainHelpForm";
             this.Padding = new System.Windows.Forms.Padding(9);

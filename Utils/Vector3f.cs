@@ -61,5 +61,16 @@ namespace startdemos_plus.Utils
             return new Vector3f(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
         }
 
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() ^ Y.GetHashCode() ^ Z.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Vector3f)) return false;
+            return (Vector3f)obj == this;
+        }
+
     }
 }

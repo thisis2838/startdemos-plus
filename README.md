@@ -6,7 +6,7 @@ startdemos+ is an alternative to the startdemos command present in most Source g
 * Development: 2838
 * Original concept: Donaldinio
 * Testing and Feedback:
-    *	For v 2.0: SarahSpeedrun, Donaldinio, El Korgus, reassagressta, xeonic, iggy, Meiscool125, Donaldinio
+    * For v 2.0: SarahSpeedrun, Donaldinio, El Korgus, reassagressta, xeonic, iggy, Meiscool125, Donaldinio, Tactix1 Gaming
     * For Older versions: calamity
 
 3rd party:
