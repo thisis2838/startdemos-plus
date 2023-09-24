@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,25 +15,28 @@ namespace startdemos_plus.Backend
 {
     internal class DemoPlayingHandler
     {
+        public bool Active = false;
+
         public EventHandler<CommonEventArgs> DemoPaused;
         public EventHandler<CommonEventArgs> DemoResumed;
         public EventHandler<CommonEventArgs> DemoStopPlaying;
         public EventHandler<CommonEventArgs> DemoStartPlaying;
         public EventHandler<CommonEventArgs> DemoQueueFinished;
         public EventHandler<CommonEventArgs> DemoTick;
-        public bool Playing => (_demoPlaybackActive?.Current ?? false) && !(_demoIsPaused?.Current ?? true);
-        public bool DemoLoaded => (_demoPlaybackActive?.Current ?? false);
+        public bool Playing => _playing.Current;
+        public bool Paused => Playing && _demoIsPaused.Current;
 
         private MemoryWatcher<int> _curHostTick;
         private MemoryWatcher<int> _curDemoStartTick;
         private MemoryWatcher<IntPtr> _curDemoPtr;
-        private MemoryWatcher<bool> _demoPlaybackActive;
+        private MemoryWatcher<bool> _demoisPlaying;
         private MemoryWatcher<bool> _demoIsPaused;
 
-        private DemoFile _current => _files.Navigate(0);
-        private bool _suspendUpdate = true;
+        private DemoFile _current;
+        private DemoFile _requestedNext;
+        private ValueWatcher<bool> _playing = new ValueWatcher<bool>(false);
 
-        private NavigableList<DemoFile> _files = new NavigableList<DemoFile>();
+        private List<DemoFile> _files = new List<DemoFile>();
         private int _waitTime = 50;
         private bool _autoNext = true;
         private bool _alternateDetection = false;
@@ -59,15 +66,16 @@ namespace startdemos_plus.Backend
 
             _curHostTick = new MemoryWatcher<int>(worker.Values.HostTickCountPtr);
             _curDemoStartTick = new MemoryWatcher<int>(worker.Values.DemoPlayerPtr + worker.Values.DemoStartTickOffset);
-            _curDemoPtr = new MemoryWatcher<IntPtr>(worker.Values.DemoPlayerPtr + worker.Values.DemoStartTickOffset - 0x4);
-            _demoPlaybackActive = new MemoryWatcher<bool>(worker.Values.DemoPlayerPtr + worker.Values.DemoIsPlayingOffset);
+            _curDemoPtr = worker.Values.DemoFilePtrOffset == 0 
+                ? null
+                // file ptr offset is away from m_demofile which is the first field in demoplayer
+                : new MemoryWatcher<IntPtr>(worker.Values.DemoPlayerPtr + 0x4 +  worker.Values.DemoFilePtrOffset); 
+            _demoisPlaying = new MemoryWatcher<bool>(worker.Values.DemoPlayerPtr + worker.Values.DemoIsPlayingOffset);
             _demoIsPaused = new MemoryWatcher<bool>(worker.Values.DemoPlayerPtr + worker.Values.DemoIsPlayingOffset + 0x1);
         }
 
         public void Begin(List<DemoFile> files, int waitTime, bool autoNext, bool alternateDetection, string command)
         {
-            _suspendUpdate = true;
-
             if (files.Count == 0)
                 return;
 
@@ -81,102 +89,132 @@ namespace startdemos_plus.Backend
             _files.Clear();
             files.ForEach(x => _files.Add(x));
 
-            _files.Navigate(0, out var cur);
-            Play(cur);
+            Active = true;
 
-            _suspendUpdate = false;
+            Play(_files.First());
         }
 
         public void Play(DemoFile file)
         {
-            Worker.SendCommand("stopdemo");
-            Worker.SendCommand(file.GetPlayCommand());
-            Worker.SendCommand(_commands);
-            DemoStartPlaying?.BeginInvoke(null, new CommonEventArgs("demo", file), null, null);
+            Debug.WriteLine($"Playing {file.Name}.");
+
+            if (_playing.Current)
+            {
+                Worker.SendCommand("stopdemo");
+                _requestedNext = file;
+            }
+            else
+            {
+                _current = file;
+                Worker.SendCommand(file.GetPlayCommand());
+                Worker.SendCommand(_commands);
+            }
         }
 
         public void Stop()
         {
-            _suspendUpdate = true;
+            Debug.WriteLine($"Stopping queue.");
 
-            Worker.SendCommand("stopdemo");
-            DemoStopPlaying?.BeginInvoke(null, new CommonEventArgs("demo", _current), null, null);
-            Globals.Events.DemoQueueFinished.Invoke(null, null);
+            _current = null;
             _files.Clear();
-            DemoQueueFinished?.BeginInvoke(null, null, null, null);
+            Worker.SendCommand("stopdemo");
+            
+            if (Active)
+            {
+                Active = false;
+
+                DemoStopPlaying?.Invoke(null, new CommonEventArgs("demo", _current));
+                DemoQueueFinished?.Invoke(null, null);
+                Globals.Events.DemoQueueFinished.Invoke(null, null);
+            }
         }
 
         public void Pause()
         {
-            DemoPaused?.BeginInvoke(null, new CommonEventArgs("demo", _current), null, null);
             Worker.SendCommand($"demo_pause");
         }
 
         public void Resume()
         {
-            DemoResumed?.BeginInvoke(null, new CommonEventArgs("demo", _current), null, null);
             Worker.SendCommand($"demo_resume");
         }
 
         public void Next()
         {
-            var cur = _current;
-            if (_files.Navigate(1, out var file))
+            if (_current != null)
             {
-                DemoStopPlaying?.BeginInvoke(null, new CommonEventArgs("demo" , cur), null, null);
-                Play(file);
+                int nextIndex = _files.IndexOf(_current) + 1;
+                if (nextIndex >= _files.Count) Stop();
+                else Play(_files.ElementAt(nextIndex));
             }
-            else Stop();
         }
 
         public void Previous()
         {
-            var cur = _current;
-            if (_files.Navigate(-1, out var file))
+            if (_current != null)
             {
-                DemoStopPlaying?.BeginInvoke(null, new CommonEventArgs("demo", cur), null, null);
-                Play(file);
+                int prevIndex = _files.IndexOf(_current) - 1;
+                if (prevIndex < 0) Stop();
+                else Play(_files.ElementAt(prevIndex));
             }
-            else Stop();
         }
 
         private void Update()
         {
             _curHostTick.Update(Worker.Values.Game);
             _curDemoStartTick.Update(Worker.Values.Game);
-            _demoPlaybackActive.Update(Worker.Values.Game);
+            _demoisPlaying.Update(Worker.Values.Game);
             _demoIsPaused.Update(Worker.Values.Game);
-            _curDemoPtr.Update(Worker.Values.Game);
+            _curDemoPtr?.Update(Worker.Values.Game);
+            _playing.Current = (_curDemoPtr == null || _alternateDetection) ? _demoisPlaying.Current : _curDemoPtr.Current != IntPtr.Zero;
 
-            if (_suspendUpdate || _current == null)
-                return;
+            if (!Active) return;
 
-            bool stopped = _alternateDetection 
-                ? (!_demoPlaybackActive.Current && _demoPlaybackActive.Old)
-                : (_curDemoPtr.Old != IntPtr.Zero && _curDemoPtr.Current == IntPtr.Zero);
-            if (stopped)
+            if (!_demoIsPaused.Current && _demoIsPaused.Old)
+                DemoResumed?.BeginInvoke(null, new CommonEventArgs("demo", _current), null, null);
+            else if (_demoIsPaused.Current && !_demoIsPaused.Old)
+                DemoPaused?.BeginInvoke(null, new CommonEventArgs("demo", _current), null, null);
+
+            if (_playing.Current && !_playing.Old)
             {
-                DemoStopPlaying?.BeginInvoke(null, new CommonEventArgs("demo", _current), null, null);
-                if (_autoNext)
-                {
-                    if (_files.Navigate(1, out var file))
-                    {
-                        Thread.Sleep(_waitTime);
-                        Play(file);
-                    }
-                    else Stop();
+                if (Active)
+                    DemoStartPlaying?.BeginInvoke(null, new CommonEventArgs("demo", _current), null, null);
+            }
+            else if (!_playing.Current && _playing.Old)
+            {
+                if (Active)
+                    DemoStopPlaying?.BeginInvoke(null, new CommonEventArgs("demo", _current), null, null);
 
-                    return;
+                Thread.Sleep(_waitTime);
+
+                if (_requestedNext != null)
+                {
+                    Play(_requestedNext);
+                    _requestedNext = null;
                 }
+                else if (_autoNext)
+                {
+                    Next();
+                }
+
+                return;
             }
 
-            if (_current == null || _suspendUpdate)
-                return;
-
-            var diff = _curHostTick.Current - _curDemoStartTick.Current;
-            DemoTick?.BeginInvoke(null, new CommonEventArgs(
-                "demo", _current,
-                "time", diff > 0 ? diff : 0), null, null);
+            if (_playing.Current && _current != null)
+            {
+                var diff = _curHostTick.Current - _curDemoStartTick.Current;
+                DemoTick?.BeginInvoke
+                (
+                    null,
+                    new CommonEventArgs
+                    (
+                        "demo", _current,
+                        "time", diff > 0 ? diff : 0
+                    ),
+                    null,
+                    null
+                );
+            }
         }
     }
 }

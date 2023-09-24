@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static startdemos_plus.Program;
-using static startdemos_plus.Utils.Utils;
+using static startdemos_plus.Utils.Helpers;
 using static startdemos_plus.Globals.Events;
 using startdemos_plus.Utils;
 using startdemos_plus.Backend;
@@ -22,7 +22,6 @@ namespace startdemos_plus.Frontend
         private DemoQueueHandler _queuer = new DemoQueueHandler();
         private string _customMapOrder;
 
-        private bool _queuePlaying = false;
         private bool _queueListHighlightDirty = false;
         private DemoPlayingHandler _player = new DemoPlayingHandler();
 
@@ -96,14 +95,18 @@ namespace startdemos_plus.Frontend
             {
                 this.ThreadAction(() =>
                 {
-                    butPlayPause.Enabled = gTransport.Enabled = false;
+                    ResetOptions();
+                    tabPlaybackControls.Enabled = false;
                 });
             };
             FoundGameProcess += (s, e) =>
             {
                 this.ThreadAction(() =>
                 {
-                    butPlayPause.Enabled = gTransport.Enabled = true;
+                    ResetOptions();
+                    tabPlaybackControls.Enabled = true;
+
+                    labAltDemoDetect.Visible = chkAltDemoDetect.Visible = ((GameValues)e["values"]).DemoFilePtrOffset != 0;
                 });
             };
             GotDemos += (object s, CommonEventArgs e) =>
@@ -115,8 +118,6 @@ namespace startdemos_plus.Frontend
                     butApplyIndexOrder_Click(null, null);
                 });
             };
-            SessionStarted += (s, e) => this.ThreadAction(() => UpdateButtons(true));
-            SessnionStopped += (s, e) => this.ThreadAction(() => UpdateButtons(false));
 
             chkQueueOnlyPassing.CheckedChanged += (s, e) => UpdateQueue();
             gFilter.Enabled = gFilter.Visible = false;
@@ -129,9 +130,13 @@ namespace startdemos_plus.Frontend
 
             void setListQueueHighlight(DemoFile demo)
             {
-                listQueue.HighlightRow(
-                    listQueue.Rows.Cast<DataGridViewRow>()
-                    .First(x => x.Cells[0].Value.ToString() == _queuer.Ordered.IndexOf(demo).ToString()).Index);
+                listQueue.HighlightRow
+                (
+                    listQueue.Rows
+                        .Cast<DataGridViewRow>()
+                        .First(x => x.Cells[0].Value.ToString() == _queuer.Ordered.IndexOf(demo).ToString())
+                        .Index
+                );
                 _queueListHighlightDirty = false;
             }
             _player.DemoTick += (object s, CommonEventArgs e) =>
@@ -141,16 +146,15 @@ namespace startdemos_plus.Frontend
 
                 this.ThreadAction(() =>
                 {
+                    if (!_player.Active)
+                        return;
+
                     progCurDemo.Maximum = demo.MaxIndex;
                     progCurDemo.SetProgressNoAnimation(time > demo.MaxIndex ? demo.MaxIndex : time);
 
-                    if (!_player.DemoLoaded)
-                        return;
+                    if (_queueListHighlightDirty) setListQueueHighlight(demo);
 
-                    if (_queueListHighlightDirty)
-                        setListQueueHighlight(demo);
-
-                    if (_player.Playing)
+                    if (_player.Paused)
                     {
                         butPlayPause.SetState("pause");
                         picCurState.Image = playing_000000;
@@ -164,7 +168,6 @@ namespace startdemos_plus.Frontend
 
                     labCurrent.Text = demo.Name;
                     labTotalTime.Text = demo.MaxIndex.ToString();
-
                     labCurTime.Text = (time > demo.MaxIndex ? demo.MaxIndex : time).ToString();
                 });
             };
@@ -175,54 +178,58 @@ namespace startdemos_plus.Frontend
                     progCurDemo.Value = 0;
                     picCurState.Visible = false;
 
-                    if (!_queuePlaying)
+                    if (_player.Active)
                     {
-                        this.ThreadAction(() => { ClearLabels(); });
-                        return;
+                        labPrevious.Text = e["demo"] == null ? "" : ((DemoFile)e["demo"]).Name;
+                        labCurrent.Text = "";
+                        labTotalTime.Text = "";
+                        labCurTime.Text = "";
+
+                        butPlayPause.Enabled = false;
                     }
-
-                    labPrevious.Text = e["demo"] == null ? "" : ((DemoFile)e["demo"]).Name;
-                    labCurrent.Text = "";
-                    labTotalTime.Text = "";
-                    labCurTime.Text = "";
+                    else ClearLabels();
                 });
-
             };
             _player.DemoStartPlaying += (object s, CommonEventArgs e) =>
             {
-                if (e["demo"] == null)
+                if (!_player.Active)
                     return;
 
                 var demo = (DemoFile)e["demo"];
                 int index = _queuer.GetPlayed().IndexOf(demo);
                 this.ThreadAction(() =>
                 {
-                    picCurState.Visible = true;
+                    progCurDemo.Value = 0;
 
-                    if (!_queuePlaying)
-                    {
-                        this.ThreadAction(() => { ClearLabels(); });
-                        return;
-                    }
+                    picCurState.Visible = true;
                     lab1stNext.Text = _queuer.GetPlayed().ElementAtOrDefault(index + 1)?.Name ?? "";
                     lab2ndNext.Text = _queuer.GetPlayed().ElementAtOrDefault(index + 2)?.Name ?? "";
 
-                    setListQueueHighlight(demo);
+                    butPlayPause.Enabled = true;
+                    butNext.Enabled = butPrevious.Enabled = true;
 
+                    setListQueueHighlight(demo);
+                });
+            };
+            _player.DemoPaused += (s, e) =>
+            {
+                this.ThreadAction(() =>
+                {
+                    butPlayPause.Enabled = true;
+                });
+            };
+            _player.DemoResumed += (s, e) =>
+            {
+                this.ThreadAction(() =>
+                {
+                    butPlayPause.Enabled = true;
                 });
             };
             _player.DemoQueueFinished += (s, e) =>
             {
-                _queuePlaying = false;
-
                 this.ThreadAction(() => 
                 {
-                    progCurDemo.Value = 0;
-                    butNext.Enabled = butPrevious.Enabled = butStop.Enabled = false;
-                    gPlayOptions.Enabled = butApplyFilter.Enabled = butApplyIndexOrder.Enabled = true;
-                    butPlayPause.SetState("play");
-                    listQueue.HighlightRow(-1);
-                    ClearLabels();
+                    ResetOptions();
                 });
             };
 
@@ -237,13 +244,23 @@ namespace startdemos_plus.Frontend
                 boxFailsChecks_MembersUpdateRequested(null, null);
             };
 
-            butNext.Enabled = butPrevious.Enabled = butStop.Enabled = false;
+            ResetOptions();
+        }
+
+        private void ResetOptions()
+        {
+            progCurDemo.Value = 0;
+            listQueue.HighlightRow(-1);
+            gPlayOptions.Enabled = butApplyFilter.Enabled = butApplyIndexOrder.Enabled = true;
+            butNext.Enabled = butStop.Enabled = butPrevious.Enabled = false;
+            butPlayPause.Enabled = true;
+            butPlayPause.SetState("play");
             ClearLabels();
         }
 
-        private void UpdateButtons(bool enabled)
+        private void UpdateNavigationButtons(bool enabled)
         {
-            butNext.Enabled = butPlayPause.Enabled = butPrevious.Enabled = butStop.Enabled = enabled;
+            butNext.Enabled = butPlayPause.Enabled = butPrevious.Enabled = enabled;
         }
 
         private void butApplyIndexOrder_Click(object sender, EventArgs e)
@@ -284,11 +301,14 @@ namespace startdemos_plus.Frontend
 
         private void butApplyFilter_Click(object sender, EventArgs e)
         {
-            _queuer.Filter((int)nudRangeFrom.Value, (int)nudRangeTo.Value,
+            _queuer.Filter
+            (
+                (int)nudRangeFrom.Value, (int)nudRangeTo.Value,
                 boxTickCountCond.Text, cmbTickCountType.SelectedIndex, chkTickCountCondNot.Checked,
                 boxMapCond.Text, chkMapCondNot.Checked,
                 boxPassesChecks.CheckedMembers.ToArray(), boxFailsChecks.CheckedMembers.ToArray(),
-                Program.Checks);
+                Program.Checks
+            );
 
             UpdateQueue();
         }
@@ -308,41 +328,57 @@ namespace startdemos_plus.Frontend
                 return;
             }
 
-            if (!_queuePlaying)
+            if (!_player.Active)
             {
-                _player.Begin(_queuer.GetPlayed(), (int)nudWaitTime.Value, chkAutoPlayNext.Checked, chkAltDemoDetect.Checked, boxCommands.Text);
-                _queuePlaying = true;
-                butPlayPause.SetState("pause");
-                butNext.Enabled = butPrevious.Enabled = butStop.Enabled = true;
+                _player.Begin
+                (
+                    _queuer.GetPlayed(), 
+                    (int)nudWaitTime.Value,
+                    chkAutoPlayNext.Checked, 
+                    chkAltDemoDetect.Checked, 
+                    boxCommands.Text
+                );
 
+                butPlayPause.SetState("pause");
                 gPlayOptions.Enabled = butApplyFilter.Enabled = butApplyIndexOrder.Enabled = false;
+                butStop.Enabled = true;
             }
             else
             {
-                if (_player.Playing) _player.Pause();
+                butPlayPause.Enabled = false;
+
+                if (!_player.Paused) _player.Pause();
                 else _player.Resume();
             }
             
         }
         private void butStop_Click(object sender, EventArgs e)
         {
-            if (!gTransport.Enabled || !butStop.Enabled)
+            if (!gTransport.Enabled || !butStop.Enabled || !_player.Active)
                 return;
 
+            butStop.Enabled = false;
+            UpdateNavigationButtons(false);
+
             _player.Stop();
-            _queuePlaying = false;
         }
         private void butNext_Click(object sender, EventArgs e)
         {
-            if (!gTransport.Enabled || !butNext.Enabled)
+            if (!gTransport.Enabled || !butNext.Enabled || !_player.Active)
                 return;
+
+            Debug.WriteLine("Next demo requested.");
+            UpdateNavigationButtons(false);
 
             _player.Next();
         }
         private void butPrevious_Click(object sender, EventArgs e)
         {
-            if (!gTransport.Enabled || !butPrevious.Enabled)
+            if (!gTransport.Enabled || !butPrevious.Enabled || !_player.Active)
                 return;
+
+            Debug.WriteLine("Previous demo requested.");
+            UpdateNavigationButtons(false);
 
             _player.Previous();
         }
@@ -359,20 +395,24 @@ namespace startdemos_plus.Frontend
 
         private void ManualQueueOrdering(bool down = true)
         {
-            if (listQueue.SelectedCells.Count == 0 || listQueue.Rows.Count == 0 || !panQueueDirectModify.Enabled || _queuePlaying)
+            if (listQueue.SelectedCells.Count == 0 || listQueue.Rows.Count == 0 || !panQueueDirectModify.Enabled || _player.Active)
                 return;
 
             panQueueDirectModify.Enabled = chkQueueOnlyPassing.Enabled = false;
 
             var scroll = listQueue.FirstDisplayedScrollingRowIndex;
-            var rows = listQueue.Rows.Cast<DataGridViewRow>().Select(x => (
+            var rows = listQueue.Rows.Cast<DataGridViewRow>().Select(x => 
+                (
                     index: (int)x.Cells[0].Value, 
-                    selected: x.Selected))
+                    selected: x.Selected
+                ))
                 .ToList();
-            var reordering = ShiftElements(
+            var reordering = ShiftElements
+            (
                 _queuer.Ordered.Count - 1,
                 rows.Where(x => x.selected).Select(x => x.Item1).ToList(),
-                down);
+                down
+            );
 
             _queuer.Ordered.RemapElements(reordering);
             _queuer.Played.RemapElements(reordering);
@@ -387,10 +427,8 @@ namespace startdemos_plus.Frontend
                 var lowest = listQueue.SelectedRows.Cast<DataGridViewRow>().Min(x => x.Index);
                 var max = listQueue.SelectedRows.Cast<DataGridViewRow>().Max(x => x.Index);
 
-                if (scroll < max - 15)
-                    listQueue.FirstDisplayedScrollingRowIndex = max - 15;
-                else if (scroll > lowest)
-                    listQueue.FirstDisplayedScrollingRowIndex = lowest;
+                if (scroll < max - 15) listQueue.FirstDisplayedScrollingRowIndex = max - 15;
+                else if (scroll > lowest) listQueue.FirstDisplayedScrollingRowIndex = lowest;
                 else listQueue.FirstDisplayedScrollingRowIndex = scroll;
             }
             chkQueueOnlyPassing.Enabled = true;
@@ -399,7 +437,7 @@ namespace startdemos_plus.Frontend
 
         private void ManualQueueExclusion(bool play)
         {
-            if (listQueue.SelectedRows.Count == 0 || listQueue.Rows.Count == 0 || !panQueueDirectModify.Enabled || _queuePlaying)
+            if (listQueue.SelectedRows.Count == 0 || listQueue.Rows.Count == 0 || !panQueueDirectModify.Enabled || _player.Active)
                 return;
 
             var scroll = listQueue.FirstDisplayedScrollingRowIndex;
@@ -418,7 +456,7 @@ namespace startdemos_plus.Frontend
 
         private void UpdateManualQueueOrderingControls()
         {
-            panQueueDirectModify.Enabled = listQueue.SelectedCells.Count > 0 && !chkQueueOnlyPassing.Checked && !_queuePlaying;
+            panQueueDirectModify.Enabled = listQueue.SelectedCells.Count > 0 && !chkQueueOnlyPassing.Checked && !_player.Active;
         }
 
         private void butQueueUp_Click(object sender, EventArgs e)

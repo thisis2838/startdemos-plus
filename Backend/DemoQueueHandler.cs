@@ -7,7 +7,7 @@ using startdemos_plus.Utils;
 using startdemos_plus.Backend.DemoChecking;
 using System.Threading.Tasks;
 using System.IO;
-using static startdemos_plus.Utils.Utils;
+using static startdemos_plus.Utils.Helpers;
 
 namespace startdemos_plus.Backend
 {

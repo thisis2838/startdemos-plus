@@ -10,6 +10,8 @@ namespace startdemos_plus.Globals
 {
     public static class Events
     {
+        public static EventHandler<CommonEventArgs> BeganScanningProcess;
+        public static EventHandler<CommonEventArgs> StoppedScanningProcess;
         public static EventHandler<CommonEventArgs> FoundGameProcess;
         public static EventHandler<CommonEventArgs> OnWorkerUpdate;
         public static EventHandler<CommonEventArgs> LostGameProcess;

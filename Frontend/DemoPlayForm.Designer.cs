@@ -31,9 +31,6 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.listQueue = new startdemos_plus.Utils.CleanListBox();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chkQueueOnlyPassing = new System.Windows.Forms.CheckBox();
             this.panQueueDirectModify = new System.Windows.Forms.Panel();
             this.butDoPlay = new System.Windows.Forms.Button();
@@ -46,7 +43,7 @@
             this.gPlayOptions = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.chkAltDemoDetect = new System.Windows.Forms.CheckBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.labAltDemoDetect = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.boxCommands = new System.Windows.Forms.TextBox();
@@ -58,11 +55,7 @@
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.labCurrent = new System.Windows.Forms.Label();
             this.picCurState = new System.Windows.Forms.PictureBox();
-            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
-            this.butStop = new startdemos_plus.Utils.PictureButton();
-            this.butNext = new startdemos_plus.Utils.PictureButton();
-            this.butPlayPause = new startdemos_plus.Utils.PictureButton();
-            this.butPrevious = new startdemos_plus.Utils.PictureButton();
+            this.tabPlaybackControls = new System.Windows.Forms.TableLayoutPanel();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.lab2ndNext = new System.Windows.Forms.Label();
@@ -102,17 +95,23 @@
             this.cmbTickCountType = new System.Windows.Forms.ComboBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
-            this.boxFailsChecks = new startdemos_plus.Utils.MultiCheckTextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.boxPassesChecks = new startdemos_plus.Utils.MultiCheckTextBox();
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
             this.butApplyFilter = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
+            this.listQueue = new startdemos_plus.Utils.CleanListBox();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.butStop = new startdemos_plus.Utils.PictureButton();
+            this.butNext = new startdemos_plus.Utils.PictureButton();
+            this.butPlayPause = new startdemos_plus.Utils.PictureButton();
+            this.butPrevious = new startdemos_plus.Utils.PictureButton();
+            this.boxFailsChecks = new startdemos_plus.Utils.MultiCheckTextBox();
+            this.boxPassesChecks = new startdemos_plus.Utils.MultiCheckTextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.listQueue)).BeginInit();
             this.panQueueDirectModify.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -124,11 +123,7 @@
             this.tableLayoutPanel12.SuspendLayout();
             this.tableLayoutPanel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picCurState)).BeginInit();
-            this.tableLayoutPanel14.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.butStop)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.butNext)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.butPlayPause)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.butPrevious)).BeginInit();
+            this.tabPlaybackControls.SuspendLayout();
             this.tableLayoutPanel15.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -145,6 +140,11 @@
             this.groupBox7.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
             this.tableLayoutPanel11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listQueue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.butStop)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.butNext)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.butPlayPause)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.butPrevious)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -191,47 +191,6 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(239, 368);
             this.tableLayoutPanel5.TabIndex = 0;
-            // 
-            // listQueue
-            // 
-            this.listQueue.AllowUserToAddRows = false;
-            this.listQueue.AllowUserToDeleteRows = false;
-            this.listQueue.AllowUserToResizeColumns = false;
-            this.listQueue.AllowUserToResizeRows = false;
-            this.listQueue.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.listQueue.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.listQueue.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.listQueue.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column2,
-            this.Column1});
-            this.listQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listQueue.Location = new System.Drawing.Point(3, 3);
-            this.listQueue.Name = "listQueue";
-            this.listQueue.ReadOnly = true;
-            this.listQueue.RowHeadersVisible = false;
-            this.listQueue.RowTemplate.Height = 18;
-            this.listQueue.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.listQueue.Size = new System.Drawing.Size(233, 312);
-            this.listQueue.TabIndex = 1;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column2.FillWeight = 27.88013F;
-            this.Column2.HeaderText = "#";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column2.Width = 20;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column1.FillWeight = 246.7392F;
-            this.Column1.HeaderText = "Name";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // chkQueueOnlyPassing
             // 
@@ -356,7 +315,7 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Controls.Add(this.chkAltDemoDetect, 3, 0);
-            this.tableLayoutPanel4.Controls.Add(this.label9, 2, 0);
+            this.tableLayoutPanel4.Controls.Add(this.labAltDemoDetect, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.label5, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.label4, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.boxCommands, 1, 2);
@@ -385,15 +344,15 @@
             this.chkAltDemoDetect.TabIndex = 20;
             this.chkAltDemoDetect.UseVisualStyleBackColor = true;
             // 
-            // label9
+            // labAltDemoDetect
             // 
-            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(278, 6);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(82, 13);
-            this.label9.TabIndex = 19;
-            this.label9.Text = "Alt. Stop Detect";
+            this.labAltDemoDetect.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labAltDemoDetect.AutoSize = true;
+            this.labAltDemoDetect.Location = new System.Drawing.Point(278, 6);
+            this.labAltDemoDetect.Name = "labAltDemoDetect";
+            this.labAltDemoDetect.Size = new System.Drawing.Size(82, 13);
+            this.labAltDemoDetect.TabIndex = 19;
+            this.labAltDemoDetect.Text = "Alt. Stop Detect";
             // 
             // label5
             // 
@@ -487,7 +446,7 @@
             this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 47F));
             this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel12.Controls.Add(this.tableLayoutPanel13, 0, 3);
-            this.tableLayoutPanel12.Controls.Add(this.tableLayoutPanel14, 0, 5);
+            this.tableLayoutPanel12.Controls.Add(this.tabPlaybackControls, 0, 5);
             this.tableLayoutPanel12.Controls.Add(this.label14, 0, 1);
             this.tableLayoutPanel12.Controls.Add(this.label15, 0, 6);
             this.tableLayoutPanel12.Controls.Add(this.lab2ndNext, 1, 1);
@@ -551,84 +510,30 @@
             this.picCurState.TabIndex = 0;
             this.picCurState.TabStop = false;
             // 
-            // tableLayoutPanel14
+            // tabPlaybackControls
             // 
-            this.tableLayoutPanel14.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tableLayoutPanel14.ColumnCount = 6;
-            this.tableLayoutPanel12.SetColumnSpan(this.tableLayoutPanel14, 2);
-            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 185F));
-            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 185F));
-            this.tableLayoutPanel14.Controls.Add(this.butStop, 2, 0);
-            this.tableLayoutPanel14.Controls.Add(this.butNext, 4, 0);
-            this.tableLayoutPanel14.Controls.Add(this.butPlayPause, 3, 0);
-            this.tableLayoutPanel14.Controls.Add(this.butPrevious, 1, 0);
-            this.tableLayoutPanel14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel14.Location = new System.Drawing.Point(3, 111);
-            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
-            this.tableLayoutPanel14.RowCount = 2;
-            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel14.Size = new System.Drawing.Size(545, 44);
-            this.tableLayoutPanel14.TabIndex = 1;
-            // 
-            // butStop
-            // 
-            this.butStop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.butStop.Image = global::startdemos_plus.Properties.Resources.controls_stop_000000;
-            this.butStop.Location = new System.Drawing.Point(232, 3);
-            this.butStop.Name = "butStop";
-            this.tableLayoutPanel14.SetRowSpan(this.butStop, 2);
-            this.butStop.Size = new System.Drawing.Size(38, 38);
-            this.butStop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.butStop.TabIndex = 3;
-            this.butStop.TabStop = false;
-            this.butStop.Click += new System.EventHandler(this.butStop_Click);
-            // 
-            // butNext
-            // 
-            this.butNext.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.butNext.Image = global::startdemos_plus.Properties.Resources.controls_fast_forward_000000;
-            this.butNext.Location = new System.Drawing.Point(320, 3);
-            this.butNext.Name = "butNext";
-            this.butNext.Padding = new System.Windows.Forms.Padding(3);
-            this.tableLayoutPanel14.SetRowSpan(this.butNext, 2);
-            this.butNext.Size = new System.Drawing.Size(38, 38);
-            this.butNext.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.butNext.TabIndex = 2;
-            this.butNext.TabStop = false;
-            this.butNext.Click += new System.EventHandler(this.butNext_Click);
-            // 
-            // butPlayPause
-            // 
-            this.butPlayPause.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.butPlayPause.Image = global::startdemos_plus.Properties.Resources.controls_play_000000;
-            this.butPlayPause.Location = new System.Drawing.Point(276, 3);
-            this.butPlayPause.Name = "butPlayPause";
-            this.tableLayoutPanel14.SetRowSpan(this.butPlayPause, 2);
-            this.butPlayPause.Size = new System.Drawing.Size(38, 38);
-            this.butPlayPause.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.butPlayPause.TabIndex = 1;
-            this.butPlayPause.TabStop = false;
-            this.butPlayPause.Click += new System.EventHandler(this.butPlayPause_Click);
-            // 
-            // butPrevious
-            // 
-            this.butPrevious.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.butPrevious.Image = global::startdemos_plus.Properties.Resources.controls_rewind_000000;
-            this.butPrevious.Location = new System.Drawing.Point(188, 3);
-            this.butPrevious.Name = "butPrevious";
-            this.butPrevious.Padding = new System.Windows.Forms.Padding(3);
-            this.tableLayoutPanel14.SetRowSpan(this.butPrevious, 2);
-            this.butPrevious.Size = new System.Drawing.Size(38, 38);
-            this.butPrevious.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.butPrevious.TabIndex = 0;
-            this.butPrevious.TabStop = false;
-            this.butPrevious.Click += new System.EventHandler(this.butPrevious_Click);
+            this.tabPlaybackControls.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPlaybackControls.ColumnCount = 6;
+            this.tableLayoutPanel12.SetColumnSpan(this.tabPlaybackControls, 2);
+            this.tabPlaybackControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 185F));
+            this.tabPlaybackControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tabPlaybackControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tabPlaybackControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tabPlaybackControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tabPlaybackControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 185F));
+            this.tabPlaybackControls.Controls.Add(this.butStop, 2, 0);
+            this.tabPlaybackControls.Controls.Add(this.butNext, 4, 0);
+            this.tabPlaybackControls.Controls.Add(this.butPlayPause, 3, 0);
+            this.tabPlaybackControls.Controls.Add(this.butPrevious, 1, 0);
+            this.tabPlaybackControls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabPlaybackControls.Location = new System.Drawing.Point(3, 111);
+            this.tabPlaybackControls.Name = "tabPlaybackControls";
+            this.tabPlaybackControls.RowCount = 2;
+            this.tabPlaybackControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tabPlaybackControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tabPlaybackControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tabPlaybackControls.Size = new System.Drawing.Size(545, 44);
+            this.tabPlaybackControls.TabIndex = 1;
             // 
             // label14
             // 
@@ -1118,18 +1023,6 @@
             this.tableLayoutPanel10.Size = new System.Drawing.Size(539, 26);
             this.tableLayoutPanel10.TabIndex = 1;
             // 
-            // boxFailsChecks
-            // 
-            this.boxFailsChecks.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.boxFailsChecks.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.boxFailsChecks.EditorWindowDescription = "Choose which checks the demo must fail";
-            this.boxFailsChecks.EditorWindowText = "Failing Checks";
-            this.boxFailsChecks.Location = new System.Drawing.Point(372, 3);
-            this.boxFailsChecks.Name = "boxFailsChecks";
-            this.boxFailsChecks.ReadOnly = true;
-            this.boxFailsChecks.Size = new System.Drawing.Size(164, 20);
-            this.boxFailsChecks.TabIndex = 16;
-            // 
             // label11
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -1150,30 +1043,18 @@
             this.label12.TabIndex = 1;
             this.label12.Text = "Fails all of";
             // 
-            // boxPassesChecks
-            // 
-            this.boxPassesChecks.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.boxPassesChecks.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.boxPassesChecks.EditorWindowDescription = "Choose which checks the demo must pass";
-            this.boxPassesChecks.EditorWindowText = "Passing Checks";
-            this.boxPassesChecks.Location = new System.Drawing.Point(103, 3);
-            this.boxPassesChecks.Name = "boxPassesChecks";
-            this.boxPassesChecks.ReadOnly = true;
-            this.boxPassesChecks.Size = new System.Drawing.Size(163, 20);
-            this.boxPassesChecks.TabIndex = 15;
-            // 
             // tableLayoutPanel11
             // 
             this.tableLayoutPanel11.ColumnCount = 2;
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.20184F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.79816F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel11.Controls.Add(this.butApplyFilter, 0, 0);
             this.tableLayoutPanel11.Controls.Add(this.label13, 0, 0);
             this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel11.Location = new System.Drawing.Point(3, 181);
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
             this.tableLayoutPanel11.RowCount = 1;
-            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel11.Size = new System.Drawing.Size(545, 28);
             this.tableLayoutPanel11.TabIndex = 3;
             // 
@@ -1200,6 +1081,125 @@
             this.label13.TabIndex = 17;
             this.label13.Text = "Demos will be filtered, disallowed entries will be greyed out in the Queue.\r\n";
             // 
+            // listQueue
+            // 
+            this.listQueue.AllowUserToAddRows = false;
+            this.listQueue.AllowUserToDeleteRows = false;
+            this.listQueue.AllowUserToResizeColumns = false;
+            this.listQueue.AllowUserToResizeRows = false;
+            this.listQueue.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.listQueue.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.listQueue.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.listQueue.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column2,
+            this.Column1});
+            this.listQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listQueue.Location = new System.Drawing.Point(3, 3);
+            this.listQueue.Name = "listQueue";
+            this.listQueue.ReadOnly = true;
+            this.listQueue.RowHeadersVisible = false;
+            this.listQueue.RowTemplate.Height = 18;
+            this.listQueue.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.listQueue.Size = new System.Drawing.Size(233, 312);
+            this.listQueue.TabIndex = 1;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column2.FillWeight = 27.88013F;
+            this.Column2.HeaderText = "#";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Column2.Width = 20;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.FillWeight = 246.7392F;
+            this.Column1.HeaderText = "Name";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // butStop
+            // 
+            this.butStop.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.butStop.Image = global::startdemos_plus.Properties.Resources.controls_stop_000000;
+            this.butStop.Location = new System.Drawing.Point(232, 3);
+            this.butStop.Name = "butStop";
+            this.tabPlaybackControls.SetRowSpan(this.butStop, 2);
+            this.butStop.Size = new System.Drawing.Size(38, 38);
+            this.butStop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.butStop.TabIndex = 3;
+            this.butStop.TabStop = false;
+            this.butStop.Click += new System.EventHandler(this.butStop_Click);
+            // 
+            // butNext
+            // 
+            this.butNext.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.butNext.Image = global::startdemos_plus.Properties.Resources.controls_fast_forward_000000;
+            this.butNext.Location = new System.Drawing.Point(320, 3);
+            this.butNext.Name = "butNext";
+            this.butNext.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPlaybackControls.SetRowSpan(this.butNext, 2);
+            this.butNext.Size = new System.Drawing.Size(38, 38);
+            this.butNext.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.butNext.TabIndex = 2;
+            this.butNext.TabStop = false;
+            this.butNext.Click += new System.EventHandler(this.butNext_Click);
+            // 
+            // butPlayPause
+            // 
+            this.butPlayPause.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.butPlayPause.Image = global::startdemos_plus.Properties.Resources.controls_play_000000;
+            this.butPlayPause.Location = new System.Drawing.Point(276, 3);
+            this.butPlayPause.Name = "butPlayPause";
+            this.tabPlaybackControls.SetRowSpan(this.butPlayPause, 2);
+            this.butPlayPause.Size = new System.Drawing.Size(38, 38);
+            this.butPlayPause.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.butPlayPause.TabIndex = 1;
+            this.butPlayPause.TabStop = false;
+            this.butPlayPause.Click += new System.EventHandler(this.butPlayPause_Click);
+            // 
+            // butPrevious
+            // 
+            this.butPrevious.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.butPrevious.Image = global::startdemos_plus.Properties.Resources.controls_rewind_000000;
+            this.butPrevious.Location = new System.Drawing.Point(188, 3);
+            this.butPrevious.Name = "butPrevious";
+            this.butPrevious.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPlaybackControls.SetRowSpan(this.butPrevious, 2);
+            this.butPrevious.Size = new System.Drawing.Size(38, 38);
+            this.butPrevious.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.butPrevious.TabIndex = 0;
+            this.butPrevious.TabStop = false;
+            this.butPrevious.Click += new System.EventHandler(this.butPrevious_Click);
+            // 
+            // boxFailsChecks
+            // 
+            this.boxFailsChecks.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boxFailsChecks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.boxFailsChecks.EditorWindowDescription = "Choose which checks the demo must fail";
+            this.boxFailsChecks.EditorWindowText = "Failing Checks";
+            this.boxFailsChecks.Location = new System.Drawing.Point(372, 3);
+            this.boxFailsChecks.Name = "boxFailsChecks";
+            this.boxFailsChecks.ReadOnly = true;
+            this.boxFailsChecks.Size = new System.Drawing.Size(164, 20);
+            this.boxFailsChecks.TabIndex = 16;
+            // 
+            // boxPassesChecks
+            // 
+            this.boxPassesChecks.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.boxPassesChecks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.boxPassesChecks.EditorWindowDescription = "Choose which checks the demo must pass";
+            this.boxPassesChecks.EditorWindowText = "Passing Checks";
+            this.boxPassesChecks.Location = new System.Drawing.Point(103, 3);
+            this.boxPassesChecks.Name = "boxPassesChecks";
+            this.boxPassesChecks.ReadOnly = true;
+            this.boxPassesChecks.Size = new System.Drawing.Size(163, 20);
+            this.boxPassesChecks.TabIndex = 15;
+            // 
             // DemoPlayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1213,7 +1213,6 @@
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.listQueue)).EndInit();
             this.panQueueDirectModify.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -1228,11 +1227,7 @@
             this.tableLayoutPanel13.ResumeLayout(false);
             this.tableLayoutPanel13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picCurState)).EndInit();
-            this.tableLayoutPanel14.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.butStop)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.butNext)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.butPlayPause)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.butPrevious)).EndInit();
+            this.tabPlaybackControls.ResumeLayout(false);
             this.tableLayoutPanel15.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -1254,6 +1249,11 @@
             this.tableLayoutPanel10.PerformLayout();
             this.tableLayoutPanel11.ResumeLayout(false);
             this.tableLayoutPanel11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listQueue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.butStop)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.butNext)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.butPlayPause)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.butPrevious)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1314,7 +1314,7 @@
         private System.Windows.Forms.Label labCurTime;
         private System.Windows.Forms.Label labCurrent;
         private System.Windows.Forms.PictureBox picCurState;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel14;
+        private System.Windows.Forms.TableLayoutPanel tabPlaybackControls;
         private startdemos_plus.Utils.PictureButton butPrevious;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
@@ -1340,6 +1340,6 @@
         private Utils.MultiCheckTextBox boxFailsChecks;
         private Utils.MultiCheckTextBox boxPassesChecks;
         private System.Windows.Forms.CheckBox chkAltDemoDetect;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label labAltDemoDetect;
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using startdemos_plus.Backend;
 using static startdemos_plus.Globals.Events;
-using static startdemos_plus.Utils.Utils;
+using static startdemos_plus.Utils.Helpers;
 using System.Threading;
 
 namespace startdemos_plus.Frontend
@@ -23,25 +23,29 @@ namespace startdemos_plus.Frontend
 
             FoundGameProcess += (object s, CommonEventArgs e) =>
             {
-                GameValues handler = e.Data["values"] as GameValues;
+                GameValues vals = e.Data["values"] as GameValues;
 
                 labGameProcName.ThreadAction(() =>
                 {
-                    labGameProcName.Text = $"{handler.Game.ProcessName}";
+                    labGameProcName.Text = $"{vals.Game.ProcessName}";
                 });
 
                 listGameValues.ThreadAction(() =>
                 {
                     listGameValues.Rows.Clear();
-                    listGameValues.Rows.Add("Demo Player Pointer", handler.DemoPlayerPtr.ToString("X"));
-                    listGameValues.Rows.Add("Host Tick Count Pointer", handler.HostTickCountPtr.ToString("X"));
-                    listGameValues.Rows.Add("Host State Pointer", handler.HostStatePtr.ToString("X"));
-                    listGameValues.Rows.Add("Start Tick Offset", handler.DemoStartTickOffset.ToString("X"));
-                    listGameValues.Rows.Add("Is Playing Offset", handler.DemoIsPlayingOffset.ToString("X"));
-
-                    if (handler.CBufAddTextPtr != IntPtr.Zero)
+                    listGameValues.Rows.Add("Demo Player Pointer", vals.DemoPlayerPtr.ToString("X"));
+                    listGameValues.Rows.Add("Host Tick Count Pointer", vals.HostTickCountPtr.ToString("X"));
+                    listGameValues.Rows.Add("Host State Pointer", vals.HostStatePtr.ToString("X"));
+                    listGameValues.Rows.Add("Start Tick Offset", vals.DemoStartTickOffset.ToString("X"));
+                    if (vals.DemoFilePtrOffset != 0)
                     {
-						listGameValues.Rows.Add("Cbuf_AddText Pointer", handler.CBufAddTextPtr.ToString("X"));
+                        listGameValues.Rows.Add("Demo File Pointer Offset", vals.DemoFilePtrOffset.ToString("X"));
+                    }
+                    listGameValues.Rows.Add("Is Playing Offset", vals.DemoIsPlayingOffset.ToString("X"));
+
+                    if (vals.CBufAddTextPtr != IntPtr.Zero)
+                    {
+						listGameValues.Rows.Add("Cbuf_AddText Pointer", vals.CBufAddTextPtr.ToString("X"));
 					}
 				});
 
@@ -56,14 +60,28 @@ namespace startdemos_plus.Frontend
             {
                 this.ThreadAction(() =>
                 {
-                    labStatus.Text = "Searching ...";
+                    labStatus.Text = "Searching...";
                     labGameProcName.Text = "";
                     listGameValues.Rows.Clear();
-
                 });
             };
 
-            labStatus.Text = "Searching ...";
+            BeganScanningProcess += (s, e) =>
+            {
+                this.ThreadAction(() =>
+                {
+                    labStatus.Text = $"Scanning {e["name"]}...";
+                });
+            };
+            StoppedScanningProcess += (s, e) =>
+            {
+                this.ThreadAction(() =>
+                {
+                    labStatus.Text = $"Searching...";
+                });
+            };
+
+            labStatus.Text = "Searching...";
 
             listGameValues.ReadOnly = true;
         }

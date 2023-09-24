@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using startdemos_plus.Utils;
 using System.IO;
-using static startdemos_plus.Utils.Utils;
+using static startdemos_plus.Utils.Helpers;
 using static System.Text.Encoding;
 using static System.Math;
 using static System.BitConverter;

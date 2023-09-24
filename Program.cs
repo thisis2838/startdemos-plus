@@ -72,7 +72,7 @@ namespace startdemos_plus
 
             //
             var elem = new List<int>() { 0, 1, 2, 3 };
-            elem.RemapElements(Utils.Utils.ShiftElements(elem.Count - 1, new List<int>() { 0,2 }, false));
+            elem.RemapElements(Utils.Helpers.ShiftElements(elem.Count - 1, new List<int>() { 0,2 }, false));
 
 
             return true;   

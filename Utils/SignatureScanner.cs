@@ -92,7 +92,7 @@ namespace startdemos_plus.Utils
             var target = new SigScanTarget(0, BitConverter.ToString(Encoding.Default.GetBytes(input)).Replace("-", ""));
             target.OnFound = (f_proc, f_scanner, f_ptr) =>
             {
-                SigScanTarget newTarg = new SigScanTarget(0, $"68 {Utils.GetByteArray(f_ptr.ToInt32())}");
+                SigScanTarget newTarg = new SigScanTarget(0, $"68 {Helpers.GetByteArray(f_ptr.ToInt32())}");
                 return f_scanner.Scan(newTarg);
             };
             return Scan(target);

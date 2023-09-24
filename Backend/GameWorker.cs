@@ -1,4 +1,5 @@
-﻿using startdemos_plus.Utils;
+﻿using startdemos_plus.Globals;
+using startdemos_plus.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,7 +25,13 @@ namespace startdemos_plus.Backend
             {
                 while (!_cts.IsCancellationRequested)
                 {
-                    if (Process.GetProcesses().ToList().Any(x => Values.Scan(x)))
+                    if (Process.GetProcesses().ToList().Any(x =>
+                    {
+                        Events.BeganScanningProcess?.Invoke(null, new CommonEventArgs("name", x.ProcessName));
+                        bool result = Values.Scan(x);
+                        Events.StoppedScanningProcess?.Invoke(null, null);
+                        return result;
+                    }))
                     {
                         _hostState = new MemoryWatcher<HostState>(Values.HostStatePtr);
                         _hostState.Update(Values.Game);
@@ -61,10 +68,7 @@ namespace startdemos_plus.Backend
 
         public void SendCommand(string command)
         {
-            if (Values.CBufAddTextPtr != IntPtr.Zero)
-            {
-                WinAPI.CallFunctionString(Values.Game, Values.CBufAddTextPtr, command);
-            }
+            if (Values.CBufAddTextPtr != IntPtr.Zero) WinAPI.CallFunctionString(Values.Game, Values.CBufAddTextPtr, command);
             else WinAPI.SendMessage(Values.Game, command);
         }
     }

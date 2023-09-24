@@ -11,7 +11,7 @@ using static startdemos_plus.Program;
 using startdemos_plus.Backend.DemoChecking;
 using startdemos_plus.Backend;
 using static startdemos_plus.Backend.DemoChecking.DemoCheckActionType;
-using static startdemos_plus.Utils.Utils;
+using static startdemos_plus.Utils.Helpers;
 using startdemos_plus.Utils;
 using static startdemos_plus.Frontend.MainForm;
 using System.IO;

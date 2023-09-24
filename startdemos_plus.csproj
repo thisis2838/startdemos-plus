@@ -124,6 +124,7 @@
     <Compile Include="Utils\UniqueNamePrompt.Designer.cs">
       <DependentUpon>UniqueNamePrompt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ValueWatcher.cs" />
     <Compile Include="Utils\Vector3f.cs" />
     <Compile Include="Backend\DemoQueueHandler.cs" />
     <Compile Include="Backend\DemoFile.cs" />
@@ -161,7 +162,7 @@
     </Compile>
     <Compile Include="Utils\CleanListBox.cs" />
     <Compile Include="Backend\SettingsHandler.cs" />
-    <Compile Include="Utils\Utils.cs" />
+    <Compile Include="Utils\Helpers.cs" />
     <Compile Include="Utils\WinAPI.cs" />
     <EmbeddedResource Include="Help\MainHelpForm.resx">
       <DependentUpon>MainHelpForm.cs</DependentUpon>

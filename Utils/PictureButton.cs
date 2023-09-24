@@ -37,13 +37,13 @@ namespace startdemos_plus.Utils
 
         protected override void OnEnabledChanged(EventArgs e)
         {
-            
             base.OnEnabledChanged(e);
 
             if (_curState.src == null)
                 return;
             
             base.Image = (Image)(Enabled ? _curState.src : _curState.gray).Clone();
+            this.Cursor = Enabled ? Cursors.Hand : Cursors.Default;
             this.Invalidate();
         }
     }

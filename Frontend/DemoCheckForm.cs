@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using startdemos_plus.Backend;
 using startdemos_plus.Backend.DemoChecking;
 using startdemos_plus.Utils;
-using static startdemos_plus.Utils.Utils;
+using static startdemos_plus.Utils.Helpers;
 
 
 namespace startdemos_plus.Frontend

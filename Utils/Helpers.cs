@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace startdemos_plus.Utils
 {
-    public static class Utils
+    public static class Helpers
     {
         public static string GetByteArray<T>(T ptr) where T : struct
         {
@@ -220,6 +220,15 @@ namespace startdemos_plus.Utils
 
             var e = blocks.SelectMany(x => x.indicies).ToList();
             return e;
+        }
+
+        public static bool SequenceContains<T>(this IEnumerable<T> source, IEnumerable<T> compare)
+        {
+            for (int i = 0; i < source.Count() - compare.Count(); i++)
+            {
+                if (source.Skip(i).Take(compare.Count()).SequenceEqual(compare)) return true;
+            }
+            return false;
         }
     }
 

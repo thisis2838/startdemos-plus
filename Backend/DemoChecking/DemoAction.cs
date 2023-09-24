@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using startdemos_plus.Utils;
-using static startdemos_plus.Utils.Utils;
+using static startdemos_plus.Utils.Helpers;
 using static startdemos_plus.Utils.Comparisons;
 
 namespace startdemos_plus.Backend.DemoChecking
