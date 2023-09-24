@@ -99,9 +99,25 @@ namespace startdemos_plus.Utils
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool VirtualProtectEx(IntPtr hProcess, IntPtr lpAddress, SizeT dwSize,
             MemPageProtect flNewProtect, [Out] out MemPageProtect lpflOldProtect);
+		[DllImport("kernel32.dll")]
+		public static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
 
-        // privileges
-        public const int PROCESS_CREATE_THREAD = 0x0002;
+		[DllImport("kernel32.dll", SetLastError = true)]
+		public static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, SizeT dwStackSize,
+			IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);
+
+		[DllImport("kernel32.dll")]
+		public static extern IntPtr CloseHandle(IntPtr handle);
+
+		[DllImport("kernel32.dll")]
+		public static extern uint WaitForSingleObject(IntPtr handle, uint time);
+
+		[DllImport("kernel32.dll")]
+		public static extern bool TerminateThread(IntPtr handle, uint code);
+
+
+		// privileges
+		public const int PROCESS_CREATE_THREAD = 0x0002;
         public const int PROCESS_QUERY_INFORMATION = 0x0400;
         public const int PROCESS_VM_OPERATION = 0x0008;
         public const int PROCESS_VM_WRITE = 0x0020;
@@ -128,10 +144,10 @@ namespace startdemos_plus.Utils
 
         public const int WM_COPYDATA = 0x4a;
 
-        public static void SendMessage(Process proc, string input)
+        public static int SendMessage(Process proc, string input)
         {
             if (proc == null || proc.HasExited || proc.Handle == IntPtr.Zero || input.Length == 0)
-                return;
+                return 0;
 
             var copy = new COPYDATASTRUCT()
             {
@@ -139,7 +155,44 @@ namespace startdemos_plus.Utils
                 dwData = IntPtr.Zero,
                 lpData = Marshal.StringToHGlobalAnsi(input)
             };
-            int res = SendMessage(proc.MainWindowHandle, WM_COPYDATA, 0, ref copy);
+            return SendMessage(proc.MainWindowHandle, WM_COPYDATA, 0, ref copy);
         }
-    }
+
+		public static void CallFunctionString(Process proc, IntPtr funcPtr, string input)
+		{
+			if (proc == null || funcPtr == IntPtr.Zero || proc.HasExited || proc.Handle == IntPtr.Zero)
+				return;
+
+			IntPtr procHandle = OpenProcess
+            (
+                PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ,
+				false,
+				proc.Id
+            );
+
+			uint bufSize = (uint)((input.Length + 1) * Marshal.SizeOf(typeof(char)));
+
+			IntPtr stringBuf = VirtualAllocEx(
+				procHandle,
+				IntPtr.Zero,
+				(UIntPtr)bufSize,
+				(uint)(MemPageState.MEM_COMMIT | MemPageState.MEM_RESERVE),
+				MemPageProtect.PAGE_READWRITE);
+
+			if (stringBuf == IntPtr.Zero)
+				return;
+
+			WriteProcessMemory(procHandle, stringBuf, Encoding.Default.GetBytes(input), (UIntPtr)bufSize, out UIntPtr bytesWritten);
+			var s = CreateRemoteThread(procHandle, IntPtr.Zero, UIntPtr.Zero, funcPtr, stringBuf, 0, out _);
+
+			if (s != IntPtr.Zero)
+			{
+				WaitForSingleObject(s, 0xFFFFFFFF);
+				TerminateThread(s, 0);
+				CloseHandle(s);
+			}
+
+			VirtualFreeEx(procHandle, stringBuf, (UIntPtr)bufSize, (uint)MemPageState.MEM_RELEASE);
+		}
+	}
 }

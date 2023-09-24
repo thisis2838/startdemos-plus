@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using startdemos_plus.Src;
-using startdemos_plus.UI;
+using startdemos_plus.Backend;
+using startdemos_plus.Frontend;
 using startdemos_plus.Utils;
-using startdemos_plus.Src.DemoChecking;
+using startdemos_plus.Backend.DemoChecking;
+using System.Diagnostics;
+using System.Net;
+using System.Threading;
 
 namespace startdemos_plus
 {
@@ -26,9 +29,39 @@ namespace startdemos_plus
         {
             if (!Test())
             {
+                new Thread(new ThreadStart(() => CheckNewVersion())).Start();
+
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new MainForm());
+            }
+        }
+
+        private static void CheckNewVersion()
+        {
+            using (var web = new WebClient())
+            {
+                try
+                {
+                    string ver = web.DownloadString(@"https://raw.githubusercontent.com/thisis2838/startdemos-plus/main/current_version.txt");
+                    ver = ver.Trim('\r', '\n', '\t', ' ');
+                    Version cur = typeof(Program).Assembly.GetName().Version;
+                    if (Version.Parse(ver) > cur)
+                    {
+                        if 
+                        (
+                            MessageBox.Show
+                            (
+                                $"A new update is available (new {ver}, cur: {cur})\r\nWould you like to open the download page?", 
+                                "Update Available", 
+                                MessageBoxButtons.YesNo
+                            ) 
+                            == DialogResult.Yes
+                        )
+                            Process.Start(@"https://github.com/thisis2838/startdemos-plus/releases");
+                    }
+                }
+                catch { }
             }
         }
 

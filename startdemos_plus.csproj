@@ -69,32 +69,32 @@
     <Compile Include="Help\MainHelpForm.Designer.cs">
       <DependentUpon>MainHelpForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\DemoChecking\DemoAction.cs" />
-    <Compile Include="Src\DemoChecking\DemoCheckCondition.cs" />
-    <Compile Include="Src\DemoChecking\DemoCheck.cs" />
-    <Compile Include="Src\DemoPlayingHandler.cs" />
-    <Compile Include="Src\GameValues.cs" />
-    <Compile Include="Src\GameWorker.cs" />
-    <Compile Include="UI\AboutForm.cs">
+    <Compile Include="Backend\DemoChecking\DemoAction.cs" />
+    <Compile Include="Backend\DemoChecking\DemoCheckCondition.cs" />
+    <Compile Include="Backend\DemoChecking\DemoCheck.cs" />
+    <Compile Include="Backend\DemoPlayingHandler.cs" />
+    <Compile Include="Backend\GameValues.cs" />
+    <Compile Include="Backend\GameWorker.cs" />
+    <Compile Include="Frontend\AboutForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\AboutForm.Designer.cs">
+    <Compile Include="Frontend\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\DemoCheckForm__Models.cs" />
-    <Compile Include="UI\DemoCheckForm__Settings.cs">
+    <Compile Include="Frontend\DemoCheckForm.Models.cs" />
+    <Compile Include="Frontend\DemoCheckForm.Settings.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DemoCheckResultDetailsForm.cs">
+    <Compile Include="Frontend\DemoCheckResultDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\DemoCheckResultDetailsForm.Designer.cs">
+    <Compile Include="Frontend\DemoCheckResultDetailsForm.Designer.cs">
       <DependentUpon>DemoCheckResultDetailsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ConfigureCustomMapForm.cs">
+    <Compile Include="Frontend\ConfigureCustomMapForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\ConfigureCustomMapForm.Designer.cs">
+    <Compile Include="Frontend\ConfigureCustomMapForm.Designer.cs">
       <DependentUpon>ConfigureCustomMapForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\Comparisons.cs" />
@@ -125,42 +125,42 @@
       <DependentUpon>UniqueNamePrompt.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\Vector3f.cs" />
-    <Compile Include="Src\DemoQueueHandler.cs" />
-    <Compile Include="Src\DemoFile.cs" />
-    <Compile Include="UI\DemoCheckForm.cs">
+    <Compile Include="Backend\DemoQueueHandler.cs" />
+    <Compile Include="Backend\DemoFile.cs" />
+    <Compile Include="Frontend\DemoCheckForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DemoCheckForm.Designer.cs">
+    <Compile Include="Frontend\DemoCheckForm.Designer.cs">
       <DependentUpon>DemoCheckForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\DemoCollectionForm.cs">
+    <Compile Include="Frontend\DemoCollectionForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DemoCollectionForm.Designer.cs">
+    <Compile Include="Frontend\DemoCollectionForm.Designer.cs">
       <DependentUpon>DemoCollectionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\DemoPlayForm.cs">
+    <Compile Include="Frontend\DemoPlayForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DemoPlayForm.Designer.cs">
+    <Compile Include="Frontend\DemoPlayForm.Designer.cs">
       <DependentUpon>DemoPlayForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\MainForm.cs">
+    <Compile Include="Frontend\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\MainForm.Designer.cs">
+    <Compile Include="Frontend\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\GameHookForm.cs">
+    <Compile Include="Frontend\GameHookForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\GameHookForm.Designer.cs">
+    <Compile Include="Frontend\GameHookForm.Designer.cs">
       <DependentUpon>GameHookForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\CleanListBox.cs" />
-    <Compile Include="Src\SettingsHandler.cs" />
+    <Compile Include="Backend\SettingsHandler.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Compile Include="Utils\WinAPI.cs" />
     <EmbeddedResource Include="Help\MainHelpForm.resx">
@@ -176,28 +176,28 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\AboutForm.resx">
+    <EmbeddedResource Include="Frontend\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DemoCheckForm.resx">
+    <EmbeddedResource Include="Frontend\DemoCheckForm.resx">
       <DependentUpon>DemoCheckForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DemoCheckResultDetailsForm.resx">
+    <EmbeddedResource Include="Frontend\DemoCheckResultDetailsForm.resx">
       <DependentUpon>DemoCheckResultDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DemoCollectionForm.resx">
+    <EmbeddedResource Include="Frontend\DemoCollectionForm.resx">
       <DependentUpon>DemoCollectionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DemoPlayForm.resx">
+    <EmbeddedResource Include="Frontend\DemoPlayForm.resx">
       <DependentUpon>DemoPlayForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ConfigureCustomMapForm.resx">
+    <EmbeddedResource Include="Frontend\ConfigureCustomMapForm.resx">
       <DependentUpon>ConfigureCustomMapForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\MainForm.resx">
+    <EmbeddedResource Include="Frontend\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\GameHookForm.resx">
+    <EmbeddedResource Include="Frontend\GameHookForm.resx">
       <DependentUpon>GameHookForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\MultiCheckForm.resx">
@@ -209,17 +209,17 @@
     <EmbeddedResource Include="Utils\UniqueNamePrompt.resx">
       <DependentUpon>UniqueNamePrompt.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="docs\docs_demo-checks_demo-action.rtf" />
-    <None Include="docs\docs_demo-checks_demo-check.rtf" />
-    <None Include="docs\docs_demo-checks_edit-demo-checks.rtf" />
-    <None Include="docs\docs_demo-ordering-and-playing_modify-queue.rtf" />
-    <None Include="docs\docs_demo-ordering-and-playing_play.rtf" />
-    <None Include="docs\docs_demo-ordering-and-playing_the-queue.rtf" />
-    <None Include="docs\docs_demo-parsing.rtf" />
-    <None Include="docs\docs_game-hooking.rtf" />
-    <None Include="docs\docs_getting-started.rtf" />
-    <None Include="docs\docs_miscellaneous_comparison-strings.rtf" />
-    <None Include="docs\docs_welcome.rtf" />
+    <None Include="Help\Docs\docs_demo-checks_demo-action.rtf" />
+    <None Include="Help\Docs\docs_demo-checks_demo-check.rtf" />
+    <None Include="Help\Docs\docs_demo-checks_edit-demo-checks.rtf" />
+    <None Include="Help\Docs\docs_demo-ordering-and-playing_modify-queue.rtf" />
+    <None Include="Help\Docs\docs_demo-ordering-and-playing_play.rtf" />
+    <None Include="Help\Docs\docs_demo-ordering-and-playing_the-queue.rtf" />
+    <None Include="Help\Docs\docs_demo-parsing.rtf" />
+    <None Include="Help\Docs\docs_game-hooking.rtf" />
+    <None Include="Help\Docs\docs_getting-started.rtf" />
+    <None Include="Help\Docs\docs_miscellaneous_comparison-strings.rtf" />
+    <None Include="Help\Docs\docs_welcome.rtf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -266,6 +266,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Comp 4_000000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="current_version.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
