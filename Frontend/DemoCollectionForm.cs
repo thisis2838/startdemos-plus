@@ -31,13 +31,13 @@ namespace startdemos_plus.Frontend
             Settings.AddSetting
             (
                 "collection-tick_rate",
-                x => { if (int.TryParse(x, out int a)) nudTickRate.Value = a; },
+                x => { nudTickRate.Value = decimal.TryParse(x, out decimal a) ? a : 0.015m; },
                 () => nudTickRate.Value.ToString()
             );
             Settings.AddSetting
             (
                 "collection-0th-tick",
-                x => { if (bool.TryParse(x, out bool a)) chk0thTick.Checked = a; },
+                x => { chk0thTick.Checked = bool.TryParse(x, out bool a) ? a : true; },
                 () => chk0thTick.Checked.ToString()
             );
 

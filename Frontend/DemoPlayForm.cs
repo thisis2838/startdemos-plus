@@ -56,7 +56,7 @@ namespace startdemos_plus.Frontend
             Settings.AddSetting
             (
                 "playing-wait_time",
-                x => { if (int.TryParse(x, out var a)) nudWaitTime.Value = a; },
+                x => { if (decimal.TryParse(x, out decimal a)) nudWaitTime.Value = a; },
                 () => nudWaitTime.Value.ToString()
             );
             Settings.AddSetting
