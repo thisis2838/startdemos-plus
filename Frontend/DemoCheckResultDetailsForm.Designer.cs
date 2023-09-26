@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -39,11 +40,11 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.listDemos = new startdemos_plus.Utils.CleanListBox();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.listPassingInfo = new startdemos_plus.Utils.CleanListBox();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -59,15 +60,15 @@
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 9);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.63566F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 82.36434F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(682, 516);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -107,7 +108,7 @@
             this.labCheckName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.labCheckName.Location = new System.Drawing.Point(103, 11);
             this.labCheckName.Name = "labCheckName";
-            this.labCheckName.Size = new System.Drawing.Size(58, 17);
+            this.labCheckName.Size = new System.Drawing.Size(12, 17);
             this.labCheckName.TabIndex = 2;
             this.labCheckName.Text = " ";
             // 
@@ -128,7 +129,7 @@
             this.tableLayoutPanel2.SetColumnSpan(this.labSeenStats, 2);
             this.labSeenStats.Location = new System.Drawing.Point(3, 46);
             this.labSeenStats.Name = "labSeenStats";
-            this.labSeenStats.Size = new System.Drawing.Size(45, 13);
+            this.labSeenStats.Size = new System.Drawing.Size(10, 13);
             this.labSeenStats.TabIndex = 3;
             this.labSeenStats.Text = " ";
             // 
@@ -201,12 +202,21 @@
             this.listDemos.Size = new System.Drawing.Size(164, 369);
             this.listDemos.TabIndex = 0;
             // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.HeaderText = "Demo";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // listPassingInfo
             // 
             this.listPassingInfo.AllowUserToAddRows = false;
             this.listPassingInfo.AllowUserToDeleteRows = false;
             this.listPassingInfo.AllowUserToResizeColumns = false;
             this.listPassingInfo.AllowUserToResizeRows = false;
+            this.listPassingInfo.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.listPassingInfo.BackgroundColor = System.Drawing.SystemColors.Window;
             this.listPassingInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.listPassingInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -238,17 +248,11 @@
             // Column3
             // 
             this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column3.DefaultCellStyle = dataGridViewCellStyle2;
             this.Column3.HeaderText = "Passing Value";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column1.HeaderText = "Demo";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // DemoCheckResultDetailsForm
             // 
@@ -256,8 +260,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(700, 534);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.Name = "DemoCheckResultDetailsForm";
             this.Padding = new System.Windows.Forms.Padding(9);
             this.Text = "startdemos+ | Demo Check Details";
@@ -289,9 +291,9 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private Utils.CleanListBox listDemos;
         private Utils.CleanListBox listPassingInfo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     }
 }

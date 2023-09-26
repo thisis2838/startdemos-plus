@@ -81,15 +81,33 @@ namespace startdemos_plus.Backend.DemoChecking
             switch (Variable)
             {
                 case DemoCheckVariable.TickIndex:
-                    return new DemoCheckConditionResult(this, Not ^ NumericCompare(Condition, tick.Index), tick, tick.Index);
-                
+                    return new DemoCheckConditionResult
+                    (
+                        this,
+                        Not ^ NumericCompare(Condition, tick.Index), 
+                        tick, 
+                        tick.Index
+                    );
                 case DemoCheckVariable.PlayerPosition:
-                    return new DemoCheckConditionResult(this, (tick.PlayerPosition != null &&
-                        (Not ^ VecCompare(Condition, tick.PlayerPosition ?? Vector3f.Zero))), tick, tick.PlayerPosition);
-               
+                    return new DemoCheckConditionResult
+                    (
+                        this, 
+                        tick.PlayerPosition != null && (Not ^ VecCompare(Condition, tick.PlayerPosition ?? Vector3f.Zero)),
+                        tick, 
+                        tick.PlayerPosition
+                    );
                 case DemoCheckVariable.Command:
-                    return new DemoCheckConditionResult(this, 
-                        Not ^ tick.Commands.Any(x => StringCompare(Condition, x)), tick, tick.Commands);
+                    {
+                        var passing = tick.Commands.Where(x => StringCompare(Condition, x)).ToList();
+                        return new DemoCheckConditionResult
+                        (
+                            this,
+                            Not ^ passing.Any(), 
+                            tick,
+                            passing
+                        );
+                    }
+
             }
 
             return null;
@@ -121,7 +139,7 @@ namespace startdemos_plus.Backend.DemoChecking
                 return "";
 
             if (Value is IEnumerable<string>)
-                return string.Join(", ", (Value as IEnumerable<string>));
+                return string.Join("\r\n", (Value as IEnumerable<string>));
 
             return Value.ToString();
         }

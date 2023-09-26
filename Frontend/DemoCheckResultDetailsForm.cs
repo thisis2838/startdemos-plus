@@ -34,9 +34,11 @@ namespace startdemos_plus.Frontend
                 _demos.Add(x.Demo.Name);
                 listDemos.Rows.Add(x.Demo.Name);
                 _info.Add(x.Passed.Select(y => 
-                ((y.Tick?.Index ?? -1).ToString(), 
-                y.Condition.Variable.GetDescription(),
-                y.GetValueString())).ToList());
+                (
+                    (y.Tick?.Index ?? -1).ToString(), 
+                    y.Condition.Variable.GetDescription(),
+                    y.GetValueString())
+                ).ToList());
             });
 
             listDemos.SelectionChanged += (s, e) =>
@@ -46,7 +48,13 @@ namespace startdemos_plus.Frontend
                 {
                     _info[listDemos.SelectedRows[0].Index].ToList().ForEach(x =>
                     {
-                        listPassingInfo.Rows.Add(x.Item1, x.Item2, x.Item3);
+                        var valueStrings = x.Item3.Split('\n').ToList();
+                        for (int i = 0; i < valueStrings.Count; i++)
+                        {
+                            string valueString = valueStrings[i].Trim('\r', '\t', ' ');
+                            if (i == 0) listPassingInfo.Rows.Add(x.Item1, x.Item2, valueString);
+                            else listPassingInfo.Rows.Add("-", "-", valueString);
+                        }
                     });
                 }
             };
