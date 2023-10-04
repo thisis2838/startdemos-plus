@@ -61,6 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Frontend\ErrorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frontend\ErrorWindow.Designer.cs">
+      <DependentUpon>ErrorWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Globals\Events.cs" />
     <Compile Include="Globals\Values.cs" />
     <Compile Include="Help\MainHelpForm.cs">
@@ -164,6 +170,9 @@
     <Compile Include="Backend\SettingsHandler.cs" />
     <Compile Include="Utils\Helpers.cs" />
     <Compile Include="Utils\WinAPI.cs" />
+    <EmbeddedResource Include="Frontend\ErrorWindow.resx">
+      <DependentUpon>ErrorWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Help\MainHelpForm.resx">
       <DependentUpon>MainHelpForm.cs</DependentUpon>
     </EmbeddedResource>
