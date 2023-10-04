@@ -31,7 +31,11 @@ namespace startdemos_plus.Frontend
             Settings.AddSetting
             (
                 "collection-tick_rate",
-                x => { nudTickRate.Value = decimal.TryParse(x, out decimal a) ? a : 0.015m; },
+                x =>
+                {
+                    try { nudTickRate.Value = decimal.TryParse(x, out decimal a) ? a : 0.015m; }
+                    catch (ArgumentOutOfRangeException) { nudTickRate.Value = 0.015m; }
+                },
                 () => nudTickRate.Value.ToString()
             );
             Settings.AddSetting
